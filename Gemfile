@@ -12,6 +12,7 @@ gem 'compass-rails', '~> 2.0'
 
 gem 'puma'
 gem 'rollbar'
+gem 'figaro'
 
 # Requiring 'compass' gem directly is not normally needed,
 # 'compass-rails' already does that.
