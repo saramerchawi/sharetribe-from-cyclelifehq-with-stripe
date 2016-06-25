@@ -11,6 +11,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'compass-rails', '~> 2.0'
 
 gem 'puma'
+gem 'rollbar'
 
 # Requiring 'compass' gem directly is not normally needed,
 # 'compass-rails' already does that.
