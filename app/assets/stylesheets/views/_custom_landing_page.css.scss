@@ -1,0 +1,11 @@
+@import "mixins/all";
+@import "compass/css3/border-radius";
+@import "compass/utilities/general/clearfix";
+
+.hero__sectiion {
+  background: url("cyclelifeHQ_heroBG.jpg");
+}
+
+.hero__title {
+  h1 { font-size: 50px; }
+}
