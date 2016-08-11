@@ -65,7 +65,9 @@ module Kassi
       'mercury.js',
       'jquery-1.7.js',
       'i18n/*.js',
-      'app-bundle.css'
+      'app-bundle.css',
+      'app-bundle.js',
+      'vendor-bundle.js',
     ]
 
     # Read the config from the config.yml
@@ -74,6 +76,11 @@ module Kassi
     #Disable ip spoofing check to get rid of false alarms because of wrong configs in some proxies before our service
     #Consider enabling, and other actions described in http://blog.gingerlime.com/2012/rails-ip-spoofing-vulnerabilities-and-protection
     config.action_dispatch.ip_spoofing_check = false
+
+    # Manually redirect http to https, if config option always_use_ssl is set to true
+    # This needs to be done before routing: conditional routes break if this is done later
+    # Enabling HSTS and secure cookies is not a possiblity because of potential reuse of domains without HTTPS
+    config.middleware.insert_before Rack::Sendfile, "EnforceSsl"
 
     # Handle cookies with old key
     config.middleware.insert_before ActionDispatch::Cookies, "CustomCookieRenamer"

@@ -14,7 +14,7 @@ module CustomLandingPage
         if path.nil?
           raise LinkResolvingError.new("Couldn't find path '#{id}'.")
         else
-          { "id" => id, "type" => type, "path" => path }
+          { "id" => id, "type" => type, "value" => path }
         end
       end
     end
@@ -35,12 +35,12 @@ module CustomLandingPage
     end
 
     class AssetResolver
-      def initialize(asset_host, sitename)
+      def initialize(asset_url, sitename)
         unless sitename.present?
           raise CustomLandingPage::LandingPageConfigurationError.new("Missing sitename.")
         end
 
-        @_asset_host = asset_host
+        @_asset_url = asset_url
         @_sitename = sitename
       end
 
@@ -58,12 +58,10 @@ module CustomLandingPage
       private
 
       def append_asset_path(asset)
-        if @_asset_host.present?
-          asset.merge("src" => [@_asset_host, @_sitename, asset["src"]].join("/"))
-        else
-          # If asset_host is not configured serve assets locally
-          asset.merge("src" => ["landing_page", asset["src"]].join("/"))
-        end
+        host = @_asset_url || ""
+        src = URLUtils.join(@_asset_url, asset["src"]).sub("%{sitename}", @_sitename)
+
+        asset.merge("src" => src)
       end
     end
 
@@ -76,6 +74,7 @@ module CustomLandingPage
         translation_keys = {
           "search_button" => "landing_page.hero.search",
           "signup_button" => "landing_page.hero.signup",
+          "no_listing_image" => "landing_page.listings.no_listing_image"
         }
 
         key = translation_keys[id]
@@ -90,6 +89,38 @@ module CustomLandingPage
           { "id" => id, "type" => type, "value" => value }
         end
       end
+    end
+
+    class CategoryResolver
+      def initialize(data)
+        @_data = data
+      end
+
+      def call(type, id, _)
+        unless @_data.key?(id)
+          raise LinkResolvingError.new("Unknown category id '#{id}'.")
+        end
+
+        @_data[id].merge("id" => id, "type" => type)
+      end
+    end
+
+    class ListingResolver
+      def initialize(cid, landing_page_locale, locale_param, name_display_type)
+        @_cid = cid
+        @_landing_page_locale = landing_page_locale
+        @_locale_param = locale_param
+        @_name_display_type = name_display_type
+      end
+
+      def call(type, id, _)
+        ListingStore.listing(id: id,
+                             community_id: @_cid,
+                             landing_page_locale: @_landing_page_locale,
+                             locale_param: @_locale_param,
+                             name_display_type: @_name_display_type)
+      end
+
     end
   end
 end

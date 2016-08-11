@@ -1,10 +1,6 @@
-# Yes, we know this is too long class
-# rubocop:disable ClassLength
-
 require 'will_paginate/array'
 
 class ApplicationController < ActionController::Base
-  class FeatureFlagNotEnabledError < StandardError; end
 
   module DefaultURLOptions
     # Adds locale to all links
@@ -15,7 +11,6 @@ class ApplicationController < ActionController::Base
 
   include ApplicationHelper
   include IconHelper
-  include FeatureFlagHelper
   include DefaultURLOptions
   protect_from_forgery
   layout 'application'
@@ -26,6 +21,7 @@ class ApplicationController < ActionController::Base
     :fetch_community_plan_expiration_status,
     :perform_redirect,
     :fetch_logged_in_user,
+    :initialize_feature_flags,
     :save_current_host_with_port,
     :fetch_community_membership,
     :redirect_removed_locale,
@@ -79,20 +75,8 @@ class ApplicationController < ActionController::Base
     community_locales = m_community.locales.or_else([])
     community_default_locale = m_community.default_locale.or_else("en")
     community_id = m_community[:id].or_else(nil)
-    community_backend = I18n::Backend::CommunityBackend.instance
 
-    # Load translations from TranslationService
-    if community_id
-      community_backend.set_community!(community_id, community_locales.map(&:to_sym))
-      community_translations = TranslationService::API::Api.translations.get(community_id)[:data]
-      TranslationServiceHelper.community_translations_for_i18n_backend(community_translations).each { |locale, data|
-        # Store community translations to I18n backend.
-        #
-        # Since the data in data hash is already flatten, we don't want to
-        # escape the separators (. dots) in the key
-        community_backend.store_translations(locale, data, escape: false)
-      }
-    end
+    I18nHelper.initialize_community_backend!(community_id, community_locales) if community_id
 
     # We should fix this -- END
 
@@ -170,6 +154,7 @@ class ApplicationController < ActionController::Base
 
   #Creates a URL for root path (i18n breaks root_path helper)
   def root
+    ActiveSupport::Deprecation.warn("Call to root is deprecated and will be removed in the future. Use search_path or landing_page_path instead.")
     "#{request.protocol}#{request.host_with_port}/#{params[:locale]}"
   end
 
@@ -178,6 +163,14 @@ class ApplicationController < ActionController::Base
       @current_user = current_person
       setup_logger!(user_id: @current_user.id, username: @current_user.username)
     end
+  end
+
+  def initialize_feature_flags
+    # Skip this if there is no current marketplace.
+    # This allows to avoid skipping this filter in many places.
+    return unless request.env[:current_marketplace]
+
+    FeatureFlagHelper.init(request, Maybe(@current_user).is_admin?.or_else(false))
   end
 
   # Ensure that user accepts terms of community and has a valid email
@@ -228,7 +221,7 @@ class ApplicationController < ActionController::Base
       session[:person_id] = nil
       flash[:notice] = t("layouts.notifications.automatically_logged_out_please_sign_in")
 
-      redirect_to root
+      redirect_to search_path
     end
   end
 
@@ -380,7 +373,7 @@ class ApplicationController < ActionController::Base
       # TODO Remove this. Find the issue that causes this and fix it, don't fix the symptoms.
       if @current_user.has_valid_email_for_community?(@current_community)
         @current_community.approve_pending_membership(@current_user)
-        redirect_to root and return
+        redirect_to search_path and return
       end
 
       redirect_to confirmation_pending_path
@@ -435,25 +428,11 @@ class ApplicationController < ActionController::Base
     @minutes_to_maintenance = NextMaintenance.minutes_to(now)
   end
 
-  def current_community_id
-    Maybe(@current_community).id.or_else(nil)
-  end
-
-  def current_community_custom_colors
-    Maybe(@current_community)
-      .map { |c|
-        {
-          marketplace_color1: c.custom_color1 || '#a64c5d',
-          marketplace_color2: c.custom_color2 || '#00a26c'
-        }
-      }
-      .or_else({})
-  end
-
   private
 
-  # Override basic instrumentation and provide additional info for lograge to consume
-  # These are further configured in environment configs
+  # Override basic instrumentation and provide additional info for
+  # lograge to consume. These are pulled and logged in environment
+  # configs.
   def append_info_to_payload(payload)
     super
     payload[:host] = request.host
@@ -471,7 +450,7 @@ class ApplicationController < ActionController::Base
     clear_user_session
     flash[:error] = t("layouts.notifications.error_with_session")
     ApplicationHelper.send_error_notification("ASI session was unauthorized. This may be normal, if session just expired, but if this occurs frequently something is wrong.", "ASI session error", params)
-    redirect_to root_path and return
+    redirect_to search_path and return
   end
 
   def clear_user_session
@@ -489,14 +468,14 @@ class ApplicationController < ActionController::Base
   def ensure_is_admin
     unless @is_current_community_admin
       flash[:error] = t("layouts.notifications.only_kassi_administrators_can_access_this_area")
-      redirect_to root and return
+      redirect_to search_path and return
     end
   end
 
   def ensure_is_superadmin
     unless Maybe(@current_user).is_admin?.or_else(false)
       flash[:error] = t("layouts.notifications.only_kassi_administrators_can_access_this_area")
-      redirect_to root and return
+      redirect_to search_path and return
     end
   end
 
@@ -534,21 +513,10 @@ class ApplicationController < ActionController::Base
     WebTranslateIt.fetch_translations
   end
 
-  def redirect_https?
-    always_use_ssl = APP_CONFIG.always_use_ssl.to_s.downcase == "true"
-    !request.ssl? && always_use_ssl
-  end
-
-  def redirect_https!
-    redirect_to protocol: "https://", status: :moved_permanently
-  end
-
   def check_http_auth
     return true unless APP_CONFIG.use_http_auth.to_s.downcase == 'true'
     if authenticate_with_http_basic { |u, p| u == APP_CONFIG.http_auth_username && p == APP_CONFIG.http_auth_password }
       true
-    elsif redirect_https?
-      redirect_https!
     else
       request_http_basic_authentication
     end
@@ -568,23 +536,6 @@ class ApplicationController < ActionController::Base
     end
 
   end
-
-  def feature_flags
-    @feature_flags ||= fetch_feature_flags
-  end
-
-  def fetch_feature_flags
-    flags_from_service = FeatureFlagService::API::Api.features.get(community_id: @current_community.id).maybe[:features].or_else(Set.new)
-
-    is_admin = Maybe(@current_user).is_admin?.or_else(false)
-    temp_flags = ApplicationController.fetch_temp_flags(is_admin, params, session)
-
-    session[:feature_flags] = temp_flags
-
-    flags_from_service.union(temp_flags)
-  end
-
-  helper_method :fetch_feature_flags # Make this method available for FeatureFlagHelper
 
   def logger
     if @logger.nil?
@@ -631,19 +582,12 @@ class ApplicationController < ActionController::Base
   helper_method :onboarding_topbar_props
 
   def topbar_props
-    {
-      logo: {
-        href: '/',
-        text: @current_community.name(I18n.locale),
-        image: @current_community.wide_logo.present? ? @current_community.wide_logo.url(:header) : nil,
-        image_highres: @current_community.wide_logo.present? ? @current_community.wide_logo.url(:header_highres) : nil
-      },
-      search: {
-        mode: 'keyword-and-location',
-        keyword_placeholder: (@community_customization && @community_customization.search_placeholder) || t("web.topbar.search_placeholder"),
-        location_placeholder: 'Location'
-      }
-    }
+    TopbarHelper.topbar_props(
+      community: @current_community,
+      path_after_locale_change: @return_to,
+      user: @current_user,
+      search_placeholder: @community_customization&.search_placeholder,
+      locale_param: params[:locale])
   end
 
   helper_method :topbar_props
@@ -698,34 +642,6 @@ class ApplicationController < ActionController::Base
 
   def get_full_locale_name(locale)
     Maybe(Sharetribe::AVAILABLE_LOCALES.find { |l| l[:ident] == locale.to_s })[:name].or_else(locale).to_s
-  end
-
-
-  # Fetch temporary flags from params and session
-  def self.fetch_temp_flags(is_admin, params, session)
-    return Set.new unless is_admin
-
-    from_session = Maybe(session)[:feature_flags].or_else(Set.new)
-    from_params = Maybe(params)[:enable_feature].map { |feature| [feature.to_sym] }.to_set.or_else(Set.new)
-
-    from_session.union(from_params)
-  end
-
-  def ensure_feature_enabled(feature_name)
-    raise FeatureFlagNotEnabledError unless feature_flags.include?(feature_name)
-  end
-
-  # Handy before_filter shorthand.
-  #
-  # Usage:
-  #
-  # class YourController < ApplicationController
-  #   ensure_feature_enabled :shipping, only: [:new_shipping, :edit_shipping]
-  #   ...
-  #  end
-  #
-  def self.ensure_feature_enabled(feature_name, options = {})
-    before_filter(options) { ensure_feature_enabled(feature_name) }
   end
 
   def render_not_found!(msg = "Not found")

@@ -320,7 +320,7 @@ module ApplicationHelper
         :text => t("admin.communities.getting_started.getting_started"),
         :icon_class => icon_class("openbook"),
         :path => admin_getting_started_guide_path,
-        :name => "getting_started"
+        :name => "getting_started_guide"
       },
       {
         :topic => :general,
@@ -346,7 +346,7 @@ module ApplicationHelper
       :topic => :general,
       :text => t("admin.left_hand_navigation.preview"),
       :icon_class => icon_class("eye"),
-      :path => root_path(big_cover_photo: true),
+      :path => search_path(big_cover_photo: true),
       :name => "preview",
     }
 
@@ -657,22 +657,31 @@ module ApplicationHelper
     block.call(stylesheet_url)
   end
 
-  # Render block only if big cover photo should be shown
-  def with_big_cover_photo(&block)
-    block.call if show_big_cover_photo?
-  end
-
-  # Render block only if small cover photo should be shown
-  def with_small_cover_photo(&block)
-    block.call unless show_big_cover_photo?
-  end
-
-  def show_big_cover_photo?
-    @homepage && (!@current_user || params[:big_cover_photo])
-  end
-
   def sort_link_direction(column)
     params[:sort].eql?(column) && params[:direction].eql?("asc") ? "desc" : "asc"
+  end
+
+  def search_path(opts = {})
+    PathHelpers.search_path(
+      community_id: @current_community.id,
+      logged_in: @current_user.present?,
+      locale_param: params[:locale],
+      default_locale: @current_community.default_locale,
+      opts: opts)
+  end
+
+  def search_url(opts = {})
+    PathHelpers.search_url(
+      community_id: @current_community.id,
+      opts: opts)
+  end
+
+  def landing_page_path
+    PathHelpers.landing_page_path(
+      community_id: @current_community.id,
+      logged_in: @current_user.present?,
+      default_locale: @current_community.default_locale,
+      locale_param: params[:locale])
   end
 
   # Give an array of translation keys you need in JavaScript. The keys will be loaded and ready to be used in JS

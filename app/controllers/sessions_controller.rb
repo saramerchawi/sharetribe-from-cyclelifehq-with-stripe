@@ -13,6 +13,10 @@ class SessionsController < ApplicationController
   before_filter :allow_params_authentication!, :only => :create
 
   def new
+    if params[:return_to].present?
+      session[:return_to] = params[:return_to]
+    end
+
     @selected_tribe_navi_tab = "members"
     @facebook_merge = session["devise.facebook_data"].present?
     if @facebook_merge
@@ -70,7 +74,7 @@ class SessionsController < ApplicationController
       redirect_to session[:return_to_content]
       session[:return_to_content] = nil
     else
-      redirect_to root_path
+      redirect_to search_path
     end
   end
 
@@ -78,7 +82,7 @@ class SessionsController < ApplicationController
     sign_out
     session[:person_id] = nil
     flash[:notice] = t("layouts.notifications.logout_successful")
-    redirect_to root
+    redirect_to landing_page_path
   end
 
   def index
@@ -140,7 +144,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  #Facebook setup phase hook, that is used to dynamically set up a omniauth strategy for facebook on customer basis
+  # Facebook setup phase hook, that is used to dynamically set up a omniauth strategy for facebook on customer basis
   def facebook_setup
     request.env["omniauth.strategy"].options[:client_id] = @current_community.facebook_connect_id || APP_CONFIG.fb_connect_id
     request.env["omniauth.strategy"].options[:client_secret] = @current_community.facebook_connect_secret || APP_CONFIG.fb_connect_secret
@@ -157,7 +161,7 @@ class SessionsController < ApplicationController
     error_message = params[:error_reason] || "login error"
     kind = env["omniauth.error.strategy"].name.to_s || "Facebook"
     flash[:error] = t("devise.omniauth_callbacks.failure",:kind => kind.humanize, :reason => error_message.humanize)
-    redirect_to root
+    redirect_to search_path
   end
 
   private

@@ -2,16 +2,30 @@ module ColorUtils
 
   module_function
 
-  # Same as darken(color, percentage) is SASS
+  # Same as in filter: brightness(80%) in CSS
+  #
+  # The implementation operates on RBG space according
+  # to CSS filter effects spec.
   #
   # Usage:
   #
-  # darken("80E619", 20) == "4D8A0F"
+  # brightness("80E619", 80) == "66B814"
   #
-  def darken(name_or_hex, percentage)
-    hsl = Color::RGB.by_css(name_or_hex).to_hsl
-    hsl.l -= normalize_percentage(percentage)
-    hsl.to_rgb.hex.upcase
+  def brightness(name_or_hex, percentage)
+    p = normalize_percentage(percentage)
+    rgb = Color::RGB.by_css(name_or_hex)
+
+    Color::RGB.new(
+      rgb.r * p,
+      rgb.g * p,
+      rgb.b * p,
+      1
+    ).hex.upcase
+  end
+
+  def css_to_rgb_array(css)
+    color = Color::RGB.by_css(css)
+    [color.red.to_i, color.green.to_i, color.blue.to_i]
   end
 
   def normalize_percentage(percentage)

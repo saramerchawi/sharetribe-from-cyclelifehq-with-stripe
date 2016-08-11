@@ -1,7 +1,7 @@
 class InvitationsController < ApplicationController
 
   before_filter do |controller|
-    controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_invite_new_user")
+    controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_invite_new_users")
   end
 
   before_filter :users_can_invite_new_users
@@ -54,9 +54,7 @@ class InvitationsController < ApplicationController
         if state_changed
           report_to_gtm({event: "km_record", km_event: "Onboarding invitation created"})
 
-          with_feature(:onboarding_redesign_v1) do
-            flash[:show_onboarding_popup] = true
-          end
+          flash[:show_onboarding_popup] = true
         end
       else
         sending_problems = true
@@ -77,7 +75,7 @@ class InvitationsController < ApplicationController
   def users_can_invite_new_users
     unless @current_community.allows_user_to_send_invitations?(@current_user)
       flash[:error] = t("layouts.notifications.inviting_new_users_is_not_allowed_in_this_community")
-      redirect_to root and return
+      redirect_to search_path and return
     end
   end
 

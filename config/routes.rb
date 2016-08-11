@@ -38,7 +38,7 @@ Kassi::Application.routes.draw do
 
   # Prettier link for admin panel
   namespace :admin do
-    get '' => "communities#getting_started"
+    get '' => "getting_started_guide#index"
   end
 
   # Internal API
@@ -47,21 +47,39 @@ Kassi::Application.routes.draw do
     post "/prospect_emails" => "marketplaces#create_prospect_email"
   end
 
+  # UI API, i.e. internal endpoints for dynamic UI that doesn't belong to under any specific controller
+  get "/ui_api/topbar_props" => "topbar_api#props"
+
+  # Keep before /:locale/ routes, because there is locale 'vi', which matches '_lp_preview'
+  # and regexp anchors are not allowed in routing requirements.
+  get '/_lp_preview' => 'landing_page#preview'
+
   locale_matcher = Regexp.new(Sharetribe::AVAILABLE_LOCALES.map { |l| l[:ident] }.concat(Sharetribe::REMOVED_LOCALES.to_a).join("|"))
 
+  # Conditional routes for custom landing pages
+  get '/:locale/' => 'landing_page#index', as: :landing_page_with_locale, constraints: ->(request) {
+    locale_matcher.match(request.params["locale"]) &&
+      CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
+  }
+  get '/' => 'landing_page#index', as: :landing_page_without_locale, constraints: ->(request) {
+    CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
+  }
+
+  # Conditional routes for search view if landing page is enabled
+  get '/:locale/s' => 'homepage#index', as: :search_with_locale, constraints: ->(request) {
+    locale_matcher.match(request.params["locale"]) &&
+      CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
+  }
+  get '/s' => 'homepage#index', as: :search_without_locale, constraints: ->(request) {
+    CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
+  }
+
+  # Default routes for homepage, these are matched if custom landing page is not in use
   # Inside this constraits are the routes that are used when request has subdomain other than www
   get '/:locale/' => 'homepage#index', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
   get '/' => 'homepage#index', as: :homepage_without_locale
-  root :to => 'homepage#index'
-  get '/landing_page' => 'custom_landing_page#index'
-
-  # Work in progress:
-  # Uncomment these and comment the three homepage routes above to test the landing page
-  # get '/:locale/' => 'landing_page#index', :constraints => { :locale => locale_matcher }
-  # get '/' => 'landing_page#index'
-  # root :to => 'landing_page#index'
-
-  get '/_lp_preview' => 'landing_page#preview'
+  get '/:locale/s', to: redirect('/%{locale}', status: 307), constraints: { locale: locale_matcher }
+  get '/s', to: redirect('/', status: 307)
 
   # error handling: 3$: http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/
   get '/500' => 'errors#server_error'
@@ -159,7 +177,6 @@ Kassi::Application.routes.draw do
 
       resources :communities do
         member do
-          get :getting_started, to: 'communities#getting_started'
           get :edit_welcome_email
           post :create_sender_address
           get :check_email_status
@@ -176,6 +193,11 @@ Kassi::Application.routes.draw do
           get :menu_links
           put :menu_links, to: 'communities#update_menu_links'
           delete :delete_marketplace
+
+          # DEPRECATED (2016-07-07)
+          # These routes are not in use anymore, don't use them
+          # See new "Guide" routes above, outside of communities resource
+          get :getting_started, to: redirect('/admin/getting_started_guide')
 
           # DEPRECATED (2016-03-22)
           # These routes are not in use anymore, don't use them

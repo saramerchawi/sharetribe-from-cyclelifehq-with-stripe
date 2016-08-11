@@ -10,10 +10,6 @@ gem 'uglifier', "~> 2.7.2"
 gem 'sass-rails', '~> 4.0.0'
 gem 'compass-rails', '~> 2.0'
 
-gem 'puma'
-gem 'rollbar'
-gem 'figaro'
-
 # Requiring 'compass' gem directly is not normally needed,
 # 'compass-rails' already does that.
 #
@@ -125,6 +121,9 @@ gem "i18n-js",
     git: "git://github.com/fnando/i18n-js.git",
     branch: "master",
     ref: "2ca6d31365bb41db21e373d126cac00d38d15144"
+
+# A store scoped to the request object for caching
+gem "request_store", "~> 1.3"
 
 group :staging, :production do
   gem 'newrelic_rpm', '~> 3.9.1.236'

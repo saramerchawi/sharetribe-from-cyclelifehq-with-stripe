@@ -10,15 +10,16 @@
       -# Noscript content will be positioned here
 
   - if display_onboarding_topbar?
-    - with_feature(:onboarding_redesign_v1) do
-      - props = onboarding_topbar_props
-      - unless props[:next_step] == :all_done
-        - react_component_cache(name: "onboarding_topbar", props: props) do
-          = react_component("OnboardingTopBar", props: props, prerender: true)
+    - props = onboarding_topbar_props
+    - unless props[:next_step] == :all_done
+      - react_component_cache(name: "onboarding_topbar", props: props) do
+        = react_component("OnboardingTopBar", props: props, prerender: true)
 
-  - if feature_enabled?(:topbar_v1)
+  - if FeatureFlagHelper.feature_enabled?(:topbar_v1)
     - props = topbar_props
-    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places"
+    - maps_key = @current_community.google_maps_key
+    - key_param = maps_key ? "&key=#{maps_key}" : ""
+    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places#{key_param}"
     = react_component("TopbarApp", props: props, prerender: true)
   - # this will be an alternative old header
   - # but for the sake of developing we include them both for a short while
@@ -30,12 +31,12 @@
 
   - content_for(:page_content) do
     %section.marketplace-lander
-      - with_big_cover_photo do
+      - if @big_cover_photo
         .coverimage
           %figure.marketplace-cover.fluidratio
             .lander-content.marketplace-lander-content
               = yield :title_header
-      - with_small_cover_photo do
+      - else
         .coverimage
           %figure.marketplace-cover-small.fluidratio
           .coverimage-fade{:class => yield(:coverfade_class)}

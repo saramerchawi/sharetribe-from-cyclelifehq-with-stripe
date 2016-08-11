@@ -4,14 +4,18 @@
   }
 
   .hero__search-button,
-  .hero__signup-button
+  .hero__search-button:active,
+  .hero__signup-button,
+  .hero__signup-button:active
   {
-    background-color: <%= s["search_button_color"]["value"] %>;
+    background-color: rgb(<%= s["search_button_color"]["value"].join(",") %>);
   }
 
   .hero__search-button:hover,
-  .hero__signup-button:hover {
-    background-color: <%= s["search_button_color_hover"]["value"] %>;
+  .hero__search-button:focus,
+  .hero__signup-button:hover,
+  .hero__signup-button:focus {
+    background-color: rgb(<%= s["search_button_color_hover"]["value"].join(",") %>);
   }
 <% end %>
 
@@ -19,13 +23,13 @@
   <div class="hero__content">
     <div class="hero__content-container">
       <h1 class="hero__title"><%= s["title"]["value"] %></h1>
-      <h3 class="hero__subtitle"><%= s["subtitle"]["value"] %></h3>
+      <h3 class="hero__subtitle"><%= render partial: "prevent_widows", locals: { text: s["subtitle"]["value"]} %></h3>
 
       <% case s["variation"]["value"] %>
       <% when "keyword_search", "location_search" %>
 
         <div class="hero__search-bar-padding">
-          <form method="get" id="<%= section_id %>__search-form" class="hero__search-bar" action="<%= s["search_path"]["path"] %>">
+          <form method="get" id="<%= section_id %>__search-form" class="hero__search-bar" action="<%= s["search_path"]["value"] %>">
             <div class="hero__search-input-container">
               <div class="hero__search-icon">
 
@@ -64,7 +68,7 @@
 
       <% when "private" %>
 
-        <a class="hero__signup-button" href="<%= s["signup_path"]["path"] %>"><%= s["signup_button"]["value"] %></a>
+        <a class="hero__signup-button" href="<%= s["signup_path"]["value"] %>"><%= s["signup_button"]["value"] %></a>
 
       <% end %>
     </div>

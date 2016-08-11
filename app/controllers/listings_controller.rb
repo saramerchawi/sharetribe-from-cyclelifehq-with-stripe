@@ -63,7 +63,7 @@ class ListingsController < ApplicationController
             .search(
               community_id: @current_community.id,
               search: search,
-              engine: search_engine,
+              engine: FeatureFlagHelper.search_engine,
               raise_errors: raise_errors,
               includes: includes
             ).and_then { |res|
@@ -78,7 +78,7 @@ class ListingsController < ApplicationController
 
           render :partial => "listings/profile_listings", :locals => {person: @person, limit: per_page, listings: listings}
         else
-          redirect_to root
+          redirect_to search_path
         end
       end
 
@@ -111,7 +111,7 @@ class ListingsController < ApplicationController
                              page: page,
                              per_page: per_page
                            },
-                           engine: search_engine,
+                           engine: FeatureFlagHelper.search_engine,
                            raise_errors: raise_errors,
                            includes: [:listing_images, :author, :location])
                      end
@@ -317,9 +317,7 @@ class ListingsController < ApplicationController
         if state_changed
           report_to_gtm({event: "km_record", km_event: "Onboarding listing created"})
 
-          with_feature(:onboarding_redesign_v1) do
-            flash[:show_onboarding_popup] = true
-          end
+          flash[:show_onboarding_popup] = true
         end
 
         redirect_to @listing, status: 303 and return
@@ -655,7 +653,7 @@ class ListingsController < ApplicationController
         else
           t("layouts.notifications.you_are_not_authorized_to_view_this_content")
         end
-        redirect_to root and return
+        redirect_to search_path and return
       else
         session[:return_to] = request.fullpath
         flash[:warning] = t("layouts.notifications.you_must_log_in_to_view_this_content")
