@@ -21,6 +21,9 @@ test:
 
 staging:
   # Add local `staging` environment configuration overrides here
+  aws_access_key_id: AKIAIEM5KQAJ2RM4H5LA
+  aws_secret_access_key: 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
+
 
 production:
   # Add local `production` environment configuration overrides here
