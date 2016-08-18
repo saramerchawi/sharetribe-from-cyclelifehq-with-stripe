@@ -9,8 +9,6 @@
 #
 
 default:
-  aws_access_key_id: AKIAIEM5KQAJ2RM4H5LA
-  aws_secret_access_key: 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
 
 development:
   # Add local `development` environment configuration overrides here
@@ -24,7 +22,7 @@ staging:
   aws_access_key_id: AKIAIEM5KQAJ2RM4H5LA
   aws_secret_access_key: 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
   s3_bucket_name: cyclelifehq-staging-images
-  s3_upload_bucket_name: cyclelifehq-staging-images
+  s3_upload_bucket_name: cyclelifehq-staging-images-tmp
  
 
 
