@@ -25,7 +25,7 @@ nl:
           clear_all: ~
         buttons:
           save: Opslaan
-          cancel: Annueleren
+          cancel: Annuleren
       remove:
         remove_category: "Categorie verwijderen"
         remove_category_name: "Verwijder categorie '%{category_name}'"
@@ -191,6 +191,7 @@ nl:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -236,6 +237,13 @@ nl:
         save_user_status_error: "Opslaan mislukt. Vernieuw de pagina en probeer opnieuw."
         ban_user_confirmation: "Dit verwijdert de gebruiker van de marktplaats en belet hem de site opnieuw te gebruiken met deze account. Ben je zeker dat je verder wil gaan?"
         ban_me_error: "Je kunt jezelf niet uitsluiten."
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: "Sociale media"
         twitter_handle: "Twitter account"
@@ -270,6 +278,10 @@ nl:
         language: Taal
         url: URL
         empty: "Je hebt geen bijkomende menu koppelingen"
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: "Bekijk transacties"
@@ -819,11 +831,9 @@ nl:
       please_contant_admin_link: "contacteer a.u.b. de beheerder"
     confirmation_instructions:
       confirmation_instructions_signature: "Met vriendelijke groeten,<br/>Het %{service_name} Team"
-      welcome_to_kassi: "Welkom bij %{service_name}!"
       need_to_confirm: "Uw account is aangemaakt. De volgende stap is het bevestigen van uw e-mail adres."
       confirmation_link_text: "Bevestig mijn e-mail"
       or_paste_link: "U kunt ook onderstaande link kopiëren en plaatsen in de adresbalk van uw browser."
-      turning_on_confirmations_in_this_community: "We beginnen met e-mail bevestigingen te gebruiken in deze %{service_name} marktplaats."
     common:
       hey: "Hallo %{name},"
       kassi_team: "Het %{service_name} Team"
@@ -958,6 +968,11 @@ nl:
       has_posted_a_new_listing: "%{author_name} heeft een nieuw item gepost:"
       you_are_receiving_this_because: "Je krijgt dit bericht omdat je %{author_name} volgt."
       view_listing: "Bekijk item"
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -1003,8 +1018,8 @@ nl:
       javascript_is_disabled_in_your_browser: "Javascript is niet actief in uw browser"
       kassi_does_not_currently_work_without_javascript: "%{service_name} werkt niet goed zonder JavaScript. Schakel JavaScript in bij de instellingen van uw browser en herlaad de pagina."
       contact_us: "Neem contact op"
-      send_feedback: "Stuur feedback"
-      your_feedback_to_admins: "Uw feedback aan de beheerder"
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Verstuur
     your_email_address: "Je e-mail adres"
   errors:
@@ -1192,17 +1207,17 @@ nl:
     no_tribe:
       inbox: Inbox
       settings: Instellingen
-      feedback: "Neem contact op"
+      feedback: ~
     application:
       join_this_community: "Sluit aan bij marktplaats"
       read_more: "Lees meer"
-      feedback: "Wat wil u ons vertellen?"
-      default_feedback: "Heeft u een probleem gehad met %{service_name}? Heeft u suggesties om onze dienst te verbeteren? Ongepaste inhoud gezien? Of wilt u gewoon iets vertellen? Laat het ons weten!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "feedback forum"
       feedback_handle: Feedback
       give_feedback: "Neem contact op"
       or_check_our: "...of bekijk onze"
-      send_feedback_to_admin: "Verstuur feedback"
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "om te zien wat voor ideeën andere gebruikers hebben en om op die ideeën te stemmen."
       your_email_address: "Je e-mail adres"
       connect: Registreer
@@ -1272,7 +1287,7 @@ nl:
       error_with_session: "Fout in sessie."
       feedback_considered_spam: "Feedback is niet opgeslagen door de opmaak. Probeer opnieuw of gebruik het feedback forum."
       feedback_not_saved: "Feedback kon niet worden verzonden."
-      feedback_saved: "Bedankt voor uw feedback! We komen zo snel mogelijk bij u terug."
+      feedback_saved: ~
       feedback_sent_to: "Feedback gestuurd naar %{target_person}."
       feedback_skipped: "Feedback overgeslagen"
       invitation_cannot_be_sent: "Uitnodiging kon niet verstuurd worden"
@@ -1367,7 +1382,7 @@ nl:
       payment_details_add_successful: "Betalingsdetails succesvol toegevoegd"
       payment_details_add_error: "Kon betalingsgegevens niet toevoegen"
       listing_author_payment_details_missing: "De persoon die het item heeft geplaatst heeft zijn betalingsgegevens nog niet ingevuld en kan daardoor nog geen betalingen ontvangen. Contacteer de verkoper a.u.b."
-      stylesheet_needs_recompiling: "De pagina met stijlinstellingen wordt bijgewerkt. Laad de pagina na enkele ogenblikken opnieuw."
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: Account
@@ -2101,7 +2116,9 @@ nl:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

@@ -186,6 +186,7 @@ ja:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -231,6 +232,13 @@ ja:
         save_user_status_error: 保存に失敗しました。ページを再読込してもう一度試してください
         ban_user_confirmation: これはマーケットプレイスのユーザを削除するものであり、今後二度とこのアカウントに戻れないようになります。本当にこの削除手続きを実行してもよろしいですか。
         ban_me_error: 自分自身をアカウント停止ユーザに出来ません。
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ソーシャルメディア
         twitter_handle: Twitterのハンドル
@@ -265,6 +273,10 @@ ja:
         language: 言語
         url: URL
         empty: 追加メニューリンクはありません
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: お支払い履歴の表示
@@ -818,11 +830,9 @@ ja:
       please_contant_admin_link: サイト管理者にお問い合わせください。
     confirmation_instructions:
       confirmation_instructions_signature: "それでは、よろしくお願いいたします。<br/> - %{service_name}チーム"
-      welcome_to_kassi: "%{service_name}へようこそ！"
       need_to_confirm: メールアドレスを認証してください。
       confirmation_link_text: メールアドレス認証
       or_paste_link: 別の方法として、下記のリンクをブラウザのアドレスバーに、コピー出来ます。
-      turning_on_confirmations_in_this_community: "これから%{service_name}のマーケットプレイスで確認メールが始まります。"
     common:
       hey: "%{name}さん　こんにちは、"
       kassi_team: "%{service_name} チーム"
@@ -957,6 +967,11 @@ ja:
       has_posted_a_new_listing: "%{author_name}さんが新しいリストを投稿をしました："
       you_are_receiving_this_because: "あなたが%{author_name}さんをフォローしているので、このお知らせを送らせていただいております。"
       view_listing: リストを閲覧する
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -1002,8 +1017,8 @@ ja:
       javascript_is_disabled_in_your_browser: Javascriptがあなたのブラウザで無効になっています
       kassi_does_not_currently_work_without_javascript: "%{service_name}ではjavascriptなしでは正しく機能しません。お使いのブラウザのjavascriptを有効にして、再度ロードしてみてください。"
       contact_us: サイト管理者に、メニューの「お問い合わせ」より、ご連絡下さい。
-      send_feedback: レビューを送信
-      your_feedback_to_admins: サイト管理者へ何か意見する
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: 送信する
     your_email_address: あなたのメールアドレス
   errors:
@@ -1191,17 +1206,17 @@ ja:
     no_tribe:
       inbox: 受信メール
       settings: 設定
-      feedback: お問い合わせ
+      feedback: ~
     application:
       join_this_community: マーケットプレイスに参加する
       read_more: もっと読む
-      feedback: ご用件をどうぞ
-      default_feedback: "%{service_name} の利用に関するご質問、サービス改善のご提案、怪しい投稿のご報告は、こちらからお願いします。もちろん、当社へのご意見も大歓迎です！"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: レビューフォーラム
       feedback_handle: レビューを書く
       give_feedback: お問い合わせ
       or_check_our: "...それとも確認する"
-      send_feedback_to_admin: 送信する
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: 他のユーザがそのアイデアについて、何を提案や投票したかを見てみる。
       your_email_address: あなたのメールアドレス
       connect: 新規登録
@@ -1271,7 +1286,7 @@ ja:
       error_with_session: セッション中にエラーが起こりました
       feedback_considered_spam: 初期化により内容は保存されませんでした。フィードバックフォーラムを使用して再試行してください。
       feedback_not_saved: レビューは送信できませんでした。
-      feedback_saved: ご意見いただきまして、ありがとうございます！なるべく早めのご返信を心がけたいと思います。
+      feedback_saved: ~
       feedback_sent_to: "%{target_person}さんにレビューを送信しました。"
       feedback_skipped: レビューをスキップしました
       invitation_cannot_be_sent: 招待状は送られませんでした
@@ -1366,7 +1381,7 @@ ja:
       payment_details_add_successful: お支払い情報を正常に追加できました
       payment_details_add_error: お支払い情報を追加できませんでした
       listing_author_payment_details_missing: このリストの作成者はお支払い詳細を追加していないので、現在のところお支払いを受け取れません。このリストの作者に直接連絡を取ってください。作成者
-      stylesheet_needs_recompiling: スタイルシートをコンパイルしています。しばらくしてからページをリロードしてください。
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: ご登録情報
@@ -2098,7 +2113,9 @@ ja:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

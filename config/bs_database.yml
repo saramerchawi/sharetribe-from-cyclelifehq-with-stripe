@@ -1,0 +1,37 @@
+development:
+    adapter: mysql2
+    database: cycle1
+    encoding: utf8
+    username: root
+    password: ig$zp3
+    host: localhost
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &test
+    adapter: mysql2
+    database: cycle2
+    encoding: utf8
+    username: root
+    password: ig$zp3
+    host: localhost
+
+staging:
+    adapter: mysql2
+    database: cycle3
+    encoding: utf8
+    username: root
+    password: ig$zp3
+    host: localhost
+
+production:
+    adapter: mysql2
+    database: cycle4
+    encoding: utf8
+    username: root
+    password: ig$zp3
+    host: localhost
+
+cucumber:
+  <<: *test

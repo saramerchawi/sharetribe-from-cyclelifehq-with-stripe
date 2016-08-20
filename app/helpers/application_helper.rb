@@ -392,7 +392,20 @@ module ApplicationHelper
         :icon_class => "ss-paintroller",
         :path => admin_look_and_feel_edit_path,
         :name => "tribe_look_and_feel"
-      },
+      }
+    ]
+
+    if(FeatureFlagHelper.feature_enabled?(:feature_flags_page))
+      links << {
+          :topic => :configure,
+          :text => t("admin.communities.new_layout.new_layout"),
+          :icon_class => icon_class("layout"),
+          :path => admin_new_layout_path,
+          :name => "new_layout"
+        }
+    end
+
+    links += [
       {
         :topic => :configure,
         :text => t("admin.communities.menu_links.menu_links"),
@@ -416,7 +429,7 @@ module ApplicationHelper
       }
     ]
 
-    # Disabled for Braintree and Checkout
+    # Disabled for Braintree
     gw = PaymentGateway.where(community_id: @current_community.id).first
     unless gw
       links << {
@@ -538,8 +551,6 @@ module ApplicationHelper
   def payment_settings_path(gateway_type, person)
     if gateway_type == :braintree
       show_braintree_settings_payment_path(person)
-    elsif gateway_type == :checkout
-      person_checkout_account_path(person)
     elsif gateway_type == :paypal
       paypal_account_settings_payment_path(person)
     end
@@ -548,8 +559,6 @@ module ApplicationHelper
   def payment_settings_url(gateway_type, person, url_params)
     if gateway_type == :braintree
       show_braintree_settings_payment_url(person, url_params.merge(locale: person.locale))
-    elsif gateway_type == :checkout
-      person_checkout_account_url(person, url_params.merge(locale: person.locale))
     elsif gateway_type == :paypal
       paypal_account_settings_payment_url(person, url_params.merge(locale: person.locale))
     end
@@ -642,21 +651,6 @@ module ApplicationHelper
     end
   end
 
-  def is_uri?(s)
-    s.match /^https?:\/\//
-  end
-
-  def with_stylesheet_url(community, &block)
-    stylesheet_url = if community.has_custom_stylesheet?
-      stylesheet = community.custom_stylesheet_url
-      is_uri?(stylesheet)  ? stylesheet : "/assets/#{stylesheet}"
-    else
-      'application'
-    end
-
-    block.call(stylesheet_url)
-  end
-
   def sort_link_direction(column)
     params[:sort].eql?(column) && params[:direction].eql?("asc") ? "desc" : "asc"
   end
@@ -674,6 +668,10 @@ module ApplicationHelper
     PathHelpers.search_url(
       community_id: @current_community.id,
       opts: opts)
+  end
+
+  def search_mode
+    FeatureFlagHelper.location_search_available ? MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data[:main_search] : :keyword
   end
 
   def landing_page_path

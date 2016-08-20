@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* eslint-disable no-magic-numbers */
 const fontSizeTiny = '11px';
 const fontSizeSmaller = '12px';
 const fontSizeSmall = '13px';
@@ -17,14 +18,20 @@ const textColorSelected = '#4a4a4a';
 const backgroundLightColor = 'white';
 const backgroundLightColorHover = 'rgba(169, 172, 176, 0.07)';
 const backgroundColorGrey = '#F7F7F7';
-const customColorFallback = '#a64c5d';
-const customColor2Fallback = '#00a26c';
+const customColorFallback = '#4a90e2';
+const customColor2Fallback = '#2ab865';
 const alertColor = '#ff4e36';
 
 const topbarBorderColor = 'rgba(169, 172, 176, 0.5)';
 const topbarItemHeight = '44px';
 const topbarMediumItemHeight = '36px';
 const bodyPadding = '24px';
+
+// With minimum z-index we try to avoid most clashes with rails components
+const zIndexMinimum = 5;
+
+const searchBarNarrowWidth = 326;
+const searchBarWidth = 396;
 
 const pxToEms = function pxToEms(px, againstFontSize) {
   const emValue = px / againstFontSize;
@@ -55,8 +62,9 @@ module.exports = {
      }
    }
    */
-  '--breakpointMedium': 580,
-  '--breakpointLarge': 992,
+  '--breakpointMedium': 660,
+  '--breakpointLarge': 1200,
+  '--breakpointSearchWide': 1200 + (searchBarWidth - searchBarNarrowWidth), // eslint-disable-line no-magic-numbers
 
   '--baseFontSize': fontSize,
   '--baseFontSizeMobile': fontSizeMobile,
@@ -111,14 +119,15 @@ module.exports = {
   '--Topbar_tabletHeight': '60px',
   '--Topbar_mobileHeight': '50px',
   '--Topbar_padding': `0 ${bodyPadding}`,
+  '--Topbar_paddingLanguageMenuVertical': '27.5px',
   '--Topbar_tabletPadding': `0 ${bodyPadding} 0 6px`,
   '--Topbar_mobilePadding': '0 1px 0 0',
   '--Topbar_itemSpacing': '24px',
   '--Topbar_mobileItemSpacing': '18px',
+  '--Topbar_logoMinWidth': '168px',
   '--Topbar_logoMaxHeight': '40px',
   '--Topbar_logoMaxHeightTablet': '36px',
   '--Topbar_logoMaxHeightMobile': '32px',
-  '--Topbar_textLogoMaxWidth': '20em',
   '--Topbar_fontFamily': "'Proxima Nova Soft', Helvetica, sans",
   '--Topbar_borderColor': 'rgba(0, 0, 50, 0.1)',
 
@@ -134,7 +143,8 @@ module.exports = {
   '--Topbar_avatarMobilePadding': '8px 0',
 
   // SearchBar
-  '--SearchBar_width': '396px',
+  '--SearchBar_narrowWidth': `${searchBarNarrowWidth}px`,
+  '--SearchBar_width': `${searchBarWidth}px`,
   '--SearchBar_mobileHeight': '50px',
   '--SearchBar_height': topbarItemHeight,
   '--SearchBar_borderColor': topbarBorderColor,
@@ -152,9 +162,9 @@ module.exports = {
   '--SearchBar_inputFontWeight': '500',
   '--SearchBar_keywordInputWidth': '63%',
   '--SearchBar_keywordInputFocusWidth': '78%',
-  '--SearchBar_formZIndex': '1',
-  '--SearchBar_focusContainerZIndex': '0',
-  '--SearchBar_childZIndex': '1',
+  '--SearchBar_formZIndex': zIndexMinimum + 1,
+  '--SearchBar_focusContainerZIndex': zIndexMinimum,
+  '--SearchBar_childZIndex': zIndexMinimum + 1,
   '--SearchBar_mobileTextColor': '#fff',
   '--SearchBar_mobileInputBorderColor': 'rgba(255, 255, 255, 0.3)',
   '--SearchBar_mobilePlaceholderColor': '#FCFCFC',
@@ -167,25 +177,25 @@ module.exports = {
   // ProfileDropdown
   '--ProfileDropdown_border': `1px solid ${topbarBorderColor}`,
   '--ProfileDropdown_borderColor': topbarBorderColor,
-  '--ProfileDropdown_zIndex': 1,
+  '--ProfileDropdown_zIndex': zIndexMinimum,
   '--ProfileDropdown_rightOffset': bodyPadding,
   '--ProfileDropdown_textColor': textColor,
   '--ProfileDropdown_textColorFocus': textColorFocus,
   '--ProfileDropdown_logoutLinkColor': textColorGrey,
   '--ProfileDropdown_colorLight': textColorLight,
-  '--ProfileDropdown_textLinkSize': pxToEms(13, 14), // eslint-disable-line no-magic-numbers
+  '--ProfileDropdown_textLinkSize': pxToEms(13, 14),
   '--ProfileDropdown_arrowWidth': '18px',
-  '--ProfileDropdown_topSeparation': '3px',
+  '--ProfileDropdown_topSeparation': '0px',
   '--ProfileDropdown_lineWidth': '2px',
   '--ProfileDropdown_fontSizeNotification': fontSizeSmaller,
 
   '--MenuItem_borderColor': topbarBorderColor,
   '--MenuItem_backgroundColorHover': backgroundLightColorHover,
-  '--MenuItem_paddingTopbarVertical': pxToEms(13, 14), // eslint-disable-line no-magic-numbers
-  '--MenuItem_paddingTopbarHorizontal': pxToEms(24, 14), // eslint-disable-line no-magic-numbers
-  '--MenuItem_paddingOffScreenVertical': pxToEms(10, 17), // eslint-disable-line no-magic-numbers
-  '--MenuItem_paddingOffScreenHorizontal': pxToEms(24, 17), // eslint-disable-line no-magic-numbers
-  '--MenuItem_paddingOffScreenHorizontalTablet': pxToEms(36, 16), // eslint-disable-line no-magic-numbers
+  '--MenuItem_paddingTopbarVertical': pxToEms(13, 14),
+  '--MenuItem_paddingTopbarHorizontal': pxToEms(24, 14),
+  '--MenuItem_paddingOffScreenVertical': pxToEms(10, 17),
+  '--MenuItem_paddingOffScreenHorizontal': pxToEms(24, 17),
+  '--MenuItem_paddingOffScreenHorizontalTablet': pxToEms(36, 16),
   '--MenuItem_fontSize': fontSizeBig,
   '--MenuItem_textColor': textColor,
   '--MenuItem_textColorFocus': textColorFocus,
@@ -201,42 +211,54 @@ module.exports = {
   '--Menu_borderColor': topbarBorderColor,
   '--Menu_boxShadow': '0px 2px 4px 0px rgba(0, 0, 0, 0.1)',
   '--Menu_iconPadding': pxToEms(5, 14),
-  '--Menu_zIndex': '1',
+  '--Menu_zIndex': zIndexMinimum,
+
+  '--MenuPriority_height': '60px',
+  '--MenuPriority_extraSpacingNoUnit': 24,
+  '--MenuPriority_itemSpacing': '18px',
+  '--MenuPriority_itemSpacingNoUnit': 18,
+  '--MenuPriority_textColor': textColor,
+  '--MenuPriority_textColorHover': textColorFocus,
+  '--MenuPriority_fontSize': fontSize,
+  '--MenuPriority_letterSpacing': '0.22px',
+  '--MenuPriority_paddingVertical': '19px',
 
   // topbar can't control base font-size.
-  '--Menu_labelPaddingVertical': '1.28571429em',
+  '--Menu_labelPaddingVertical': '27px',
 
   '--MenuSection_titleColor': 'rgba(153, 153, 153, 0.5)',
   '--MenuSection_fontSizeTitle': fontSizeSmaller,
-  '--MenuSection_paddingOffScreenVertical': pxToEms(10, 12), // eslint-disable-line no-magic-numbers
-  '--MenuSection_paddingOffScreenHorizontal': pxToEms(24, 12), // eslint-disable-line no-magic-numbers
-  '--MenuSection_paddingOffScreenHorizontalTablet': pxToEms(36, 12), // eslint-disable-line no-magic-numbers
-  '--MenuSection_marginOffScreenBottom': pxToEms(16, 17), // eslint-disable-line no-magic-numbers
-  '--MenuSection_marginOffScreenBottomTablet': pxToEms(28, 17), // eslint-disable-line no-magic-numbers
-  '--MenuSection_iconMargin': pxToEms(9, 12), // eslint-disable-line no-magic-numbers
+  '--MenuSection_paddingOffScreenVertical': pxToEms(10, 12),
+  '--MenuSection_paddingOffScreenHorizontal': pxToEms(24, 12),
+  '--MenuSection_paddingOffScreenHorizontalTablet': pxToEms(36, 12),
+  '--MenuSection_marginOffScreenBottom': pxToEms(16, 17),
+  '--MenuSection_marginOffScreenBottomTablet': pxToEms(28, 17),
+  '--MenuSection_iconMargin': pxToEms(9, 12),
 
   '--MobileMenu_labelPaddingVertical': '18px',
   '--MobileMenu_labelPaddingHorizontal': '18px',
   '--MobileMenu_offscreenMenuWidth': '288px',
   '--MobileMenu_offscreenHeaderItemHeight': '44px',
   '--MobileMenu_offscreenFooterBackgroundColor': backgroundColorGrey,
-  '--MobileMenu_offscreenFooterMarginTop': pxToEms(14, 17), // eslint-disable-line no-magic-numbers
+  '--MobileMenu_offscreenFooterMarginTop': pxToEms(14, 17),
 
   '--LanguagesMobile_fontSize': fontSizeMobileSmall,
   '--LanguagesMobile_fontSizeTablet': fontSizeMobileSmaller,
   '--LanguagesMobile_textColorDefault': customColorFallback,
   '--LanguagesMobile_textColorSelected': textColorSelected,
-  '--LanguagesMobile_marginLanguageListRight': pxToEms(65, 15), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_marginLanguageListLeft': pxToEms(24, 15), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_marginLanguageListRightTablet': pxToEms(65, 14), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_marginLanguageListLeftTablet': pxToEms(36, 14), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_marginTop': pxToEms(14, 15), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_marginBottom': pxToEms(24, 15), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_marginTopTablet': pxToEms(26, 14), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_marginBottomTablet': pxToEms(36, 14), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_paddingLanguageVertical': pxToEms(10, 15), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_paddingLanguageRight': pxToEms(5, 15), // eslint-disable-line no-magic-numbers
-  '--LanguagesMobile_linkGap': pxToEms(10, 15), // eslint-disable-line no-magic-numbers
+  '--LanguagesMobile_marginLanguageListRight': pxToEms(65, 15),
+  '--LanguagesMobile_marginLanguageListLeft': pxToEms(24, 15),
+  '--LanguagesMobile_marginLanguageListTop': pxToEms(6, 15),
+  '--LanguagesMobile_marginLanguageListRightTablet': pxToEms(65, 14),
+  '--LanguagesMobile_marginLanguageListLeftTablet': pxToEms(36, 14),
+  '--LanguagesMobile_marginLanguageListTopTablet': pxToEms(5, 14),
+  '--LanguagesMobile_marginTop': pxToEms(14, 15),
+  '--LanguagesMobile_marginBottom': pxToEms(24, 15),
+  '--LanguagesMobile_marginTopTablet': pxToEms(26, 14),
+  '--LanguagesMobile_marginBottomTablet': pxToEms(36, 14),
+  '--LanguagesMobile_paddingLanguageVertical': pxToEms(10, 15),
+  '--LanguagesMobile_paddingLanguageRight': pxToEms(5, 15),
+  '--LanguagesMobile_linkGap': pxToEms(10, 15),
 
   '--NotificationBadge_color': textColorLight,
   '--NotificationBadge_alertColor': alertColor,

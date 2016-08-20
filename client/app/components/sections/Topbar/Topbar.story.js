@@ -10,6 +10,7 @@ const fakeRoute = () => '#';
 
 const baseProps = {
   marketplaceContext: defaultRailsContext,
+  isAdmin: true,
   routes: {
     person_inbox_path: fakeRoute,
     person_path: fakeRoute,
@@ -24,28 +25,34 @@ const baseProps = {
     image_highres: 'https://s3.amazonaws.com/sharetribe-manual-assets/styleguide/bikerrrs-logo.png',
   },
   search: {
-    mode: 'keyword-and-location',
+    mode: 'keyword_and_location',
     keyword_placeholder: 'Search...',
     location_placeholder: 'Location',
     onSubmit: action('submitting search'),
   },
+  search_path: '#',
   menu: {
+    limit_priority_links: null,
     links: [
       {
         link: 'http://example.com#about',
         title: 'About',
+        priority: 0,
       },
       {
         link: 'http://example.com#link',
         title: 'Link',
+        priority: 1,
       },
       {
         link: 'http://example.com#link2',
         title: 'Link2',
+        priority: 2,
       },
       {
         link: 'http://example.com#longlink',
         title: 'Lorem ipsum dolor sit amet consectetur adepisci velit',
+        priority: 3,
       },
     ],
   },
@@ -110,6 +117,7 @@ storiesOf('Top bar')
       logo: baseProps.logo,
       marketplaceContext: baseProps.marketplaceContext,
       routes: baseProps.routes,
+      search_path: baseProps.search_path,
     })))
   .add('Logged out', () => (
     storifyTopbar(loggedOut(baseProps))))
@@ -132,6 +140,6 @@ storiesOf('Top bar')
   .add('With location search', () => (
     storifyTopbar({ ...baseProps, search: { mode: 'location' } })))
   .add('With keyword and location search', () => (
-    storifyTopbar({ ...baseProps, search: { mode: 'keyword-and-location' } })))
+    storifyTopbar({ ...baseProps, search: { mode: 'keyword_and_location' } })))
   .add('Logged in as admin', () => (
     storifyTopbar({ ...baseProps, isAdmin: true })));

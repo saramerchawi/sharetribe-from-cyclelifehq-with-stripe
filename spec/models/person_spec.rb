@@ -38,8 +38,6 @@
 #  authentication_token               :string(255)
 #  community_updates_last_sent_at     :datetime
 #  min_days_between_community_updates :integer          default(1)
-#  is_organization                    :boolean
-#  organization_name                  :string(255)
 #  deleted                            :boolean          default(FALSE)
 #  cloned_from                        :string(22)
 #
@@ -234,12 +232,11 @@ describe Person, type: :model do
 
   describe "inherits_settings_from" do
     let(:person) { FactoryGirl.build(:person) }
-    let(:community) { FactoryGirl.build(:community, :only_organizations => true, :default_min_days_between_community_updates => 30) }
+    let(:community) { FactoryGirl.build(:community, :default_min_days_between_community_updates => 30) }
 
     it "inherits_settings_from" do
       person.inherit_settings_from(community)
 
-      expect(person.is_organization).to be_truthy
       expect(person.min_days_between_community_updates).to eql(30)
     end
 

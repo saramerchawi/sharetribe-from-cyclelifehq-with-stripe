@@ -176,6 +176,7 @@ he-IL:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -221,6 +222,13 @@ he-IL:
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ~
         twitter_handle: ~
@@ -255,6 +263,10 @@ he-IL:
         language: ~
         url: ~
         empty: ~
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: ~
@@ -804,11 +816,9 @@ he-IL:
       please_contant_admin_link: ~
     confirmation_instructions:
       confirmation_instructions_signature: ~
-      welcome_to_kassi: ~
       need_to_confirm: ~
       confirmation_link_text: ~
       or_paste_link: ~
-      turning_on_confirmations_in_this_community: ~
     common:
       hey: "שלום ‎%{name}‎,"
       kassi_team: "צוות ‎%{service_name}‎"
@@ -943,6 +953,11 @@ he-IL:
       has_posted_a_new_listing: ~
       you_are_receiving_this_because: ~
       view_listing: ~
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -988,8 +1003,8 @@ he-IL:
       javascript_is_disabled_in_your_browser: "JavaScript אינו פעיל כרגע בדפדפן שלך"
       kassi_does_not_currently_work_without_javascript: "‎%{service_name}‎ אינו פועל כשורה ללא JavaScript. נסה להפעיל JavaScript דרך מאפייני הדפדפן שלך ולטעון דף זה מחדש."
       contact_us: ~
-      send_feedback: "שלח/י משוב"
-      your_feedback_to_admins: "משוב למנהלי האתר"
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: שלח
     your_email_address: "כתובת הדואר האלקטרוני שלך"
   errors:
@@ -1181,8 +1196,8 @@ he-IL:
     application:
       join_this_community: ~
       read_more: ~
-      feedback: "מה ברצונך לומר לנו?"
-      default_feedback: "נתקלת בבעיה ב‎%{service_name}‎? יש לך הצעה לשיפור השירות? הבחנת בתוכן חשוד? או פשוט ברצונך לפנות אלינו בנושא מסויים? שלח לנו הודעה!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "פורום משובים, הערות והארות."
       feedback_handle: משוב
       give_feedback: "צור קשר איתנו"
@@ -1257,7 +1272,7 @@ he-IL:
       error_with_session: "שגיאה בפעולה זו."
       feedback_considered_spam: "המשוב לא נשמר בשל בעיות בפורמט שלו. נסה שוב או קבל עזרה בפורום המשובים."
       feedback_not_saved: "משוב לא נשלח."
-      feedback_saved: "תודה רבה עבור המשוב! אשוב אליך בהקדם."
+      feedback_saved: ~
       feedback_sent_to: "משוב נשלח ל‎%{target_person}‎."
       feedback_skipped: "לא נכתב משוב"
       invitation_cannot_be_sent: ~
@@ -1352,7 +1367,7 @@ he-IL:
       payment_details_add_successful: ~
       payment_details_add_error: ~
       listing_author_payment_details_missing: ~
-      stylesheet_needs_recompiling: ~
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: ~
@@ -2080,7 +2095,9 @@ he-IL:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

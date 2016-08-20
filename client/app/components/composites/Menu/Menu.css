@@ -1,6 +1,6 @@
 .menu {
   font-family: var(--Topbar_fontFamily); /* should come from topbar */
-  cursor: pointer;
+  cursor: default;
 
   &:focus,
   & :focus {
@@ -11,7 +11,6 @@
   &:focus,
   &.openMenu,
   &.touchless:hover {
-
     & .menuLabel {
       color: var(--Menu_textColorFocus);
     }
@@ -32,10 +31,11 @@
 
 .menuLabel {
   display: inline-block;
-  font-size: var(--Menu_fontSize);
   padding: var(--Menu_labelPaddingVertical) 0;
-  white-space: nowrap;
   color: var(--Menu_textColor);
+  font-size: var(--Menu_fontSize);
+  line-height: 1em;
+  white-space: nowrap;
 
   &::first-letter {
     text-transform: capitalize;

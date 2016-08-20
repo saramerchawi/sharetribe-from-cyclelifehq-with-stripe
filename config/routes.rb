@@ -54,11 +54,13 @@ Kassi::Application.routes.draw do
   # and regexp anchors are not allowed in routing requirements.
   get '/_lp_preview' => 'landing_page#preview'
 
-  locale_matcher = Regexp.new(Sharetribe::AVAILABLE_LOCALES.map { |l| l[:ident] }.concat(Sharetribe::REMOVED_LOCALES.to_a).join("|"))
+  locale_regex_string = Sharetribe::AVAILABLE_LOCALES.map { |l| l[:ident] }.concat(Sharetribe::REMOVED_LOCALES.to_a).join("|")
+  locale_matcher = Regexp.new(locale_regex_string)
+  locale_matcher_anchored = Regexp.new("^(#{locale_regex_string})$")
 
   # Conditional routes for custom landing pages
   get '/:locale/' => 'landing_page#index', as: :landing_page_with_locale, constraints: ->(request) {
-    locale_matcher.match(request.params["locale"]) &&
+    locale_matcher_anchored.match(request.params["locale"]) &&
       CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
   }
   get '/' => 'landing_page#index', as: :landing_page_without_locale, constraints: ->(request) {
@@ -67,7 +69,7 @@ Kassi::Application.routes.draw do
 
   # Conditional routes for search view if landing page is enabled
   get '/:locale/s' => 'homepage#index', as: :search_with_locale, constraints: ->(request) {
-    locale_matcher.match(request.params["locale"]) &&
+    locale_matcher_anchored.match(request.params["locale"]) &&
       CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
   }
   get '/s' => 'homepage#index', as: :search_without_locale, constraints: ->(request) {
@@ -174,6 +176,8 @@ Kassi::Application.routes.draw do
       patch "/look_and_feel"      => "communities#update_look_and_feel",        as: :look_and_feel
       get   "/details/edit"       => "community_customizations#edit_details",   as: :details_edit
       patch "/details"            => "community_customizations#update_details", as: :details
+      get   "/new_layout"         => "communities#new_layout",                  as: :new_layout
+      patch "/new_layout"         => "communities#update_new_layout",           as: :update_new_layout
 
       resources :communities do
         member do
@@ -399,11 +403,7 @@ Kassi::Application.routes.draw do
               put :skip
             end
           end
-          resources :payments do
-            member do
-              get :done
-            end
-          end
+          resources :payments
           resources :braintree_payments
         end
         resource :paypal_account, only: [:index] do
@@ -416,7 +416,6 @@ Kassi::Application.routes.draw do
           end
         end
         resources :transactions, only: [:show, :new, :create]
-        resource :checkout_account, only: [:new, :show, :create]
         resource :settings do
           member do
             get :account

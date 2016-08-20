@@ -8,7 +8,6 @@ class Admin::CommunitiesController < ApplicationController
   def edit_look_and_feel
     @selected_left_navi_link = "tribe_look_and_feel"
     @community = @current_community
-    flash.now[:notice] = t("layouts.notifications.stylesheet_needs_recompiling") if @community.stylesheet_needs_recompile?
 
     onboarding_popup_locals = OnboardingViewUtils.popup_locals(
       flash[:show_onboarding_popup],
@@ -123,15 +122,71 @@ class Admin::CommunitiesController < ApplicationController
       knowledge_base_url: APP_CONFIG.knowledge_base_url}
   end
 
+  def new_layout
+    redirect_to admin_getting_started_guide_path and return unless(FeatureFlagHelper.feature_enabled?(:feature_flags_page))
+
+    @selected_left_navi_link = "new_layout"
+
+    render :new_layout, locals: { community: @current_community, features: NewLayoutViewUtils.features(@current_community.id, @current_user.id) }
+  end
+
+  def update_new_layout
+    redirect_to admin_getting_started_guide_path and return unless(FeatureFlagHelper.feature_enabled?(:feature_flags_page))
+
+    @community = @current_community
+
+    enabled_for_user = Maybe(params[:enabled_for_user]).map { |f| NewLayoutViewUtils.enabled_features(f) }.or_else([])
+    disabled_for_user = NewLayoutViewUtils.resolve_disabled(enabled_for_user)
+
+    enabled_for_community = Maybe(params[:enabled_for_community]).map { |f| NewLayoutViewUtils.enabled_features(f) }.or_else([])
+    disabled_for_community = NewLayoutViewUtils.resolve_disabled(enabled_for_community)
+
+    response = update_feature_flags(community_id: @current_community.id, person_id: @current_user.id,
+                                    user_enabled: enabled_for_user, user_disabled: disabled_for_user,
+                                    community_enabled: enabled_for_community, community_disabled: disabled_for_community)
+
+    if Maybe(response)[:success].or_else(false)
+      flash[:notice] = t("layouts.notifications.community_updated")
+    else
+      flash[:error] = t("layouts.notifications.community_update_failed")
+    end
+    redirect_to admin_new_layout_path
+  end
+
   def menu_links
     @selected_left_navi_link = "menu_links"
-    @community = @current_community
+
+    if FeatureFlagHelper.feature_enabled?(:topbar_v1) || CustomLandingPage::LandingPageStore.enabled?(@current_community.id)
+      limit_priority_links = MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data[:limit_priority_links]
+      all = view_context.t("admin.communities.menu_links.all")
+      limit_priority_links_options = (0..5).to_a.map {|o| [o, o]}.concat([[all, -1]])
+      limit_priority_links_selected = Maybe(limit_priority_links).or_else(-1)
+
+      render :menu_links, locals: {
+        community: @current_community,
+        limit_priority_links: limit_priority_links,
+        limit_priority_links_options: limit_priority_links_options,
+        limit_priority_links_selected: limit_priority_links_selected
+      }
+    else
+      render :menu_links, locals: { community: @current_community }
+    end
   end
 
   def update_menu_links
     @community = @current_community
 
     menu_links_params = Maybe(params)[:menu_links].permit!.or_else({menu_link_attributes: {}})
+
+    if FeatureFlagHelper.feature_enabled?(:topbar_v1) || CustomLandingPage::LandingPageStore.enabled?(@current_community.id)
+      limit_priority_links = params[:limit_priority_links].to_i
+      MarketplaceService::API::Api.configurations.update({
+        community_id: @current_community.id,
+        configurations: {
+          limit_priority_links: limit_priority_links
+        }
+      })
+    end
 
     update(@community,
             menu_links_params,
@@ -187,7 +242,14 @@ class Admin::CommunitiesController < ApplicationController
     if(FeatureFlagHelper.location_search_available)
       marketplace_configurations = MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data
 
-      main_search_select_options = [:keyword, :location]
+      keyword_and_location =
+        if FeatureFlagService::API::Api.features.get_for_community(community_id: @current_community.id).data[:features].include?(:topbar_v1)
+          [:keyword_and_location]
+        else
+          []
+        end
+
+      main_search_select_options = [:keyword, :location].concat(keyword_and_location)
         .map { |type|
           [SettingsViewUtils.search_type_translation(type), type]
         }
@@ -233,11 +295,10 @@ class Admin::CommunitiesController < ApplicationController
     community_params = params.require(:community).permit(*permitted_params)
 
     update(@current_community,
-           community_params.merge(stylesheet_needs_recompile: regenerate_css?(params, @current_community)),
+           community_params,
            admin_look_and_feel_edit_path,
            :edit_look_and_feel) { |community|
-      Delayed::Job.enqueue(CompileCustomStylesheetJob.new(community.id), priority: 3)
-
+      flash[:notice] = t("layouts.notifications.images_are_processing") if images_changed?(params)
       # Onboarding wizard step recording
       state_changed = Admin::OnboardingWizard.new(community.id)
         .update_from_event(:community_updated, community)
@@ -306,11 +367,13 @@ class Admin::CommunitiesController < ApplicationController
     maybe_update_payment_settings(@current_community.id, params[:community][:automatic_confirmation_after_days])
 
     if(FeatureFlagHelper.location_search_available)
-       MarketplaceService::API::Api.configurations.update({
+      MarketplaceService::API::Api.configurations.update({
         community_id: @current_community.id,
-        main_search: params[:main_search],
-        distance_unit: params[:distance_unit],
-        limit_search_distance: params[:limit_distance].present?
+        configurations: {
+          main_search: params[:main_search],
+          distance_unit: params[:distance_unit],
+          limit_search_distance: params[:limit_distance].present?
+        }
       })
     end
 
@@ -344,9 +407,7 @@ class Admin::CommunitiesController < ApplicationController
     }
   end
 
-  def regenerate_css?(params, community)
-    params[:community][:custom_color1] != community.custom_color1 ||
-    params[:community][:custom_color2] != community.custom_color2 ||
+  def images_changed?(params)
     !params[:community][:cover_photo].nil? ||
     !params[:community][:small_cover_photo].nil? ||
     !params[:community][:wide_logo].nil? ||
@@ -417,4 +478,21 @@ class Admin::CommunitiesController < ApplicationController
     end
   end
 
+  def update_feature_flags(community_id:, person_id:, user_enabled:, user_disabled:, community_enabled:, community_disabled:)
+    updates = []
+    updates << ->() {
+      FeatureFlagService::API::Api.features.enable(community_id: community_id, person_id: person_id, features: user_enabled)
+    } unless user_enabled.blank?
+    updates << ->(*) {
+      FeatureFlagService::API::Api.features.disable(community_id: @current_community.id, person_id: @current_user.id, features: user_disabled)
+    } unless user_disabled.blank?
+    updates << ->(*) {
+      FeatureFlagService::API::Api.features.enable(community_id: @current_community.id, features: community_enabled)
+    } unless community_enabled.blank?
+    updates << ->(*) {
+      FeatureFlagService::API::Api.features.disable(community_id: @current_community.id, features: community_disabled)
+    } unless community_disabled.blank?
+
+    Result.all(*updates)
+  end
 end

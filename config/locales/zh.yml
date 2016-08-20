@@ -186,6 +186,7 @@ zh:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -231,6 +232,13 @@ zh:
         save_user_status_error: 保存失败。请刷新页面后重试。
         ban_user_confirmation: 这将会把用户从集市中删除并阻止他们使用这个帐号再次访问该站点。你确认要继续吗？
         ban_me_error: 你不能禁止自己。
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: 社交媒体
         twitter_handle: Twitter用户名
@@ -265,6 +273,10 @@ zh:
         language: 语言
         url: 网址
         empty: 你没有更多的菜单链接
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: 导出为CSV文件
         transactions: 查看交易记录
@@ -824,11 +836,9 @@ zh:
       please_contant_admin_link: 请联系管理员
     confirmation_instructions:
       confirmation_instructions_signature: "此致敬礼，<br/>%{service_name}团队"
-      welcome_to_kassi: "欢迎来到%{service_name}！"
       need_to_confirm: 请确认你的Email地址。
       confirmation_link_text: 确认我的电子邮件
       or_paste_link: 或者你可以复制以下链接到你浏览器的地址栏：
-      turning_on_confirmations_in_this_community: "我们开始在%{service_name}中使用电子邮件确认。"
     common:
       hey: "你好 %{name},"
       kassi_team: "%{service_name} 团队"
@@ -963,6 +973,11 @@ zh:
       has_posted_a_new_listing: "%{author_name}发布了一则新的信息："
       you_are_receiving_this_because: "你收到这个通知是由于你关注了%{author_name}。"
       view_listing: 查看发布的信息
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -1008,8 +1023,8 @@ zh:
       javascript_is_disabled_in_your_browser: 你的浏览器已禁用Javascript
       kassi_does_not_currently_work_without_javascript: "抱歉，%{service_name}目前不能在无javascript环境下工作。请在浏览器首选项中打开javascript，然后刷新页面。"
       contact_us: 联系我们
-      send_feedback: 发送反馈
-      your_feedback_to_admins: 给管理员发送反馈
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: 发送
     your_email_address: 你的E-mail地址
   errors:
@@ -1060,7 +1075,7 @@ zh:
     create_new_marketplace: 创建一个新的集市
     contact_us: 联系我们
     profile: 个人主页
-    manage_listings: ~
+    manage_listings: 信息管理
     invite: 邀请新成员
     login: 登录
     signup: 注册
@@ -1182,7 +1197,7 @@ zh:
       default_content: "你可以在这里找到%{marketplace_name}如何工作的信息。"
   landing_page:
     hero:
-      search: ~
+      search: 搜索
       signup: ~
       search_placeholder: ~
     listings:
@@ -1197,17 +1212,17 @@ zh:
     no_tribe:
       inbox: 收件箱
       settings: 设置
-      feedback: 联系我们
+      feedback: ~
     application:
       join_this_community: 加入集市
       read_more: 读取更多
-      feedback: 给我们提供反馈？
-      default_feedback: "你有任何关于%{service_name}的问题吗？有什么提高服务质量的建议吗？发现了一些可疑的内容？或者你有些想法与我们讨论？在这里告诉我们！"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: 反馈论坛
       feedback_handle: 反馈
       give_feedback: 联系我们
       or_check_our: ……或者查看我们的
-      send_feedback_to_admin: 发送反馈
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: 看看其他用户的推荐，给那些主意投票。
       your_email_address: 你的E-mail地址（用来联系你）
       connect: 注册
@@ -1277,7 +1292,7 @@ zh:
       error_with_session: 内容错误
       feedback_considered_spam: 格式错误，评价失败。请重试或者使用论坛评价。
       feedback_not_saved: 评价发送失败。
-      feedback_saved: 感谢你的评价！我们会尽快给你回复。
+      feedback_saved: ~
       feedback_sent_to: "发送评价给%{target_person}"
       feedback_skipped: 跳过评价
       invitation_cannot_be_sent: 邀请未被发出
@@ -1372,7 +1387,7 @@ zh:
       payment_details_add_successful: 成功添加支付信息
       payment_details_add_error: 无法添加支付信息
       listing_author_payment_details_missing: 请点击下面的‘联系’按钮联系卖家。他们需要更新付款信息来接收付款。
-      stylesheet_needs_recompiling: 样式表正在重新编译。请过一会重新加载页面。
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: 帐号
@@ -2112,18 +2127,20 @@ zh:
     days: 天
   web:
     topbar:
-      menu: ~
-      search_placeholder: ~
-      user: ~
-      inbox: ~
-      profile: ~
-      manage_listings: ~
-      settings: ~
-      logout: ~
-      login: ~
-      signup: ~
-      admin_dashboard: ~
-      language: ~
+      menu: 菜单
+      more: 更多
+      search_placeholder: 搜索...
+      search_location_placeholder: ~
+      user: 用户
+      inbox: 收件箱
+      profile: 个人主页
+      manage_listings: 信息管理
+      settings: 设置
+      logout: 退出
+      login: 登录
+      signup: 注册
+      admin_dashboard: 管理员空间
+      language: 语言
   will_paginate:
     models:
       person:

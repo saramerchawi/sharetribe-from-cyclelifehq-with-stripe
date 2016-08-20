@@ -1,6 +1,6 @@
 # Sharetribe
 
-[![Build Status](https://travis-ci.org/sharetribe/sharetribe.svg?branch=master)](https://travis-ci.org/sharetribe/sharetribe) [![Dependency Status](https://gemnasium.com/sharetribe/sharetribe.png)](https://gemnasium.com/sharetribe/sharetribe) [![Code Climate](https://codeclimate.com/github/sharetribe/sharetribe.png)](https://codeclimate.com/github/sharetribe/sharetribe)
+[![CircleCI](https://circleci.com/gh/sharetribe/sharetribe/tree/master.svg?style=svg)](https://circleci.com/gh/sharetribe/sharetribe/tree/master) [![Dependency Status](https://gemnasium.com/sharetribe/sharetribe.png)](https://gemnasium.com/sharetribe/sharetribe) [![Code Climate](https://codeclimate.com/github/sharetribe/sharetribe.png)](https://codeclimate.com/github/sharetribe/sharetribe)
 
 Sharetribe is an open source platform to create your own peer-to-peer marketplace.
 
@@ -30,8 +30,8 @@ Before you get started, the following needs to be installed:
   * **Bundler**: `gem install bundler`
   * **Node**. Version 6.1 is currently used and we don't guarantee everything works with other versions. If you need multiple versions of Node, consider using [n](https://github.com/tj/n) or [nvm](https://github.com/creationix/nvm).
   * [**Git**](http://help.github.com/git-installation-redirect)
-  * **A database**. Only MySQL has been tested, so we give no guarantees that other databases (e.g. PostgreSQL) work. You can install MySQL Community Server two ways:
-    1. If you are on a Mac, use homebrew: `brew install mysql` (*highly* recommended). Also consider installing the [MySQL Preference Pane](https://dev.mysql.com/doc/refman/5.1/en/osx-installation-prefpane.html) to control MySQL startup and shutdown. It is packaged with the MySQL downloadable installer, but can be easily installed as a stand-alone.
+  * **A database**. Only MySQL 5.6 has been tested, so we give no guarantees that other databases (e.g. PostgreSQL) work. MySQL 5.7 might work, but you will need to update Sphinx configuration (see below). You can install MySQL Community Server two ways:
+    1. If you are on a Mac, use homebrew: `brew install mysql56` (*highly* recommended). Also consider installing the [MySQL Preference Pane](https://dev.mysql.com/doc/refman/5.1/en/osx-installation-prefpane.html) to control MySQL startup and shutdown. It is packaged with the MySQL downloadable installer, but can be easily installed as a stand-alone.
     2. Download a [MySQL installer from here](http://dev.mysql.com/downloads/mysql/)
   * [**Sphinx**](http://pat.github.com/ts/en/installing_sphinx.html). Version 2.1.4 has been used successfully, but newer versions should work as well. Make sure to enable MySQL support. If you're using OS X and have Homebrew installed, install it with `brew install sphinx --with-mysql`
   * [**Imagemagick**](http://www.imagemagick.org). If you're using OS X and have Homebrew installed, install it with `brew install imagemagick`
@@ -105,6 +105,8 @@ Before you get started, the following needs to be installed:
   ```bash
   bundle exec rake ts:index
   ```
+
+  **Note:** If you are using MySQL 5.7, update the `config/thinking_sphinx.yml` file and remove the `mysql_ssl_ca` lines, or configure correct SSL certificate chain for connection to your database over SSL.
 
 1. Start the Sphinx daemon:
 
@@ -310,6 +312,8 @@ If you want to use S3 to host your images, you need to do a bit more configurati
 1. Set the following configuration in your sharetribe `config.yml`: `s3_bucket_name: "your-sharetribe-images"` `s3_upload_bucket_name:  "your-sharetribe-images-tmp"`
 
 1. Add your AWS keys to the sharetribe app.  The best way to do that is via environment variables, rather than checking them into your `config.yml`.  Set the `aws_access_key_id` and `aws_secret_access_key` environment variables to the values for the IAM user.
+
+1. (Optional) When you enable S3, uploaded images are linked directly to the S3 bucket. If you want to serve these assets through CDN, you can set the `user_asset_host` configuration option in addition to `asset_host` in `config/config.yml`.
 
 
 Here's a sample CORS configuration that allows anyone to post to your bucket.  Note that you may want to lock down the origin host more tightly, depending on your needs.

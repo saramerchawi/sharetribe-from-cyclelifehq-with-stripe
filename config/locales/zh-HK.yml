@@ -186,6 +186,7 @@ zh-HK:
         search_preferences: 搜尋偏好
         default_search_type: "搜尋類型：%{select_search_type}"
         keyword_search: 關鍵字搜尋
+        keyword_and_location_search: ~
         location_search: 地區搜尋
         select_distance_unit: "使用%{distance_units_selector}顯示距離"
         km: 公里
@@ -231,6 +232,13 @@ zh-HK:
         save_user_status_error: ~
         ban_user_confirmation: 這將會把用戶從集市中刪除並阻止他們使用這個帳號再次訪問該站點。你確認要繼續嗎？
         ban_me_error: ~
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ~
         twitter_handle: ~
@@ -265,6 +273,10 @@ zh-HK:
         language: 語言
         url: URL
         empty: 你沒有其它目錄連結
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: 查閱交易記錄
@@ -822,11 +834,9 @@ zh-HK:
       please_contant_admin_link: 請聯絡管理員
     confirmation_instructions:
       confirmation_instructions_signature: "%{service_name}團隊向你致以問候。"
-      welcome_to_kassi: "歡迎來到%{service_name}！"
       need_to_confirm: 請確認你的電郵地址。
       confirmation_link_text: 確認我的電郵
       or_paste_link: 或者你可以複製以下的連結到你的瀏覽器：
-      turning_on_confirmations_in_this_community: "我們將會在%{service_name}中使用電郵確認。"
     common:
       hey: "%{name} 你好 ,"
       kassi_team: "%{service_name} 團隊"
@@ -961,6 +971,11 @@ zh-HK:
       has_posted_a_new_listing: "%{author_name}已經發表了一個新的訊息："
       you_are_receiving_this_because: "你關注了%{author_name}所以收到這個通知。"
       view_listing: 查看訊息
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -1006,8 +1021,8 @@ zh-HK:
       javascript_is_disabled_in_your_browser: 你的瀏覽器禁示使用Javascript
       kassi_does_not_currently_work_without_javascript: "抱歉，%{service_name}目前不能在沒有javascript下提供服務。請在瀏覽器首選中打開javascript，然後刷新頁面。"
       contact_us: 聯絡我們
-      send_feedback: 發出評價
-      your_feedback_to_admins: 您對管理員的評價
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: 傳送
     your_email_address: 您的電郵地址
   errors:
@@ -1195,17 +1210,17 @@ zh-HK:
     no_tribe:
       inbox: 收件箱
       settings: 設定
-      feedback: 聯絡我們
+      feedback: ~
     application:
       join_this_community: 加入網站
       read_more: 讀取更多
-      feedback: 您有什麼想要發表?
-      default_feedback: "你在使用%{service_name}時遇上困難? 對服務表現有意見發表? 發現可疑的內容? 或只是有一些想法想要跟我們討論? 歡迎告訴我們！"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: 反饋論壇
       feedback_handle: 回應
       give_feedback: 聯絡我們
       or_check_our: "......或者查看我們的"
-      send_feedback_to_admin: 發出評價
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: 觀看其它用戶的提議，並投選合適的提議。
       your_email_address: "您的電郵地址 (用作聯絡閣下)"
       connect: 註冊
@@ -1275,7 +1290,7 @@ zh-HK:
       error_with_session: 內容錯誤
       feedback_considered_spam: 由於格式錯誤，無法提出回應。請重試或使用反饋論壇。
       feedback_not_saved: 未能發出回應。
-      feedback_saved: 感謝你的回應！我們會盡快給予回覆。
+      feedback_saved: ~
       feedback_sent_to: "回應已發送至%{target_person}。"
       feedback_skipped: 跳過回應
       invitation_cannot_be_sent: 未發出邀請
@@ -1370,7 +1385,7 @@ zh-HK:
       payment_details_add_successful: 成功新增付款詳情
       payment_details_add_error: 無法新增付款詳情
       listing_author_payment_details_missing: 請點擊下面的‘聯繫’來聯絡賣家。他們需要更新付款詳情來接收付款。
-      stylesheet_needs_recompiling: "樣式表正在重新编譯, 請稍後重新加載頁面"
+      images_are_processing: ~
       maintenance_mode:
         zero: 網站即將關閉以進行維護
         other: "網站即將在%{count}內關閉以進行維護"
@@ -2105,7 +2120,9 @@ zh-HK:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

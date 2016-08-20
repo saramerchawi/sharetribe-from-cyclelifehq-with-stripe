@@ -37,8 +37,7 @@ class ApplicationController < ActionController::Base
     :cannot_access_if_banned,
     :cannot_access_without_confirmation,
     :ensure_consent_given,
-    :ensure_user_belongs_to_community,
-    :can_access_only_organizations_communities
+    :ensure_user_belongs_to_community
 
   # This updates translation files from WTI on every page load. Only useful in translation test servers.
   before_filter :fetch_translations if APP_CONFIG.update_translations_on_every_page_load == "true"
@@ -170,7 +169,8 @@ class ApplicationController < ActionController::Base
     # This allows to avoid skipping this filter in many places.
     return unless request.env[:current_marketplace]
 
-    FeatureFlagHelper.init(request, Maybe(@current_user).is_admin?.or_else(false))
+    FeatureFlagHelper.init(request, Maybe(@current_user).is_admin?.or_else(false),
+                           Maybe(@current_user).is_marketplace_admin?.or_else(false))
   end
 
   # Ensure that user accepts terms of community and has a valid email
@@ -377,16 +377,6 @@ class ApplicationController < ActionController::Base
       end
 
       redirect_to confirmation_pending_path
-    end
-  end
-
-  def can_access_only_organizations_communities
-    if (@current_community && @current_community.only_organizations) &&
-      (@current_user && !@current_user.is_organization)
-
-      sign_out @current_user
-      flash[:warning] = t("layouts.notifications.can_not_login_with_private_user")
-      redirect_to login_path
     end
   end
 

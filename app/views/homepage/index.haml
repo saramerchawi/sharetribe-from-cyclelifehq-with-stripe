@@ -6,34 +6,34 @@
 
 - content_for :extra_javascript do
   - # maps.google can't be loaded twice
-  - maps_key = @current_community.google_maps_key
+  - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
   - key_param = maps_key ? "&key=#{maps_key}" : ""
-  - if(location_search_in_use && @view_type.eql?("map"))
-    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places#{key_param}" unless FeatureFlagHelper.feature_enabled?(:topbar_v1)
-    = javascript_include_tag "markerclusterer.js"
-  - elsif(location_search_in_use)
-    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places#{key_param}" unless FeatureFlagHelper.feature_enabled?(:topbar_v1)
-  - elsif(@view_type.eql?("map"))
+  - # Topbar adds its own maps script, otherwise add it if location search enabled or map is visible
+  - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) && (main_search != :keyword || @view_type.eql?("map"))
+  - if(needs_maps)
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places#{key_param}"
+  - if(@view_type.eql?("map"))
     = javascript_include_tag "markerclusterer.js"
 
 - content_for :title_header do
+  - is_homepage = params[:controller] == "homepage" && params[:action] == "index"
   - if @big_cover_photo
     %h1.marketplace-lander-content-title= community_slogan.html_safe
     %p= community_description.html_safe
-    .search-form
-      - if @current_community.private?
-        %a.inline-big-button{href: sign_up_path}
-          .content
-            = t("layouts.application.connect")
-      - else
-        - if(location_search_in_use)
-          = render partial: "location_bar"
+    - unless (is_homepage && !@current_community.private? && FeatureFlagHelper.feature_enabled?(:topbar_v1))
+      .search-form
+        - if @current_community.private?
+          %a.inline-big-button{href: sign_up_path}
+            .content
+              = t("layouts.application.connect")
         - else
-          = render partial: "search_bar"
-  - else
+          - if(main_search == :location)
+            = render partial: "location_bar"
+          - else
+            = render partial: "search_bar"
+  - elsif !(is_homepage && FeatureFlagHelper.feature_enabled?(:topbar_v1))
     .browse-view-search-form
-      - if(location_search_in_use)
+      - if(main_search == :location)
         = render partial: "location_bar"
       - else
         = render partial: "search_bar"

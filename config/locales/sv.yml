@@ -191,6 +191,7 @@ sv:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -236,6 +237,13 @@ sv:
         save_user_status_error: "Ett fel inträffade när sidan sparades. Försök igen eller ladda om sidan."
         ban_user_confirmation: "Detta tar bort medlemmen från marknadsplatsen och förhindrar att dem ska komma åt sidan igen med deras konto. Är du säker att du vill fortsätta?"
         ban_me_error: "Du kan inte bannlysa dig själv."
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: "Social media"
         twitter_handle: "Twitter användarnamn"
@@ -270,6 +278,10 @@ sv:
         language: Språk
         url: URL
         empty: "Du har inga ytterligare menylänkar"
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: "Visa transaktioner"
@@ -835,11 +847,9 @@ sv:
       please_contant_admin_link: "vänligen kontakta administratören"
     confirmation_instructions:
       confirmation_instructions_signature: "Vänliga hälsningar,<br/>%{service_name} teamet"
-      welcome_to_kassi: "Välkommen till %{service_name}!"
       need_to_confirm: "Du behöver bekräfta din e-postadress."
       confirmation_link_text: "Bekräfta min e-postadress"
       or_paste_link: "Alternativt så kan du kopiera följande länk till adressfältet i din webbläsare:"
-      turning_on_confirmations_in_this_community: "Vi har börjat med att använda e-postverifiering på denna %{service_name} marknadsplats."
     common:
       hey: "Hej %{name},"
       kassi_team: "%{service_name}gänget"
@@ -976,6 +986,11 @@ sv:
       has_posted_a_new_listing: "%{author_name} har skapat en ny annons:"
       you_are_receiving_this_because: "Du har fått ett meddelande eftersom du följer %{author_name}."
       view_listing: "Visa annons"
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -1021,8 +1036,8 @@ sv:
       javascript_is_disabled_in_your_browser: "Javascript har avaktiverats i din webbläsare"
       kassi_does_not_currently_work_without_javascript: "Tyvärr %{service_name} fungerar inte utan Javascript. Försök att aktivera Javascript i din webbläsare och ladda om sidan."
       contact_us: "kontakta oss"
-      send_feedback: "Skicka feedback"
-      your_feedback_to_admins: "Din feedback till admin."
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Skicka
     your_email_address: "Din e-postadress"
   errors:
@@ -1210,17 +1225,17 @@ sv:
     no_tribe:
       inbox: Inkorg
       settings: Inställningar
-      feedback: "Kontakta oss"
+      feedback: ~
     application:
       join_this_community: "Gå med marknadsplatsen"
       read_more: "Läs mer"
-      feedback: "Vad skulle du vilja berätta för oss?"
-      default_feedback: "Har du stött på något problem med %{service_name}? Har du ett förslag hur vi förbättrar tjänsten? Märkt något misstänksamt innehåll? Eller har du bara något du vill diskutera med oss? Låt oss veta!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "forum för feedback"
       feedback_handle: Feedback
       give_feedback: "Kontakta oss"
       or_check_our: "...eller kolla vår"
-      send_feedback_to_admin: "Skicka feedback"
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "för att se vad andra användare har föreslagit, rösta på idéerna där."
       your_email_address: "Din e-postadress (för att kontakta dig)"
       connect: "Gå med"
@@ -1290,7 +1305,7 @@ sv:
       error_with_session: "Fel med session."
       feedback_considered_spam: "Feedbacken sparades inte på grund av formatet. Försök igen eller använd feedbacks forumet."
       feedback_not_saved: "Feedback kunde inte skickas."
-      feedback_saved: "Tack för din feedback! Vi återkommer till dig så fort som möjligt."
+      feedback_saved: ~
       feedback_sent_to: "Feedback skickades till %{target_person}."
       feedback_skipped: "Feedback skippades"
       invitation_cannot_be_sent: "Inbjudan kunde inte skickas"
@@ -1385,7 +1400,7 @@ sv:
       payment_details_add_successful: "Betalningsinformation tillagd"
       payment_details_add_error: "Det gick inte att lägga till betalningsdetaljer"
       listing_author_payment_details_missing: "Vänligen kontakta ägaren genom att klicka på \"Kontakt\" nedan. De måste uppdatera sina betalningsdetaljer för att kunna ta emot betalning."
-      stylesheet_needs_recompiling: "Formatmallen kompilerar. Vänligen ladda om sidan efter ett tag."
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: Konto
@@ -2132,7 +2147,9 @@ sv:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

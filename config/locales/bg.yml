@@ -176,6 +176,7 @@ bg:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -221,6 +222,13 @@ bg:
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ~
         twitter_handle: ~
@@ -255,6 +263,10 @@ bg:
         language: ~
         url: ~
         empty: ~
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: ~
@@ -804,11 +816,9 @@ bg:
       please_contant_admin_link: ~
     confirmation_instructions:
       confirmation_instructions_signature: ~
-      welcome_to_kassi: ~
       need_to_confirm: ~
       confirmation_link_text: ~
       or_paste_link: ~
-      turning_on_confirmations_in_this_community: ~
     common:
       hey: "Здравейте %{name},"
       kassi_team: "Екипът на %{service_name}"
@@ -943,6 +953,11 @@ bg:
       has_posted_a_new_listing: ~
       you_are_receiving_this_because: ~
       view_listing: ~
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -988,8 +1003,8 @@ bg:
       javascript_is_disabled_in_your_browser: "Javascript е изключен във вашият браузър."
       kassi_does_not_currently_work_without_javascript: "%{service_name} не работи коректно със изключен javascript. Моля, активирайте javascript и заредете страницата отново."
       contact_us: ~
-      send_feedback: "Изпрати обратна връзка"
-      your_feedback_to_admins: "Обратна връзка с Администраторите"
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Изпратено
     your_email_address: "Вашият email адрес:"
   errors:
@@ -1181,13 +1196,13 @@ bg:
     application:
       join_this_community: ~
       read_more: ~
-      feedback: "Какво искате да ни препоръчате?"
-      default_feedback: ~
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "форум за препоръки"
       feedback_handle: Препоръка
       give_feedback: "Свържете се с нас"
       or_check_our: "..или проверете нашата"
-      send_feedback_to_admin: "Изпрати обратна връзка"
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: ~
       your_email_address: "Вашата електронна поща(За контакт с Вас)"
       connect: "Регистрирай се"
@@ -1345,14 +1360,13 @@ bg:
       you_must_fill_all_the_fields: ~
       you_unfollowed_listing: ~
       joining_community_failed: ~
-      can_not_login_with_private_user: ~
       can_not_delete_email: ~
       user_does_not_have_email_to_delete: ~
       email_deleted: ~
       payment_details_add_successful: ~
       payment_details_add_error: ~
       listing_author_payment_details_missing: "Моля, свържете се с автора като натиснете бутона 'Свържи се'. Необходимо е да си настроят профила за приемане на плащания."
-      stylesheet_needs_recompiling: ~
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: ~
@@ -1768,7 +1782,6 @@ bg:
       invitation_code: ~
       not_required: ~
       notification_is_mandatory: ~
-      organization_name: ~
       password_again: ~
       show_my_name_to_others: ~
       sign_up: ~
@@ -2080,7 +2093,9 @@ bg:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

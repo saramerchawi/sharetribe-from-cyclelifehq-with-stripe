@@ -191,11 +191,12 @@ nb:
         search_preferences: Søkeinnstillinger
         default_search_type: "Søketype: %{select_search_type}"
         keyword_search: Nøkkelord-søk
+        keyword_and_location_search: "Steds- og nøkkelordsøk"
         location_search: Stedsnavn-søk
         select_distance_unit: "Vis avstand i %{distance_units_selector}"
         km: km
         miles: miles
-        show_only_nearby: ~
+        show_only_nearby: "Vis kun annonser i nærområdet med stedssøk"
         listing_preferences: Annonseinnstillinger
         transaction_preferences: Transaksjonsinnstillinger
         show_listing_publishing_date: "Vis dato annonsen ble publisert"
@@ -236,6 +237,13 @@ nb:
         save_user_status_error: "Lagring feilet. Vennligst oppdater siden på nytt og prøv igjen."
         ban_user_confirmation: "Dette fjerner bruker fra denne markedsplassen og hindrer vedkommende tilgang med denne bruker kontoen igjen. Er du sikker på at du ønsker å fortsette?"
         ban_me_error: "Du kan ikke forby deg selv."
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: "Sosiale medier"
         twitter_handle: Twitternavn
@@ -270,6 +278,10 @@ nb:
         language: Språk
         url: URL
         empty: "Du har ingen ekstra menylenker"
+        max_number_of_links: "Maks antall linker vist i toppmenylinjen: %{select_max_number}"
+        all: Alle
+        max_number_of_links_info: "Link til %{about_page} er alltid først i menyen"
+        about_page: om-side
       transactions:
         export_all_as_csv: "Eksportér alle i CSV-fil"
         transactions: "Vis transaksjoner"
@@ -837,11 +849,9 @@ nb:
       please_contant_admin_link: "vennligst kontakt oss"
     confirmation_instructions:
       confirmation_instructions_signature: "Vennlig hilsen,<br/> %{service_name}"
-      welcome_to_kassi: "Velkommen til %{service_name}!"
       need_to_confirm: "Du må bekrefte din e-post."
       confirmation_link_text: "Bekreft min e-post"
       or_paste_link: "Alternativt kan du kopiere lenken under til nettleseren din:"
-      turning_on_confirmations_in_this_community: "Vi benytter nå e-postbekreftelse på %{service_name}."
     common:
       hey: "Hei %{name}!"
       kassi_team: "Vennlig hilsen %{service_name}"
@@ -976,6 +986,11 @@ nb:
       has_posted_a_new_listing: "%{author_name} har lagt ut en ny annonse:"
       you_are_receiving_this_because: "Du mottok denne varslingen fordi du følger %{author_name}"
       view_listing: "Se annonse"
+    new_member_notification:
+      new_member_has_joined: "Et nytt medlem har registrert seg på %{community}. Vedkommende må kanskje fremdeles bekrefte sin e-postadresse."
+      this_is_automatic_message: "Dette er en automatisk melding sendt til administratorer av %{community}."
+      person_name: "Navn:"
+      person_email: "E-post:"
   error_messages:
     onboarding:
       server_rendering: "Oppstartsveiledningen kunne ikke lastes! Vi har blitt informert om situasjonen og jobber med en fiks!"
@@ -1021,8 +1036,8 @@ nb:
       javascript_is_disabled_in_your_browser: "Javascript er deaktivert i din nettleser"
       kassi_does_not_currently_work_without_javascript: "%{service_name} vil ikke fungere skikkelig uten javascript. Forsøk å aktivere javascript i nettleserens innstillinger og last siden på nytt."
       contact_us: "Kontakt oss"
-      send_feedback: "Send tilbakemelding"
-      your_feedback_to_admins: "Din tilbakemelding til administratorene"
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Send
     your_email_address: "Din e-post"
   errors:
@@ -1210,17 +1225,17 @@ nb:
     no_tribe:
       inbox: Innboks
       settings: Innstillinger
-      feedback: "Kontakt oss"
+      feedback: ~
     application:
       join_this_community: "Bli medlem"
       read_more: "Les mer"
-      feedback: "Hva vil du fortelle oss?"
-      default_feedback: "Opplevde du problemer med %{service_name}? Har du forslag til forbedringer? Så du noe utenom det vanlige? Eller vil du bare slå av en prat? Gi oss en lyd!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: diskusjonsforum
       feedback_handle: Tilbakemelding
       give_feedback: "Kontakt oss"
       or_check_our: "…eller sjekk ut vår"
-      send_feedback_to_admin: "Send tilbakemelding"
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "for å se hva andre brukere har foreslått, og stemme på ideene der."
       your_email_address: "Din e-postadresse (for å kontakte deg)"
       connect: "Registrer deg"
@@ -1290,7 +1305,7 @@ nb:
       error_with_session: "Feil ved økt."
       feedback_considered_spam: "Tilbakemeldingen ble ikke lagret grunnet feil ved formatering. Prøv igjen eller se diskusjonsforum."
       feedback_not_saved: "Tilbakemeldingen kunne ikke sendes."
-      feedback_saved: "Takk for din tilbakemelding. Vi kommer tilbake til deg så fort vi kan."
+      feedback_saved: ~
       feedback_sent_to: "Tilbakemelding sent til %{target_person}."
       feedback_skipped: "Hoppet over tilbakemelding"
       invitation_cannot_be_sent: "Invitasjonen kunne ikke sendes"
@@ -1385,7 +1400,7 @@ nb:
       payment_details_add_successful: "Betalings detaljer lagt til"
       payment_details_add_error: "Kunne ikke legge til betalings detaljer"
       listing_author_payment_details_missing: "Annonseeier har ikke lagt til betalingsinformasjon og kan derfor ikke motta betaling akkurat nå. Vennligst ta kontakt med annonseeier."
-      stylesheet_needs_recompiling: "Side genereres på nytt. Vennligst last siden på nytt etter en liten stund."
+      images_are_processing: "Vi behandler de nye bildene dine. De vil bli synlige i løpet av noen sekunder."
       maintenance_mode:
         zero: "Nettstedet vil nå gå offline for vedlikehold"
         one: "Nettstedet vil være offline i %{count} minutt"
@@ -2136,7 +2151,9 @@ nb:
   web:
     topbar:
       menu: Meny
+      more: ~
       search_placeholder: Søk...
+      search_location_placeholder: ~
       user: Bruker
       inbox: Innboks
       profile: Profil
@@ -2146,7 +2163,7 @@ nb:
       login: "Logg inn"
       signup: "Registrer deg"
       admin_dashboard: ~
-      language: ~
+      language: Språk
   will_paginate:
     models:
       person:

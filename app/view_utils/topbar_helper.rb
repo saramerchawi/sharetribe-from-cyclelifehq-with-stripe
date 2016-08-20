@@ -4,6 +4,18 @@ module TopbarHelper
 
   def topbar_props(community:, path_after_locale_change:, user: nil, search_placeholder: nil, locale_param: nil, landing_page: false)
 
+    user_links = Maybe(community.menu_links)
+      .map { |menu_links|
+        menu_links
+          .map { |menu_link|
+            {
+              link: menu_link.url(I18n.locale),
+              title: menu_link.title(I18n.locale),
+              priority: menu_link.sort_priority
+            }
+          }
+      }.or_else([])
+
     links = [
       {
         link: PathHelpers.landing_page_path(
@@ -12,15 +24,18 @@ module TopbarHelper
           default_locale: community.default_locale,
           locale_param: locale_param
         ),
-        title: I18n.t("header.home")
+        title: I18n.t("header.home"),
+        priority: -1
       },
       {
         link: paths.about_infos_path,
-        title: I18n.t("header.about")
+        title: I18n.t("header.about"),
+        priority: 0
       },
       {
         link: paths.new_user_feedback_path,
         title: I18n.t("header.contact_us"),
+        priority: !user_links.empty? ? user_links.last[:priority] + 1 : 1
       }
     ]
 
@@ -28,18 +43,25 @@ module TopbarHelper
       links << {
         link: paths.new_invitation_path,
         title: I18n.t("header.invite"),
+        priority: !user_links.empty? ? user_links.last[:priority] + 2 : 2
       }
     end
 
-    links.concat(Maybe(community.menu_links)
-      .map { |menu_links|
-        menu_links.map { |menu_link|
-          {
-            link: menu_link.url(I18n.locale),
-            title: menu_link.title(I18n.locale)
-          }
-        }
-      }.or_else([]))
+    links.concat(user_links)
+
+    main_search =
+      if FeatureFlagHelper.location_search_available
+        MarketplaceService::API::Api.configurations.get(community_id: community.id).data[:main_search]
+      else
+        :keyword
+      end
+
+    search_path_string = PathHelpers.search_url({
+      community_id: community.id,
+      opts: {
+        only_path: true,
+      }
+    })
 
     {
       logo: {
@@ -50,16 +72,16 @@ module TopbarHelper
           locale_param: locale_param
         ),
         text: community.name(I18n.locale),
-        image: community.wide_logo.present? ? community.wide_logo.url(:header) : nil,
-        image_highres: community.wide_logo.present? ? community.wide_logo.url(:header_highres) : nil
+        image: community.wide_logo.present? ? community.stable_image_url(:wide_logo, :header) : nil,
+        image_highres: community.wide_logo.present? ? community.stable_image_url(:wide_logo, :header_highres) : nil
       },
-      search: {
-        mode: 'keyword-and-location',
-        keyword_placeholder: search_placeholder || I18n.t("web.topbar.search_placeholder"),
-        location_placeholder: 'Location'
+      search: landing_page ? nil : {
+        mode: main_search.to_s,
       },
+      search_path: search_path_string,
       menu: {
         links: links,
+        limit_priority_links: Maybe(MarketplaceService::API::Api.configurations.get(community_id: community.id).data)[:limit_priority_links].or_else(nil)
       },
       locales: landing_page ? nil : locale_props(community, I18n.locale, path_after_locale_change),
       avatarDropdown: {

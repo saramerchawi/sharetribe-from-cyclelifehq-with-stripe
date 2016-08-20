@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'rails', '4.2.5.2'
+gem 'rails', '4.2.7.1'
 
 gem 'coffee-rails', "~> 4.0.1"
 gem 'uglifier', "~> 2.7.2"
@@ -113,6 +113,8 @@ gem 'faraday_middleware', '~> 0.10.0'
 
 gem "react_on_rails", "~> 5.1.1"
 
+gem "css_parser", "~> 1.4.5"
+
 # Use latest from master
 #
 # The latest master is needed because it contains the I18n.extend configuration
@@ -165,6 +167,9 @@ group :test do
   gem 'rack-test', "~> 0.6.2"
   gem 'database_cleaner', '~> 1.1'
   gem 'connection_pool', "~> 0.9.3"
+
+  # required for CircleCI automatic test balancing
+  gem 'rspec_junit_formatter'
 end
 
 group :development, :test do

@@ -38,8 +38,6 @@
 #  authentication_token               :string(255)
 #  community_updates_last_sent_at     :datetime
 #  min_days_between_community_updates :integer          default(1)
-#  is_organization                    :boolean
-#  organization_name                  :string(255)
 #  deleted                            :boolean          default(FALSE)
 #  cloned_from                        :string(22)
 #
@@ -78,7 +76,7 @@ class Person < ActiveRecord::Base
   attr_accessor :guid, :password2, :form_login,
                 :form_given_name, :form_family_name, :form_password,
                 :form_password2, :form_email, :consent,
-                :input_again, :community_category, :send_notifications
+                :input_again, :send_notifications
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
@@ -91,7 +89,6 @@ class Person < ActiveRecord::Base
 
   has_one :location, -> { where(location_type: :person) }, :dependent => :destroy
   has_one :braintree_account, :dependent => :destroy
-  has_one :checkout_account, dependent: :destroy
 
   has_many :participations, :dependent => :destroy
   has_many :conversations, :through => :participations, :dependent => :destroy
@@ -149,8 +146,6 @@ class Person < ActiveRecord::Base
     "email_from_admins"
   ]
 
-  PERSONAL_EMAIL_ENDINGS = ["gmail.com", "hotmail.com", "yahoo.com"]
-
   serialize :preferences
 
   validates_length_of :phone_number, :maximum => 25, :allow_nil => true, :allow_blank => true
@@ -164,7 +159,6 @@ class Person < ActiveRecord::Base
   USERNAME_BLACKLIST = YAML.load_file("#{Rails.root}/config/username_blacklist.yml")
 
   validates :username, :exclusion => USERNAME_BLACKLIST
-  validate :community_email_type_is_correct
 
   has_attached_file :image, :styles => {
                       :medium => "288x288#",
@@ -203,15 +197,6 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def community_email_type_is_correct
-    if ["university", "community"].include? community_category
-      email_ending = email.split('@')[1]
-      if PERSONAL_EMAIL_ENDINGS.include? email_ending
-        errors.add(:email, "This looks like a non-organization email address. Remember to use the email of your organization.")
-      end
-    end
-  end
-
   def last_community_updates_at
     community_updates_last_sent_at || DEFAULT_TIME_FOR_COMMUNITY_UPDATES.ago
   end
@@ -235,9 +220,7 @@ class Person < ActiveRecord::Base
     else
       display_type = community_or_display_type
     end
-    if is_organization
-      return organization_name
-    elsif given_name.present?
+    if given_name.present?
       if display_type
         case display_type
         when "first_name_with_initial"
@@ -281,12 +264,7 @@ class Person < ActiveRecord::Base
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer
   # Consider using PersonViewUtils
   def given_name_or_username
-    if is_organization
-      # Quick and somewhat dirty solution. `given_name_or_username`
-      # is quite explicit method name and thus it should return the
-      # given name or username. Maybe this should be cleaned in the future.
-      return organization_name
-    elsif given_name.present?
+    if given_name.present?
       return given_name
     else
       return username
@@ -542,8 +520,6 @@ class Person < ActiveRecord::Base
 
   # A person inherits some default settings from the community in which she is joining
   def inherit_settings_from(current_community)
-    # Mark as organization user if signed up through market place which is only for orgs
-    self.is_organization = current_community.only_organizations
     self.min_days_between_community_updates = current_community.default_min_days_between_community_updates
   end
 

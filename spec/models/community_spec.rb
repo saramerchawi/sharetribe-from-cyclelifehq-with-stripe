@@ -27,7 +27,6 @@
 #  event_feed_enabled                         :boolean          default(TRUE)
 #  slogan                                     :string(255)
 #  description                                :text(65535)
-#  category                                   :string(255)      default("other")
 #  country                                    :string(255)
 #  members_count                              :integer          default(0)
 #  user_limit                                 :integer
@@ -70,7 +69,6 @@
 #  wide_logo_content_type                     :string(255)
 #  wide_logo_file_size                        :integer
 #  wide_logo_updated_at                       :datetime
-#  only_organizations                         :boolean
 #  listing_comments_in_use                    :boolean          default(FALSE)
 #  show_listing_publishing_date               :boolean          default(FALSE)
 #  require_verification_to_post_listings      :boolean          default(FALSE)

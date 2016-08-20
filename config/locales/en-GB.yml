@@ -176,6 +176,7 @@ en-GB:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -221,6 +222,13 @@ en-GB:
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ~
         twitter_handle: ~
@@ -255,6 +263,10 @@ en-GB:
         language: ~
         url: ~
         empty: ~
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: ~
@@ -804,11 +816,9 @@ en-GB:
       please_contant_admin_link: ~
     confirmation_instructions:
       confirmation_instructions_signature: ~
-      welcome_to_kassi: ~
       need_to_confirm: ~
       confirmation_link_text: ~
       or_paste_link: ~
-      turning_on_confirmations_in_this_community: ~
     common:
       hey: ~
       kassi_team: ~
@@ -943,6 +953,11 @@ en-GB:
       has_posted_a_new_listing: ~
       you_are_receiving_this_because: ~
       view_listing: ~
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -1182,7 +1197,7 @@ en-GB:
       join_this_community: ~
       read_more: ~
       feedback: ~
-      default_feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: ~
       feedback_handle: ~
       give_feedback: ~
@@ -1352,7 +1367,7 @@ en-GB:
       payment_details_add_successful: ~
       payment_details_add_error: ~
       listing_author_payment_details_missing: ~
-      stylesheet_needs_recompiling: ~
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: ~
@@ -2080,7 +2095,9 @@ en-GB:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

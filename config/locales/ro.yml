@@ -176,6 +176,7 @@ ro:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -221,6 +222,13 @@ ro:
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ~
         twitter_handle: ~
@@ -255,6 +263,10 @@ ro:
         language: ~
         url: ~
         empty: ~
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: "Exportă tot in formatul CSV"
         transactions: ~
@@ -804,11 +816,9 @@ ro:
       please_contant_admin_link: ~
     confirmation_instructions:
       confirmation_instructions_signature: ~
-      welcome_to_kassi: ~
       need_to_confirm: ~
       confirmation_link_text: ~
       or_paste_link: ~
-      turning_on_confirmations_in_this_community: ~
     common:
       hey: "Salut %{name}"
       kassi_team: "Echipa %{service_name}"
@@ -943,6 +953,11 @@ ro:
       has_posted_a_new_listing: ~
       you_are_receiving_this_because: ~
       view_listing: ~
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -988,8 +1003,8 @@ ro:
       javascript_is_disabled_in_your_browser: "JavaScript este dezactivat pentru browserul tau."
       kassi_does_not_currently_work_without_javascript: "%{service_name} nu functioneaza corect fara JavaScript. Te rog sa activezi JavaScript din setarile browserului si apoi reincarca aceasta pagina."
       contact_us: ~
-      send_feedback: "Trimite feedback"
-      your_feedback_to_admins: "Feedback-ul tau pentru administratori"
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Trimite
     your_email_address: "Adresa ta de e-mail"
   errors:
@@ -1181,13 +1196,13 @@ ro:
     application:
       join_this_community: ~
       read_more: ~
-      feedback: "Ce doresti sa ne transmiti?"
-      default_feedback: "Ai intampinat o problema cu %{service_name}? Ai o sugestie pentru imbunatatirea serviciului? Ai observat continut suspect? Sau doresti sa discuti cu noi? Da-ne de veste!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "Forum de sugestii"
       feedback_handle: Sugestii
       give_feedback: Contacteaza-ne
       or_check_our: "...sau verifica a noastra"
-      send_feedback_to_admin: "Trimite sugestii"
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "pentru a vedea ceea ce altii au sugerat si pentru a vota acele idei."
       your_email_address: "Adresa ta e-mail (pentru a te contacta)"
       connect: ~
@@ -1257,7 +1272,7 @@ ro:
       error_with_session: "Eroare in aceasta sesiune."
       feedback_considered_spam: "Sugestia nu a fost salvata din pricina formatarii. Incearca din nou sau foloseste forumul de sugestii."
       feedback_not_saved: "Sugestia nu a putut fi trimisa."
-      feedback_saved: "Multumim mult pentru sugestie! Vom raspunde in cel mai scurt timp posibil!"
+      feedback_saved: ~
       feedback_sent_to: "Feedback trimis lui %{target_person}"
       feedback_skipped: "Sugestia a fost omisa"
       invitation_cannot_be_sent: ~
@@ -1352,7 +1367,7 @@ ro:
       payment_details_add_successful: ~
       payment_details_add_error: ~
       listing_author_payment_details_missing: ~
-      stylesheet_needs_recompiling: ~
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: ~
@@ -2080,7 +2095,9 @@ ro:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

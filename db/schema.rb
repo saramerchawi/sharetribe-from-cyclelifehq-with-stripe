@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708084933) do
+ActiveRecord::Schema.define(version: 20160818090814) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -151,7 +151,6 @@ ActiveRecord::Schema.define(version: 20160708084933) do
     t.boolean  "event_feed_enabled",                                          default: true
     t.string   "slogan",                                     limit: 255
     t.text     "description",                                limit: 65535
-    t.string   "category",                                   limit: 255,      default: "other"
     t.string   "country",                                    limit: 255
     t.integer  "members_count",                              limit: 4,        default: 0
     t.integer  "user_limit",                                 limit: 4
@@ -194,7 +193,6 @@ ActiveRecord::Schema.define(version: 20160708084933) do
     t.string   "wide_logo_content_type",                     limit: 255
     t.integer  "wide_logo_file_size",                        limit: 4
     t.datetime "wide_logo_updated_at"
-    t.boolean  "only_organizations"
     t.boolean  "listing_comments_in_use",                                     default: false
     t.boolean  "show_listing_publishing_date",                                default: false
     t.boolean  "require_verification_to_post_listings",                       default: false
@@ -407,13 +405,14 @@ ActiveRecord::Schema.define(version: 20160708084933) do
 
   create_table "feature_flags", force: :cascade do |t|
     t.integer  "community_id", limit: 4,                  null: false
+    t.string   "person_id",    limit: 255
     t.string   "feature",      limit: 255,                null: false
     t.boolean  "enabled",                  default: true, null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "feature_flags", ["community_id"], name: "index_feature_flags_on_community_id", using: :btree
+  add_index "feature_flags", ["community_id", "person_id"], name: "index_feature_flags_on_community_id_and_person_id", using: :btree
 
   create_table "feedbacks", force: :cascade do |t|
     t.text     "content",      limit: 65535
@@ -560,7 +559,6 @@ ActiveRecord::Schema.define(version: 20160708084933) do
     t.integer  "transaction_process_id",          limit: 4
     t.string   "shape_name_tr_key",               limit: 255
     t.string   "action_button_tr_key",            limit: 255
-    t.integer  "organization_id",                 limit: 4
     t.integer  "price_cents",                     limit: 4
     t.string   "currency",                        limit: 255
     t.string   "quantity",                        limit: 255
@@ -606,6 +604,7 @@ ActiveRecord::Schema.define(version: 20160708084933) do
     t.integer  "community_id",          limit: 4,                       null: false
     t.string   "main_search",           limit: 255, default: "keyword", null: false
     t.string   "distance_unit",         limit: 255, default: "metric",  null: false
+    t.integer  "limit_priority_links",  limit: 4
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
     t.boolean  "limit_search_distance",             default: true,      null: false
@@ -774,16 +773,15 @@ ActiveRecord::Schema.define(version: 20160708084933) do
   create_table "payments", force: :cascade do |t|
     t.string   "payer_id",                 limit: 255
     t.string   "recipient_id",             limit: 255
-    t.string   "organization_id",          limit: 255
     t.integer  "transaction_id",           limit: 4
     t.string   "status",                   limit: 255
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
+    t.datetime "created_at",                                                        null: false
+    t.datetime "updated_at",                                                        null: false
     t.integer  "community_id",             limit: 4
     t.integer  "payment_gateway_id",       limit: 4
     t.integer  "sum_cents",                limit: 4
     t.string   "currency",                 limit: 255
-    t.string   "type",                     limit: 255, default: "CheckoutPayment"
+    t.string   "type",                     limit: 255, default: "BraintreePayment"
     t.string   "braintree_transaction_id", limit: 255
   end
 
@@ -930,8 +928,6 @@ ActiveRecord::Schema.define(version: 20160708084933) do
     t.string   "authentication_token",               limit: 255
     t.datetime "community_updates_last_sent_at"
     t.integer  "min_days_between_community_updates", limit: 4,     default: 1
-    t.boolean  "is_organization"
-    t.string   "organization_name",                  limit: 255
     t.boolean  "deleted",                                          default: false
     t.string   "cloned_from",                        limit: 22
   end

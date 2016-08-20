@@ -5,6 +5,7 @@
   -# Render railsContext here before any react component gets rendered
   = prepend_render_rails_context("")
 
+  - is_homepage = params[:controller] == "homepage" && params[:action] == "index"
   %noscript
     .noscript-padding
       -# Noscript content will be positioned here
@@ -16,14 +17,16 @@
         = react_component("OnboardingTopBar", props: props, prerender: true)
 
   - if FeatureFlagHelper.feature_enabled?(:topbar_v1)
+    - if(search_mode != :keyword || @view_type.eql?("map"))
+      - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
+      - key_param = maps_key ? "&key=#{maps_key}" : ""
+      = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places#{key_param}"
+    - if(@view_type.eql?("map"))
+      = javascript_include_tag "markerclusterer.js"
     - props = topbar_props
-    - maps_key = @current_community.google_maps_key
-    - key_param = maps_key ? "&key=#{maps_key}" : ""
-    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places#{key_param}"
     = react_component("TopbarApp", props: props, prerender: true)
-  - # this will be an alternative old header
-  - # but for the sake of developing we include them both for a short while
-  = render partial: 'layouts/global_header', locals: header_props()
+  - else
+    = render partial: 'layouts/global_header', locals: header_props()
 
   - if display_expiration_notice?
     = render partial: "layouts/expiration_notice",
@@ -36,7 +39,7 @@
           %figure.marketplace-cover.fluidratio
             .lander-content.marketplace-lander-content
               = yield :title_header
-      - else
+      - elsif !(is_homepage && FeatureFlagHelper.feature_enabled?(:topbar_v1))
         .coverimage
           %figure.marketplace-cover-small.fluidratio
           .coverimage-fade{:class => yield(:coverfade_class)}
@@ -46,7 +49,7 @@
             .marketplace-title-header
               = yield :title_header
 
-    %article.page-content
+    %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : ''}
       .wrapper
         = render :partial => "layouts/notifications"
         = yield
@@ -57,7 +60,7 @@
     On homepage, we want to wrap the whole page content (search bar and the "real" content) to a form, so that
     pressing send from either search bar of filter list will send all the form fields
 
-  - if params[:controller] == "homepage" && params[:action] == "index"
+  - if is_homepage
     %form{method: "get", id: "homepage-filters"}
       - params.except("action", "controller", "q", "lc", "ls", "view", "utf8", "boundingbox", "distance_max").each do |param, value|
         - unless param.match(/^filter_option/) || param.match(/^checkbox_filter_option/) || param.match(/^nf_/) || param.match(/^price_/)

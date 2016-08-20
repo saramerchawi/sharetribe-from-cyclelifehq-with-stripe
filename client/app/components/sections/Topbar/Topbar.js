@@ -1,5 +1,8 @@
 import { Component, PropTypes } from 'react';
 import r, { div } from 'r-dom';
+import classNames from 'classnames';
+import * as placesUtils from '../../../utils/places';
+import * as urlUtils from '../../../utils/url';
 
 import { t } from '../../../utils/i18n';
 import { routes as routesProp, marketplaceContext } from '../../../utils/PropTypes';
@@ -16,6 +19,7 @@ import AvatarDropdown from '../../composites/AvatarDropdown/AvatarDropdown';
 import LoginLinks from '../../composites/LoginLinks/LoginLinks';
 import Menu from '../../composites/Menu/Menu';
 import MenuMobile from '../../composites/MenuMobile/MenuMobile';
+import MenuPriority from '../../composites/MenuPriority/MenuPriority';
 import SearchBar from '../../composites/SearchBar/SearchBar';
 
 const profileDropdownActions = function profileDropdownActions(routes, username) {
@@ -51,8 +55,6 @@ const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, not
 
 const LABEL_TYPE_MENU = 'menu';
 const LABEL_TYPE_DROPDOWN = 'dropdown';
-
-const SEARCH_ENABLED = false;
 
 const profileLinks = function profileLinks(username, isAdmin, router, location, customColor, unReadMessagesCount) {
   if (username) {
@@ -120,6 +122,36 @@ const DEFAULT_CONTEXT = {
   loggedInUsername: null,
 };
 
+const SEARCH_PARAMS_TO_KEEP = ['view', 'locale'];
+const parseKeepParams = urlUtils.currySearchParams(SEARCH_PARAMS_TO_KEEP);
+const SEARCH_PARAMS = ['q', 'lq'];
+const parseSearchParams = urlUtils.currySearchParams(SEARCH_PARAMS);
+
+const isValidSearchParam = (value) => typeof value === 'number' && !isNaN(value) || !!value;
+
+const createQuery = (searchParams, queryString) => {
+  const extraParams = parseKeepParams(queryString);
+  const params = { ...extraParams, ...searchParams };
+
+  const paramKeys = Object.keys(params);
+
+  // Sort params for caching
+  paramKeys.sort();
+
+  return paramKeys.reduce((url, key) => {
+    const val = params[key];
+
+    if (!isValidSearchParam(val)) {
+      return url;
+    }
+
+    // For consistency with the Rails backend, use + to encode space
+    // instead of %20.
+    const encodedVal = encodeURIComponent(val).replace(/%20/g, '+');
+    return `${url}${url ? '&' : '?'}${key}=${encodedVal}`;
+  }, '');
+};
+
 class Topbar extends Component {
   render() {
     const { location, marketplace_color1, loggedInUsername } = { ...DEFAULT_CONTEXT, ...this.props.marketplaceContext };
@@ -127,9 +159,12 @@ class Topbar extends Component {
     const menuProps = this.props.menu ?
       Object.assign({}, this.props.menu, {
         key: 'menu',
-        name: t('web.topbar.menu'),
+        name: t('web.topbar.more'),
+        nameFallback: t('web.topbar.menu'),
         identifier: 'Menu',
-        menuLabelType: LABEL_TYPE_MENU,
+        limitPriorityLinks: this.props.menu.limit_priority_links,
+        menuLabelType: LABEL_TYPE_DROPDOWN,
+        menuLabelTypeFallback: LABEL_TYPE_MENU,
         content: this.props.menu.links.map((l) => (
           {
             active: l.link === location,
@@ -137,6 +172,7 @@ class Topbar extends Component {
             content: l.title,
             href: l.link,
             type: 'menuitem',
+            priority: l.priority,
           }
         )),
       }) :
@@ -172,7 +208,7 @@ class Topbar extends Component {
     const mobileMenuAvatarProps = this.props.avatarDropdown && loggedInUsername ?
             { ...this.props.avatarDropdown.avatar, ...{ url: profileRoute } } :
             null;
-    const isAdmin = this.props.isAdmin && loggedInUsername;
+    const isAdmin = !!(this.props.isAdmin && loggedInUsername);
 
     const mobileMenuLanguageProps = hasMultipleLanguages ?
       Object.assign({}, {
@@ -228,32 +264,46 @@ class Topbar extends Component {
       }) :
       {};
 
-    return div({ className: css.topbar }, [
+    const oldSearchParams = parseSearchParams(location);
+
+    return div({ className: classNames('Topbar', css.topbar) }, [
       this.props.menu ? r(MenuMobile, { ...mobileMenuProps, className: css.topbarMobileMenu }) : null,
       r(Logo, { ...this.props.logo, classSet: css.topbarLogo, color: marketplace_color1 }),
       div({ className: css.topbarMediumSpacer }),
-      SEARCH_ENABLED && this.props.search ?
+      this.props.search ?
         r(SearchBar, {
           mode: this.props.search.mode,
-          keywordPlaceholder: this.props.search.keyword_placeholder,
-          locationPlaceholder: this.props.search.location_placeholder,
-          onSubmit: this.props.search.onSubmit || (() => {
-            console.log('submit search'); // eslint-disable-line no-console
-          }),
+          keywordPlaceholder: t('web.topbar.search_placeholder'),
+          locationPlaceholder: t('web.topbar.search_location_placeholder'),
+          keywordQuery: oldSearchParams.q,
+          locationQuery: oldSearchParams.lq,
+          customColor: marketplace_color1,
+          onSubmit: ({ keywordQuery, locationQuery, place, errorStatus }) => {
+            const query = createQuery({
+              q: keywordQuery,
+              lq: locationQuery,
+              lc: placesUtils.coordinates(place),
+              boundingbox: placesUtils.viewport(place),
+              distance_max: placesUtils.maxDistance(place),
+              ls: errorStatus,
+            }, location);
+            const searchUrl = `${this.props.search_path}${query}`;
+            window.location.assign(searchUrl);
+          },
         }) :
         div({ className: css.topbarMobileSearchPlaceholder }),
-      this.props.menu ? r(Menu, { ...menuProps, className: css.topbarMenu }) : null,
-      div({ className: css.topbarSpacer }),
+      div({ className: css.topbarMenuSpacer }, this.props.menu ?
+        r(MenuPriority, menuProps) :
+        null),
       hasMultipleLanguages ? r(Menu, {
         ...languageMenuProps,
         className: {
           [css.topbarMenu]: true,
-          [css.topbarLanguageMenu]: true,
         } }) : null,
       this.props.avatarDropdown && loggedInUsername ?
         r(AvatarDropdown, {
           ...avatarDropdownProps(this.props.avatarDropdown, marketplace_color1,
-                                 loggedInUsername, this.props.isAdmin, this.props.unReadMessagesCount, this.props.routes),
+                                 loggedInUsername, isAdmin, this.props.unReadMessagesCount, this.props.routes),
           classSet: css.topbarAvatarDropdown,
         }) :
         r(LoginLinks, {
@@ -269,22 +319,25 @@ class Topbar extends Component {
           url: newListingRoute,
           customColor: marketplace_color1,
         }) :
-        null,
+      null,
     ]);
   }
 }
 
-const { string, object, shape, arrayOf } = PropTypes;
+const { arrayOf, number, object, shape, string } = PropTypes;
 
 /* eslint-disable react/forbid-prop-types */
 Topbar.propTypes = {
   logo: object.isRequired,
   search: object,
+  search_path: PropTypes.string.isRequired,
   avatarDropdown: object,
   menu: shape({
+    limit_priority_links: number,
     links: arrayOf(shape({
       title: string.isRequired,
       link: string.isRequired,
+      priority: number,
     })),
   }),
   locales: PropTypes.shape({

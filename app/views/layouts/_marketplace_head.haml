@@ -61,13 +61,20 @@
   %meta{ :property => "fb:app_id", :content => "#{@current_community.facebook_connect_id}" }
 
 / CSS
-- with_stylesheet_url(@current_community) do |stylesheet_url|
-  = stylesheet_link_tag stylesheet_url
+= stylesheet_link_tag "application"
+
+- if @current_community.has_customizations?
+  = render partial: "layouts/style_overrides", locals: MarketplaceHelper.style_customizations_map(@current_community)
 
 = stylesheet_link_tag "app-bundle"
 
 / Modernizr, in the head tag, right after stylesheets, for best performance:
 = javascript_include_tag "modernizr.min"
+
+/ Detect if JS is enabled. duplicate of what Modernizr is doing, but we plan to get rid of Modernizr at some point.
+:javascript
+  document.documentElement.className += ' js-enabled';
+
 
 / Android pre Jellybean has an ugly bug, which prevents font-size 0 technique from
 / removing the spaces between inline-blocks. Remove this piece of code when pre Jellybean becomes unsupported

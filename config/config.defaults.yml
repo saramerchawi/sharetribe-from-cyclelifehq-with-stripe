@@ -29,10 +29,17 @@ default: &default_settings
 
   # You can use Amazong S3 to store listing and profile images
   # If you leave following empty, the images will be stored in local file system
+  # If you enable S3, you can use the user_asset_host option below to configure CDN in front
+  # of the S3 bucket.
   # NOTE: in Heroku you can't store files in local system, so S3 should be used
 
   # Default bucket
   s3_bucket_name:
+
+  # Cache-Control: max-age time in seconds for assets uploaded to S3.
+  # Default is one day. Normally, you can use the default. Links to images have
+  # modification timestamp appended as query parameter and that should be enough for cache invalidation.
+  s3_cache_max_age: 86400
 
   # Bucket for files users upload directly to S3. You can add an expiration policy to these files.
   s3_upload_bucket_name:
@@ -58,6 +65,21 @@ default: &default_settings
   # - assets%0.your_domain.com
   #
   asset_host:
+
+  # Your user-uploaded assets CDN distribution host name, including the desired protocol (http or https).
+  #
+  # Host for linking to user-uploaded images and compiled custom stylesheets, instead of linking to the S3
+  # bucket (if configured) or straight to Sharetribe domain (i.e. the "domain" setting above).
+  #
+  # When "user_asset_host" is left blank and S3 is NOT in use, then assets are linked via Sharetribe's installation
+  # domain or using the "asset_host" (if configured). If S3 is enabled and "user_asset_host" is left blank,
+  # asset links point to the S3 bucket URL.
+  #
+  # Examples values:
+  #
+  # - https://yourdistribution.cloudfront.com
+  #
+  user_asset_host:
 
   # AWS keys
   aws_access_key_id:
@@ -231,9 +253,6 @@ default: &default_settings
   # don't need to change those
   # ----------------------------------------------------------------
 
-  # If there's a tax related to payment service charge (e.g. VAT) mark the percentage here
-  service_fee_tax_percentage: 24
-
   # Max filesize for uploaded image (bytes)
   max_image_filesize: 104857600
 
@@ -268,6 +287,13 @@ default: &default_settings
   external_search_url:
   external_search_apikey:
 
+  # Combined keyword & location search distance score tweaking
+  external_search_scale_multiplier: 0.75
+  external_search_offset_multiplier: 0.5
+  external_search_distance_limit_min: 5
+  external_search_scale_min: 5
+  external_search_offset_min: 0
+
   # Perform Thinking Sphinx incremental indexing delayed jobs
   use_thinking_sphinx_indexing: true
 
@@ -300,6 +326,10 @@ default: &default_settings
   # client-side JS code during the request. Should be true for
   # development and false for other environments.
   use_js_routes_middleware: false
+
+  # Default Google Maps API key for communities that don't specify one
+  # Default is not to use Google Maps API key
+  google_maps_key:
 
   # Path or URL for landing page assets.
   #

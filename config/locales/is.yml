@@ -176,6 +176,7 @@ is:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -221,6 +222,13 @@ is:
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ~
         twitter_handle: ~
@@ -255,6 +263,10 @@ is:
         language: ~
         url: ~
         empty: ~
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: ~
@@ -804,11 +816,9 @@ is:
       please_contant_admin_link: ~
     confirmation_instructions:
       confirmation_instructions_signature: ~
-      welcome_to_kassi: ~
       need_to_confirm: ~
       confirmation_link_text: ~
       or_paste_link: ~
-      turning_on_confirmations_in_this_community: ~
     common:
       hey: "Hæ %{name}"
       kassi_team: "%{service_name} teymið"
@@ -943,6 +953,11 @@ is:
       has_posted_a_new_listing: ~
       you_are_receiving_this_because: ~
       view_listing: ~
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -988,8 +1003,8 @@ is:
       javascript_is_disabled_in_your_browser: "Javascript er óvirkt í vafranum þínum"
       kassi_does_not_currently_work_without_javascript: "%{service_name} virkar ekki almennilega án javascript. Reyndu að virkja javascript undir stillingum í vafranum þínum og endurhlaða svo þessa síðu."
       contact_us: ~
-      send_feedback: "Sendu umsögn"
-      your_feedback_to_admins: "Þín umsögn til stjórnenda síðunnar"
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Senda
     your_email_address: "Netfangið þitt"
   errors:
@@ -1181,13 +1196,13 @@ is:
     application:
       join_this_community: ~
       read_more: ~
-      feedback: "Hvað liggur þér á hjarta?"
-      default_feedback: "Þurftiru að glíma við einhver vandamál með %{service_name}? Ertu með einhverjar ráðleggingar til að bæta þjónustuna? Tókstu eftir einhverju tortryggilegu efni? Eða ertu með eitthvað annað til að ræða? Láttu okkur vita!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "umsagnar forum"
       feedback_handle: Umsögn
       give_feedback: "Hafðu samband"
       or_check_our: "...eða skoðaðu"
-      send_feedback_to_admin: "Gefðu þitt álit"
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "til að sjá hvað aðrir hafa mælt með og kjósa hugmyndir þar."
       your_email_address: "Þitt netfang (til að hafa samband)"
       connect: ~
@@ -1257,7 +1272,7 @@ is:
       error_with_session: Villa.
       feedback_considered_spam: "Umsögn var ekki vistuð vegna gruns um ruslpóst. Reyndu aftur eða breyttu sniðinu."
       feedback_not_saved: "Umsögn var ekki send."
-      feedback_saved: "Takk kærlega fyrir umsögnina! Við munum svara þér eins fljótt og við getum."
+      feedback_saved: ~
       feedback_sent_to: "Amusing send til %{target_person}."
       feedback_skipped: "Umsögn sleppt"
       invitation_cannot_be_sent: ~
@@ -1352,7 +1367,7 @@ is:
       payment_details_add_successful: ~
       payment_details_add_error: ~
       listing_author_payment_details_missing: ~
-      stylesheet_needs_recompiling: ~
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: Aðgangur
@@ -2080,7 +2095,9 @@ is:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

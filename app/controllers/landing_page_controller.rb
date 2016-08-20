@@ -198,10 +198,10 @@ class LandingPageController < ActionController::Metal
 
     { id: c.id,
       favicon: c.favicon.url,
-      apple_touch_icon: c.logo.url(:apple_touch),
+      apple_touch_icon: c.stable_image_url(:logo, :apple_touch),
       facebook_locale: facebook_locale(locale),
       facebook_connect_id: c.facebook_connect_id,
-      google_maps_key: c.google_maps_key,
+      google_maps_key: MarketplaceHelper.google_maps_key(c.id),
       google_analytics_key: c.google_analytics_key }
   end
 
@@ -217,12 +217,11 @@ class LandingPageController < ActionController::Metal
                          community_customization(request, landing_page_locale),
                          request.fullpath,
                          locale_param,
-                         topbar_locale)
+                         topbar_locale,
+                         true)
     marketplace_context = marketplace_context(c, topbar_locale, request)
 
-    FeatureFlagHelper.init(request, false)
-
-    google_maps_key = c&.google_maps_key
+    FeatureFlagHelper.init(request, false, false)
 
     denormalizer = build_denormalizer(
       cid: c&.id,
@@ -245,13 +244,13 @@ class LandingPageController < ActionController::Metal
                        enabled: true,
                        props: props,
                        marketplace_context: marketplace_context,
-                       props_endpoint: ui_api_topbar_props_path(locale: topbar_locale),
-                       landing_page: true
+                       props_endpoint: ui_api_topbar_props_path(locale: topbar_locale, landing_page: true)
                      },
                      page: denormalizer.to_tree(structure, root: "page"),
                      sections: denormalizer.to_tree(structure, root: "composition"),
                      community_context: community_context(request, landing_page_locale),
                      feature_flags: FeatureFlagHelper.feature_flags,
+                     asset_host: APP_CONFIG.asset_host,
                    }
   end
 
@@ -260,7 +259,7 @@ class LandingPageController < ActionController::Metal
     self.response_body = msg
   end
 
-  def topbar_props(community, community_customization, request_path, locale_param, topbar_locale)
+  def topbar_props(community, community_customization, request_path, locale_param, topbar_locale, landing_page)
     # TopbarHelper pulls current lang from I18n
     I18n.locale = topbar_locale
 
@@ -275,7 +274,8 @@ class LandingPageController < ActionController::Metal
       community: community,
       path_after_locale_change: path,
       search_placeholder: community_customization&.search_placeholder,
-      locale_param: locale_param)
+      locale_param: locale_param,
+      landing_page: landing_page)
   end
 
   # This is copied from the React on Rails source with our own rails

@@ -91,7 +91,6 @@ FactoryGirl.define do
     phone_number "0000-123456"
     username
     password "testi"
-    is_organization false
 
     has_many :emails do |person|
       FactoryGirl.build(:email, person: person)
@@ -180,7 +179,6 @@ FactoryGirl.define do
     ident
     slogan "Test slogan"
     description "Test description"
-    category "other"
 
     has_many(:community_customizations) do |community|
       FactoryGirl.build(:community_customization, community: community)
@@ -201,6 +199,14 @@ FactoryGirl.define do
     admin false
     consent "test_consent0.1"
     status "accepted"
+  end
+
+  factory :marketplace_configurations do
+    community_id 1
+    main_search "keyword"
+    distance_unit "metric"
+    limit_search_distance 0
+    limit_priority_links nil
   end
 
   factory :invitation do
@@ -341,29 +347,6 @@ FactoryGirl.define do
       currency "USD"
       sum_cents 500
     end
-
-    factory :checkout_payment, class: 'CheckoutPayment' do
-      build_association(:payer)
-      build_association(:recipient)
-      status "pending"
-      payment_gateway { FactoryGirl.build(:checkout_payment_gateway) }
-      currency "EUR"
-
-      has_many :rows do
-        FactoryGirl.build(:payment_row)
-      end
-    end
-  end
-
-  factory :payment_row do
-    currency "EUR"
-    sum_cents 2000
-  end
-
-  factory :checkout_account do
-    build_association(:person)
-    merchant_id "12345678-9"
-    merchant_key "abcdef12345"
   end
 
   factory :braintree_account do
@@ -391,10 +374,6 @@ FactoryGirl.define do
       braintree_private_key { APP_CONFIG.braintree_test_private_key }
       braintree_client_side_encryption_key { APP_CONFIG.braintree_client_side_encryption_key }
       braintree_environment { APP_CONFIG.braintree_environment }
-    end
-
-    factory :checkout_payment_gateway, class: 'Checkout' do
-      checkout_environment "stub"
     end
   end
 

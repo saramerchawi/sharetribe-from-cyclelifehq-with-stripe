@@ -1,5 +1,3 @@
-# rubocop:disable ModuleLength
-
 module CustomLandingPage
   module ExampleData
 
@@ -32,6 +30,7 @@ module CustomLandingPage
       "title": {"type": "marketplace_data", "id": "slogan"},
       "subtitle": {"type": "marketplace_data", "id": "description"},
       "background_image": {"type": "assets", "id": "default_hero_background"},
+      "background_image_variation": "dark",
       "search_button": {"type": "translation", "id": "search_button"},
       "search_path": {"type": "path", "id": "search"},
       "search_placeholder": {"type": "marketplace_data", "id": "search_placeholder"},
@@ -76,7 +75,8 @@ module CustomLandingPage
       "button_color_hover": {"type": "marketplace_data", "id": "primary_color_darken"},
       "button_title": "Go to sharetribe.com",
       "button_path": {"value": "https://www.sharetribe.com"},
-      "background_image": {"type": "assets", "id": "default_hero_background"}
+      "background_image": {"type": "assets", "id": "default_hero_background"},
+      "background_image_variation": "dark"
     },
     {
       "id": "single_info_with_cta",
@@ -264,7 +264,8 @@ module CustomLandingPage
         {"service": "instagram", "url": "https://www.instagram.com/"},
         {"service": "youtube", "url": "https://www.youtube.com/channel/UCtefWVq2uu4pHXaIsHlBFnw"},
         {"service": "googleplus", "url": "https://plus.google.com/114869130265262677354/"},
-        {"service": "linkedin", "url": "https://www.linkedin.com/company/2626583"}
+        {"service": "linkedin", "url": "https://www.linkedin.com/company/2626583"},
+        {"service": "pinterest", "url": "https://www.pinterest.com/"}
       ],
       "copyright": "Copyright Marketplace Ltd 2016"
     }
@@ -316,6 +317,7 @@ JSON
             "title": {"type": "marketplace_data", "id": "slogan"},
             "subtitle": {"type": "marketplace_data", "id": "description"},
             "background_image": {"type": "assets", "id": "hero_background_image"},
+            "background_image_variation": "dark",
             "search_button": {"type": "translation", "id": "search_button"},
             "search_path": {"type": "path", "id": "search"},
             "search_placeholder": {"type": "marketplace_data", "id": "search_placeholder"},

@@ -8,7 +8,6 @@
   align-items: center;
   background: var(--colorBackground);
   border-bottom: 1px solid var(--Topbar_borderColor);
-
   font-size: var(--Topbar_fontSize);
   font-family: var(--Topbar_fontFamily);
 
@@ -22,7 +21,7 @@
     padding: var(--Topbar_padding);
   }
 
-  /* Base styles */
+  /* Base style overrides to reset styles coming from the old SASS styles. */
   box-sizing: border-box;
 
   & * {
@@ -46,6 +45,7 @@
   & svg {
     font-family: var(--Topbar_fontFamily);
   }
+
   & input {
     font-size: var(--Topbar_inputFontSizeMobile);
 
@@ -54,16 +54,32 @@
     }
   }
 
+  & button {
+    border-radius: 0;
+  }
+
+  /* End of base style overrides. */
+
   & .topbarLogo {
+    min-width: var(--Topbar_logoMinWidth);
     max-height: var(--Topbar_logoMaxHeightMobile);
-    max-width: var(--Topbar_textLogoMaxWidth);
+    max-width: 70%;
+
+    & span {
+      @media (max-width: 320px) {
+        /* Height fix for the smaller font in tiny viewport. */
+        font-size: 1.3rem;
+      }
+    }
 
     @media (--medium-viewport) {
       max-height: var(--Topbar_logoMaxHeightTablet);
+      max-width: 38%;
     }
 
     @media (--large-viewport) {
       max-height: var(--Topbar_logoMaxHeight);
+      max-width: 18em;
     }
   }
 
@@ -82,6 +98,7 @@
     box-shadow: none;
     margin-left: 10px;
   }
+
   & .notificationBadgeCount {
     font-size: var(--Topbar_fontSize);
     padding-top: 0;
@@ -99,6 +116,7 @@
 
   & .topbarLanguageMenuLabel {
     font-size: var(--Menu_fontSizeSmall);
+    padding: var(--Topbar_paddingLanguageMenuVertical) 0;
   }
 
   & > * {
@@ -140,7 +158,7 @@
   }
 }
 
-.topbarSpacer {
+.topbarMenuSpacer {
   display: none;
   margin: 0;
 

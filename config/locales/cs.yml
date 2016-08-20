@@ -196,6 +196,7 @@ cs:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -241,6 +242,13 @@ cs:
         save_user_status_error: "Ukládání selhalo. Prosíme, aktualizujte stránku a zkuste to znovu."
         ban_user_confirmation: "Tímto bude uživatel z tržiště odstraněn a nebude již mít pod tímto účtem přístup na tuto stránku. Jste si jisti, že chcete pokračovat?"
         ban_me_error: "Nemůžete sami sebe zakázat."
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: "Sociální média"
         twitter_handle: Twitter
@@ -275,6 +283,10 @@ cs:
         language: Jazyk
         url: "URL adresa"
         empty: "Nejsou zde žádné odkazy"
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: "Exportovat vše do formátu CSV"
         transactions: Transakce
@@ -844,11 +856,9 @@ cs:
       please_contant_admin_link: "prosíme, kontaktujte správce"
     confirmation_instructions:
       confirmation_instructions_signature: "S pozdravem, Vaši kolegové z <br/>%{service_name}"
-      welcome_to_kassi: "Vítejte v %{service_name}!"
       need_to_confirm: "Musíte potvrdit svoji e-mailovou adresu."
       confirmation_link_text: "Potvrdit můj e-mail"
       or_paste_link: "Případně můžete zkopírovat následující odkaz do adresního řádku Vašeho prohlížeče:"
-      turning_on_confirmations_in_this_community: "Začínáme používat e-mailová potvrzení v tomto %{service_name} tržišti."
     common:
       hey: "Ahoj %{name},"
       kassi_team: "Vaši kolegové z %{service_name}"
@@ -983,6 +993,11 @@ cs:
       has_posted_a_new_listing: "Uživatel %{author_name} přidal nový inzerát:"
       you_are_receiving_this_because: "Obdrželi jste toto upozornění, protože sledujete uživatele %{author_name}."
       view_listing: "Zobrazit inzerát"
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -1028,8 +1043,8 @@ cs:
       javascript_is_disabled_in_your_browser: "Javascript je ve Vašem prohlížeči zablokován"
       kassi_does_not_currently_work_without_javascript: "%{service_name} nepracuje správně bez Javascriptu. Zkuste povolit Javascript v nastavení ve Vašem prohlížeči, a potom znovu aktualizujte tuto stránku."
       contact_us: "kontaktujte nás"
-      send_feedback: "Poslat komentář"
-      your_feedback_to_admins: Ohodnocení
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Poslat
     your_email_address: "Vaše a-mailová adresa"
   errors:
@@ -1217,17 +1232,17 @@ cs:
     no_tribe:
       inbox: "Doručená pošta"
       settings: Nastavení
-      feedback: "Kontaktujte nás"
+      feedback: ~
     application:
       join_this_community: "Připojit se k tržišti"
       read_more: "Přečtete si více"
-      feedback: "Co byste nám chtěli sdělit?"
-      default_feedback: "Narazili jste na nějaký na problém s %{service_name}? Máte návrh na vylepšení služeb? Zaznamenali jste nějaký podezřelý obsah? Nebo je zde něco, co byste nám chtěli vzkázat? Dejte nám vědět!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "Diskuzní fórum"
       feedback_handle: "Napište nám"
       give_feedback: "Kontaktujte nás"
       or_check_our: "...nebo se podívejte na"
-      send_feedback_to_admin: Odeslat
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "abyste viděli, co ostatní uživatelé navrhli a pro jaké nápady můžete hlasovat."
       your_email_address: "Vaše e-mailová adresa (abychom Vás mohli kontaktovat)"
       connect: "Zaregistrovat se"
@@ -1297,7 +1312,7 @@ cs:
       error_with_session: Chyba
       feedback_considered_spam: "Zpětná vazba nebyla uložena z důvodu jejího formátování. Zkuste to znovu nebo využijte diskuzního fóra."
       feedback_not_saved: "Zpětná vazba nemohla být odeslána."
-      feedback_saved: "Děkujeme za zpětnou vazbu! Jakmile ji zpracujeme, ozveme se Vám."
+      feedback_saved: ~
       feedback_sent_to: "Zpětná vazba odeslána uživateli %{target_person}."
       feedback_skipped: "Zpětná vazba přeskočena"
       invitation_cannot_be_sent: "Pozvánka nemohla být odeslána"
@@ -1385,14 +1400,13 @@ cs:
       you_must_fill_all_the_fields: "Musíte vyplnit všechna pole"
       you_unfollowed_listing: "Tento příspěvek již nebudete nadále sledovat."
       joining_community_failed: "Přihlášení selhalo"
-      can_not_login_with_private_user: "Nemůžete se přihlásit pomocí Vašeho osobního účtu. Přihlaste se přes organizační účet nebo si vytvořte nový účet."
       can_not_delete_email: "Nemůžete odstranit e-mailovou adresu"
       user_does_not_have_email_to_delete: "Nemáte e-mailovou adresu, kterou se snažíte odstranit"
       email_deleted: "E-mail byl odstraněn"
       payment_details_add_successful: "Platební údaje byly úspěšně přidány"
       payment_details_add_error: "Platební údaje nemohly být přidány"
       listing_author_payment_details_missing: "Prosíme, kontaktujte autora kliknutím na tlačítko \"Kontaktovat\" níže. Je totiž zapotřebí aktualizovat podrobnosti o platbě, aby platba mohla být přijata."
-      stylesheet_needs_recompiling: "Šablony se právě přetvářejí. Prosíme, aktualizujte stránku po chvíli."
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: Účet
@@ -1812,7 +1826,6 @@ cs:
       invitation_code: "Kód pozvánky"
       not_required: ", není požadováno"
       notification_is_mandatory: "Musíte vybrat alespoň jednu e-mailovou adresu, abyste dostávali upozornění. Pokud nechcete dostávat žádné e-maily od %{service_name}, zkontrolujte si nastavení upozornění e-mailem."
-      organization_name: "Název organizace"
       password_again: "Potvrďte heslo"
       show_my_name_to_others: "Zobrazit moje skutečné jméno jiným uživatelům %{service_name}."
       sign_up: "Vytvořit nový %{service_name} účet"
@@ -2145,7 +2158,9 @@ cs:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

@@ -176,6 +176,7 @@ el:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -221,6 +222,13 @@ el:
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ~
         twitter_handle: ~
@@ -255,6 +263,10 @@ el:
         language: ~
         url: ~
         empty: ~
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: ~
@@ -804,11 +816,9 @@ el:
       please_contant_admin_link: ~
     confirmation_instructions:
       confirmation_instructions_signature: "Χαιρετισμούς,<br>Η Ομάδα του %{service_name}"
-      welcome_to_kassi: "Καλωσήρθες στο %{service_name}!"
       need_to_confirm: "Πρέπει να επιβεβαιώσετε την διεύθυνση ηλεκτρονικού ταχυδρομείου σας."
       confirmation_link_text: "Επιβεβαίωσε το λογαριασμό μου"
       or_paste_link: "Εναλλακτικά μπορείτε να αντιγράψετε τον παρακάτω σύνδεσμο στην γραμμή διευθύνσεων του περιηγητή σας."
-      turning_on_confirmations_in_this_community: "Αρχίζουμε να κάνουμε επιβεβαίωση της διεύθυνσης ηλεκτρονικού ταχυδρομείου σε αυτή την κοινότητα %{service_name}."
     common:
       hey: "Γεια σου %{name},"
       kassi_team: "Η Ομάδα του %{service_name}"
@@ -943,6 +953,11 @@ el:
       has_posted_a_new_listing: ~
       you_are_receiving_this_because: ~
       view_listing: ~
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -988,8 +1003,8 @@ el:
       javascript_is_disabled_in_your_browser: "Το Javascript είναι απενεργοποιημένο στον browser σας"
       kassi_does_not_currently_work_without_javascript: "Δυστυχώς το %{service_name} δεν λειτουργεί -προς το παρόν- χωρίς Javascript. Προσπαθείστε να ενεργοποιήσετε το Javascript από τις ρυθμίσεις του περιηγητή σας και ανανεώστε τη σελίδα."
       contact_us: "επικοινωνήστε μαζί μας"
-      send_feedback: Αποστολή
-      your_feedback_to_admins: "Τα σχόλιά σας στους διαχειριστές"
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Αποστολή
     your_email_address: "Η διεύθυνση email σας"
   errors:
@@ -1177,17 +1192,17 @@ el:
     no_tribe:
       inbox: Εισερχόμενα
       settings: Ρυθμίσεις
-      feedback: "Επικοινωνήστε μαζί μας"
+      feedback: ~
     application:
       join_this_community: "Εγγραφή στην κοινότητα"
       read_more: "Διαβάστε περισσότερα"
-      feedback: "Τι θα θέλατε να μας πείτε;"
-      default_feedback: "Αντιμετωπίσατε κάποιο πρόβλημα με το %{service_name}; Έχετε κάποια πρόταση για να βελτιωθεί η υπηρεσία; Μήπως βρήκατε ύποπτο περιεχόμενο; Θέλετε απλώς να μας μιλήσετε; Στείλτε μας μήνυμα!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "περιοχή σχολίων"
       feedback_handle: Ανατροφοδότηση
       give_feedback: "Επικοινωνήστε μαζί μας"
       or_check_our: "... ή δες την"
-      send_feedback_to_admin: Αποστολή
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "για να δείτε τι έχουν προτείνει άλλοι και να ψηφίσετε τις ιδέες που υπάρχουν."
       your_email_address: "Η διεύθυνση email σας (προαιρετική)"
       connect: Σύνδεση
@@ -1257,7 +1272,7 @@ el:
       error_with_session: "Σφάλμα με τη συνεδρία."
       feedback_considered_spam: "Τα σχόλιά σας δεν αποθηκεύτηκαν λόγω της μορφοποίησής τους. Προσπαθήστε ξανά ή εναλλακτικά χρησιμοποίηστε την περιοχή σχολίων."
       feedback_not_saved: "Τα σχόλιά σας δεν μπόρεσαν να σταλούν."
-      feedback_saved: "Ευχαριστούμε για τα σχόλιά σας! Θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατό!"
+      feedback_saved: ~
       feedback_sent_to: "Η κριτική δόθηκε στον/στην %{target_person}."
       feedback_skipped: "Η κριτική παραλείφθηκε"
       invitation_cannot_be_sent: "Η πρόσκληση δεν μπόρεσε να σταλεί"
@@ -1352,7 +1367,7 @@ el:
       payment_details_add_successful: "Οι πληροφορίες των πληρωμών εισήχθησαν επιτυχώς"
       payment_details_add_error: "Αποτυχία εισαγωγής στοιχείων πληρωμών"
       listing_author_payment_details_missing: ~
-      stylesheet_needs_recompiling: ~
+      images_are_processing: ~
       automatically_logged_out_please_sign_in: ~
     settings:
       account: Λογαριασμός
@@ -2086,7 +2101,9 @@ el:
   web:
     topbar:
       menu: ~
+      more: ~
       search_placeholder: ~
+      search_location_placeholder: ~
       user: ~
       inbox: ~
       profile: ~

@@ -8,6 +8,30 @@ This file follows the best practices from [keepachangelog.com](http://keepachang
 
 ## [Unreleased]
 
+## [5.9.0] - 2016-08-18
+
+### Added
+
+- Add support for using CDN for dynamic assets (uploaded images, custom compiled stylesheets) when S3 is otherwise in use [#2314](https://github.com/sharetribe/sharetribe/pull/2314)
+- Add possibility to choose between light and dark background image filter for hero and info sections in custom landing pages [#2310](https://github.com/sharetribe/sharetribe/pull/2310)
+- Add Pinterest link support in custom landing page footer [#2356](https://github.com/sharetribe/sharetribe/pull/2356)
+
+### Changed
+
+- Remove the need for CSS compilation per marketplace [#2325](https://github.com/sharetribe/sharetribe/pull/2325)
+- Update default colors [#2365](https://github.com/sharetribe/sharetribe/pull/2365)
+
+### Removed
+
+- Removed Checkout Finland payment gateway [#2408](https://github.com/sharetribe/sharetribe/pull/2408) [#2406](https://github.com/sharetribe/sharetribe/pull/2406)
+
+### Fixed
+
+- Security: Rails and gems updated [#2393](https://github.com/sharetribe/sharetribe/pull/2393), [#2318](https://github.com/sharetribe/sharetribe/pull/2318)
+- Fix some asset links not respecting `asset_host` setting on landing pages [#2320](https://github.com/sharetribe/sharetribe/pull/2320)
+
+- Fix JS errors in development by replacing `babel-polyfill` with `es6-shim` [#2087](https://github.com/sharetribe/sharetribe/issues/2087)
+
 ## [5.8.0] - 2016-07-15
 
 ### Added
@@ -209,7 +233,8 @@ This file follows the best practices from [keepachangelog.com](http://keepachang
 
 For older releases, see [RELEASE_NOTES.md](https://github.com/sharetribe/sharetribe/blob/v5.0.0/RELEASE_NOTES.md).
 
-[Unreleased]: https://github.com/sharetribe/sharetribe/compare/v5.8.0...HEAD
+[Unreleased]: https://github.com/sharetribe/sharetribe/compare/v5.9.0...HEAD
+[5.9.0]: https://github.com/sharetribe/sharetribe/compare/v5.8.0...v5.9.0
 [5.8.0]: https://github.com/sharetribe/sharetribe/compare/v5.7.1...v5.8.0
 [5.7.1]: https://github.com/sharetribe/sharetribe/compare/v5.7.0...v5.7.1
 [5.7.0]: https://github.com/sharetribe/sharetribe/compare/v5.6.0...v5.7.0

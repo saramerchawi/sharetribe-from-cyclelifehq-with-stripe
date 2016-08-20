@@ -176,6 +176,7 @@ it:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
+        keyword_and_location_search: ~
         location_search: ~
         select_distance_unit: "Mostra la distanza in %{distance_units_selector}"
         km: km
@@ -221,6 +222,13 @@ it:
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
+      new_layout:
+        new_layout: ~
+        description_roadmap: ~
+        description_process: ~
+        enabled_for_you: ~
+        enabled_for_all: ~
+        new_topbar: ~
       social_media:
         social_media: ~
         twitter_handle: "Nome utente di Twitter"
@@ -255,6 +263,10 @@ it:
         language: ~
         url: ~
         empty: ~
+        max_number_of_links: ~
+        all: ~
+        max_number_of_links_info: ~
+        about_page: ~
       transactions:
         export_all_as_csv: ~
         transactions: "Visualizza transazioni"
@@ -808,11 +820,9 @@ it:
       please_contant_admin_link: "ti preghiamo di contattare l'admin"
     confirmation_instructions:
       confirmation_instructions_signature: "Cordiali saluti,<br/> Il Team di %{service_name}"
-      welcome_to_kassi: "Benvenuto su %{service_name}!"
       need_to_confirm: "Devi confermare il tuo indirizzo email cliccando sul link seguente:"
       confirmation_link_text: "Conferma la tua email"
       or_paste_link: "Altrimenti puoi copiare il seguente link nella barra degli indirizzi del tuo browser:"
-      turning_on_confirmations_in_this_community: ~
     common:
       hey: "Ciao %{name},"
       kassi_team: "Il Team %{service_name}"
@@ -947,6 +957,11 @@ it:
       has_posted_a_new_listing: "%{author_name} ha pubblicato un nuovo annuncio:"
       you_are_receiving_this_because: "Hai ricevuto una notifica perchè segui %{author_name}."
       view_listing: "Mostra annuncio"
+    new_member_notification:
+      new_member_has_joined: ~
+      this_is_automatic_message: ~
+      person_name: ~
+      person_email: ~
   error_messages:
     onboarding:
       server_rendering: ~
@@ -992,8 +1007,8 @@ it:
       javascript_is_disabled_in_your_browser: "Javascript è disabilitato nel tuo browser"
       kassi_does_not_currently_work_without_javascript: "%{service_name} non funziona bene senza javascript. Prova ad abilitare javascript nelle preferenze del tuo browser e dopo ricarica nuovamente la pagina."
       contact_us: contattaci
-      send_feedback: "Invia feedback"
-      your_feedback_to_admins: "I tuoi feedback agli amministratori"
+      send_feedback: ~
+      your_feedback_to_admins: ~
     send: Invia
     your_email_address: "Il tuo indirizzo email"
   errors:
@@ -1181,17 +1196,17 @@ it:
     no_tribe:
       inbox: Messaggi
       settings: Impostazioni
-      feedback: Contattaci
+      feedback: ~
     application:
       join_this_community: ~
       read_more: Continua
-      feedback: "Che cosa vorresti comunicarci?"
-      default_feedback: "Hai incontrato problemi con %{service_name}? Hai suggerimenti per migliorare il servizio? Hai notato del contenuto sospetto? O semplicemente hai qualcosa di cui vuoi parlare con noi? Faccelo sapere!"
+      feedback: ~
+      dont_use_to_contact_support: ~
       feedback_forum: "forum dei feedback"
       feedback_handle: Feedback
       give_feedback: Contattaci
       or_check_our: "...o controlla i nostri"
-      send_feedback_to_admin: "Invia feedback"
+      send_feedback_to_admin: ~
       to_see_what_others_have_suggested: "vedere cosa gli altri utenti hanno suggerito, e votare le  idee."
       your_email_address: "Il tuo indirizzo email (per contattarti)"
       connect: Registrati
@@ -1261,7 +1276,7 @@ it:
       error_with_session: "Errore con la sessione."
       feedback_considered_spam: "Feedback non salvato a causa della formattazione. Prova ancora o usa il forum dei feedback."
       feedback_not_saved: "Il feedback non può essere inviato."
-      feedback_saved: "Grazie per il tuo feedback! Ti ricontatteremo appena possibile."
+      feedback_saved: ~
       feedback_sent_to: "Feedback inviato a %{target_person}."
       feedback_skipped: "Feedback saltato"
       invitation_cannot_be_sent: "L'invito non può essere inviato"
@@ -1356,7 +1371,7 @@ it:
       payment_details_add_successful: "Dettagli di pagamento aggiunti con successo"
       payment_details_add_error: "Non è possibile aggiungere i dettagli di pagamento"
       listing_author_payment_details_missing: "Ti preghiamo di contattare l'autore, cliccando sul pulsante 'contatta' che trovi più in basso. Deve aggiornare i dettagli di pagamento per poter ricevere pagamenti."
-      stylesheet_needs_recompiling: ~
+      images_are_processing: "Stiamo elaborando le tue immagini. Attendi per favore uno o due minuti e saranno visibili."
       maintenance_mode:
         zero: "Il sito web sarà messo ora offline per manutenzione."
         one: "Il sito web sarà offline per manutenzione per %{count} minuto."
@@ -2103,7 +2118,9 @@ it:
   web:
     topbar:
       menu: Menù
+      more: Altro..
       search_placeholder: Cerca...
+      search_location_placeholder: ~
       user: ~
       inbox: Messaggi
       profile: Profilo
