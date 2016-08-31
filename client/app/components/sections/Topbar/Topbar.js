@@ -173,6 +173,7 @@ class Topbar extends Component {
             href: l.link,
             type: 'menuitem',
             priority: l.priority,
+            external: l.external,
           }
         )),
       }) :
@@ -246,6 +247,7 @@ class Topbar extends Component {
             content: l.title,
             href: l.link,
             type: 'menuitem',
+            external: l.external,
           }
         )),
         userLinksTitle: t('web.topbar.user'),
@@ -265,6 +267,7 @@ class Topbar extends Component {
       {};
 
     const oldSearchParams = parseSearchParams(location);
+    const searchPlaceholder = this.props.search ? this.props.search.search_placeholder : null;
 
     return div({ className: classNames('Topbar', css.topbar) }, [
       this.props.menu ? r(MenuMobile, { ...mobileMenuProps, className: css.topbarMobileMenu }) : null,
@@ -273,8 +276,8 @@ class Topbar extends Component {
       this.props.search ?
         r(SearchBar, {
           mode: this.props.search.mode,
-          keywordPlaceholder: t('web.topbar.search_placeholder'),
-          locationPlaceholder: t('web.topbar.search_location_placeholder'),
+          keywordPlaceholder: searchPlaceholder || t('web.topbar.search_placeholder'),
+          locationPlaceholder: searchPlaceholder == null || this.props.search.mode === 'keyword_and_location' ? t('web.topbar.search_location_placeholder') : searchPlaceholder,
           keywordQuery: oldSearchParams.q,
           locationQuery: oldSearchParams.lq,
           customColor: marketplace_color1,
@@ -324,7 +327,7 @@ class Topbar extends Component {
   }
 }
 
-const { arrayOf, number, object, shape, string } = PropTypes;
+const { arrayOf, number, object, shape, string, bool } = PropTypes;
 
 /* eslint-disable react/forbid-prop-types */
 Topbar.propTypes = {
@@ -338,6 +341,7 @@ Topbar.propTypes = {
       title: string.isRequired,
       link: string.isRequired,
       priority: number,
+      external: bool,
     })),
   }),
   locales: PropTypes.shape({

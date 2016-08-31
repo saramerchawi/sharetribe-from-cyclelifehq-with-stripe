@@ -70,7 +70,6 @@ gem 'mercury-rails',
   ref: '1cc637b0bccea19085f824d2881c6513ed5ee8ae'
 
 gem 'countries', '~> 1.2', '>= 1.2.2'
-gem 'braintree', "~> 2.30.0"
 gem "mail_view", "~> 1.0.3"
 gem 'statesman', '~> 1.3.1'
 gem "premailer", "~> 1.8.2"
@@ -111,7 +110,7 @@ gem 'demoji', "~> 0.0.5"
 gem 'faraday', '~> 0.9.1'
 gem 'faraday_middleware', '~> 0.10.0'
 
-gem "react_on_rails", "~> 5.1.1"
+gem "react_on_rails", "~> 6.0.5"
 
 gem "css_parser", "~> 1.4.5"
 
