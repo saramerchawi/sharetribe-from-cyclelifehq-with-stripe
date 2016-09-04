@@ -181,3 +181,8 @@ gem 'js-routes', '~> 1.2.5'
 
 # Color utilities needed for landing page
 gem 'color', '~> 1.8'
+
+#strip payment system
+gem 'stripe'
+gem 'omniauth-stripe-connect'
+
