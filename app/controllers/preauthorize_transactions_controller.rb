@@ -441,25 +441,5 @@ def initiated
     Maybe(@current_user).confirmed_notification_email_to.or_else(nil)
   end
 
-  def preauth
-    #save buyer's token to db for stripe
-
-    #create stripe customer 
-    customer = Stripe::Customer.create(
-      :source => @stripe_token
-      )
-#Rails.logger.warn "CUSTOMER: #{customer}"
-    #TODO: error checking
-    #write customer to db
-    unless @current_user.customer_token?
-      @current_user.update_attributes({
-         :customer_token => customer,
-         :customer_active_token => @stripe_token
-        })
-    else 
-      @current_user.update_attributes({
-         :customer_active_token => @stripe_token
-        })
-    end
-  end
+ 
 end
