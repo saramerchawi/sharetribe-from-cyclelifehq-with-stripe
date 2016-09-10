@@ -25,7 +25,6 @@
 #new_message_form.centered-section
 
   - author_link = link_to(author[:display_name], person_path(username: author[:username]))
-  = hidden_field_tag("token")
   .preauthorize-section
     %h2.preauthorize-details-title
       = t("listing_conversations.preauthorize.details")
@@ -56,6 +55,7 @@
         .col-12
           = form.text_area :content, :class => "text_area"
           = form.hidden_field :sender_id, :value => @current_user.id
+          = form.hidden_field :stripe_token
 
       - if @current_community.transaction_agreement_in_use
         = render :partial => "listing_conversations/transaction_agreement_checkbox", locals: { form: form }

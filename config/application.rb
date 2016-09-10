@@ -39,6 +39,10 @@ module Kassi
     # Load also Jobs that are used by migrations
     config.autoload_paths += Dir[Rails.root.join('db', 'migrate_jobs', '**/')]
 
+    # Load models from controllers/concerns
+    config.autoload_paths += Dir[Rails.root.join('app/controllers', 'concerns', '**/')]
+    
+
     # Enable the asset pipeline
     config.assets.enabled = true
 

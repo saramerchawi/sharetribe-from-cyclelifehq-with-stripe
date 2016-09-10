@@ -30,6 +30,7 @@ module PaypalService::API
 
     # The API implementation
     #
+    #need to makes changes for stripe to skip this
 
     ## POST /payments/request
     def request(community_id, create_payment, async: false)

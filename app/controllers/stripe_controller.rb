@@ -1,7 +1,11 @@
 class StripeController < ApplicationController
 
+  #This class makes changes to db variables of other controllers/modules 
+  #we do this here instead of in the People class because we want to keep the code
+  #separate for easier upgrades
+
   def callback
-    #we receive the callback from Stripe
+    #we receive the callback from Stripe when a seller registers
     params.each do |key,value|
       Rails.logger.warn "Param #{key}: #{value}"
     end
@@ -10,7 +14,7 @@ class StripeController < ApplicationController
     stripe_return_code = params[:code]
     #now use the code to contact stripe for user's key
 
-    @data = client.get_token( stripe_return_code, {
+    @data = client.get_token(stripe_return_code, {
       headers: {
         'grant_type' => "authorization_code"
       }
@@ -22,6 +26,7 @@ class StripeController < ApplicationController
   end
 
   def save_token
+    #SELLER
     #save user token permanently so we can interact with stripe on their behalf
     stripe_user = current_user
     stripe_user.update_attributes({
@@ -31,7 +36,32 @@ class StripeController < ApplicationController
         :refresh_token => @data.refresh_token,
         :publishable_key => @data["stripe_publishable_key"]
       })
-#    Rails.logger.warn "user: #{stripe_user}"
+  end
+
+  def preauth
+    #BUYER
+    #save buyer's token to db for stripe
+    stripe_token = params[:token]
+    listing_id = params[:id]
+
+    #create stripe customer 
+    customer = Stripe::Customer.create(
+      :source => stripe_token
+      )
+    #TODO: error checking
+    #write customer to db
+    unless current_user.customer_token?
+      current_user.update_attributes({
+         :customer_token => customer,
+         :customer_active_token => stripe_token
+        })
+    else 
+      current_user.update_attributes({
+         :customer_active_token => stripe_token
+        })
+    end
+    redirect_to person_transaction_path(person_id: current_user.id, locale: current_user.locale, id: listing_id)
+
   end
 
   private
@@ -49,5 +79,8 @@ class StripeController < ApplicationController
   ).auth_code
 end
 
+  # def render400
+  #   self.response_body = nil
+  #   render(nothing: true)
 
 end

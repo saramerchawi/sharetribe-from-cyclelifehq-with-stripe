@@ -40,6 +40,8 @@ module TransactionService::DataTypes::Transaction
   def create_transaction(opts); Transaction.call(opts) end
 
   def create_transaction_response(transaction, gateway_fields = {})
+    #change for stripe - gives null response, but ok because it's just paypal
+    return
     TransactionResponse.call({
         transaction: transaction,
         gateway_fields: gateway_fields

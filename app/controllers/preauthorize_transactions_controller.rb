@@ -28,7 +28,9 @@ class PreauthorizeTransactionsController < ApplicationController
     :contract_agreed,
     :delivery_method,
     :quantity,
-    :listing_id
+    :listing_id,
+    #add stripe
+    :stripe_token
    ).with_validations {
     validates_presence_of :listing_id
     validates :delivery_method, inclusion: { in: %w(shipping pickup), message: "%{value} is not shipping or pickup." }, allow_nil: true
@@ -51,6 +53,12 @@ class PreauthorizeTransactionsController < ApplicationController
     vprms = view_params(listing_id: params[:listing_id],
                         quantity: quantity,
                         shipping_enabled: delivery_method == :shipping)
+    #BEGIN stripe
+    #get current user's email for Stripe transaction
+    @current_email = current_user_email 
+    @stripe_total = vprms[:total_price]*100; #all amounts in Stripe are in cents
+    #END stripe
+
 
     price_break_down_locals = TransactionViewUtils.price_break_down_locals({
       booking:  false,
@@ -64,11 +72,6 @@ class PreauthorizeTransactionsController < ApplicationController
     })
 
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
-
-    #get current user's email for Stripe transaction
-    @current_email = current_user_email 
-    @stripe_total = vprms[:total_price]*100; #all amounts in Stripe are in cents
-    #END stripe
 
     render "listing_conversations/initiate", locals: {
       preauthorize_form: PreauthorizeMessageForm.new,
@@ -84,9 +87,14 @@ class PreauthorizeTransactionsController < ApplicationController
     }
   end
 
-  def initiated
-    #need to catch the Stripe auth details here and then write the transaction details to DB
+def initiated
     conversation_params = params[:listing_conversation]
+
+    #get stripe token and save it
+    stripe_token = conversation_params[:stripe_token]
+#    Rails.logger.warn "token: #{@stripe_token}"
+#    preauth
+
 
     if @current_community.transaction_agreement_in_use? && conversation_params[:contract_agreed] != "1"
       return render_error_response(request.xhr?, t("error_messages.transaction_agreement.required_error"), action: :initiate)
@@ -109,36 +117,23 @@ class PreauthorizeTransactionsController < ApplicationController
     quantity = TransactionViewUtils.parse_quantity(preauthorize_form.quantity)
     shipping_price = shipping_price_total(@listing.shipping_price, @listing.shipping_price_additional, quantity)
 
-    #skip this, as it's paypal
-    # transaction_response = create_preauth_transaction(
-    #   payment_type: :paypal,
-    #   community: @current_community,
-    #   listing: @listing,
-    #   listing_quantity: quantity,
-    #   user: @current_user,
-    #   content: preauthorize_form.content,
-    #   use_async: request.xhr?,
-    #   delivery_method: delivery_method,
-    #   shipping_price: shipping_price
-    # )
+    transaction_response = create_preauth_transaction(
+      payment_type: :paypal,
+      community: @current_community,
+      listing: @listing,
+      listing_quantity: quantity,
+      user: @current_user,
+      content: preauthorize_form.content,
+      use_async: request.xhr?,
+      delivery_method: delivery_method,
+      shipping_price: shipping_price
+    )
 
-    # unless transaction_response[:success]
-    #   return render_error_response(request.xhr?, t("error_messages.paypal.generic_error"), action: :initiate) unless transaction_response[:success]
-    # end
+    redirect_to stripe_preauth_path(token: stripe_token, id: @listing.id) and return
 
-    #need to create new STRIPE transaction ID here.
-    #transaction ID gets written to transaction_transitions table in DB
-    transaction_id = transaction_response[:data][:transaction][:id]
-
-    if (transaction_response[:data][:gateway_fields][:redirect_url])
-      redirect_to transaction_response[:data][:gateway_fields][:redirect_url]
-    else
-      render json: {
-        op_status_url: transaction_op_status_path(transaction_response[:data][:gateway_fields][:process_token]),
-        op_error_msg: t("error_messages.paypal.generic_error")
-      }
-    end
   end
+
+
 
   def book
     delivery_method = valid_delivery_method(delivery_method_str: params[:delivery],
@@ -344,7 +339,7 @@ class PreauthorizeTransactionsController < ApplicationController
         listing_author_id: @listing.author.id
       })
 
-    #Need to replace this check with the appropriate one for Stripe
+    #remove for stripe
     # unless ready[:data][:result]
     #   flash[:error] = t("layouts.notifications.listing_author_payment_details_missing")
     #   return redirect_to listing_path(@listing)
@@ -380,7 +375,6 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def create_preauth_transaction(opts)
-    #MODIFY FOR STRIPE
     # PayPal doesn't like images with cache buster in the URL
     logo_url = Maybe(opts[:community])
                  .wide_logo
@@ -447,4 +441,25 @@ class PreauthorizeTransactionsController < ApplicationController
     Maybe(@current_user).confirmed_notification_email_to.or_else(nil)
   end
 
+  def preauth
+    #save buyer's token to db for stripe
+
+    #create stripe customer 
+    customer = Stripe::Customer.create(
+      :source => @stripe_token
+      )
+#Rails.logger.warn "CUSTOMER: #{customer}"
+    #TODO: error checking
+    #write customer to db
+    unless @current_user.customer_token?
+      @current_user.update_attributes({
+         :customer_token => customer,
+         :customer_active_token => @stripe_token
+        })
+    else 
+      @current_user.update_attributes({
+         :customer_active_token => @stripe_token
+        })
+    end
+  end
 end

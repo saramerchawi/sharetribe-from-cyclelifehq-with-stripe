@@ -45,6 +45,8 @@
 #  uid                                :string(64)
 #  access_token                       :string(64)
 #  refresh_token                      :string(64)
+#  customer_token                     :string(64)
+#  customer_active_token              :string(64)
 #
 # Indexes
 #

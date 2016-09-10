@@ -17,9 +17,8 @@ module TransactionService::Transaction
   }
 
   TX_PROCESSES = {
-#    preauthorize: TransactionService::Process::Preauthorize.new,
-#modified for STRIPE
-    preauthorize: TransactionService::Process::Free.new
+    preauthorize: TransactionService::Process::Preauthorize.new,
+#    preauthorize: TransactionService::Process::Free.new,
     none: TransactionService::Process::Free.new
   }
 
@@ -78,11 +77,12 @@ module TransactionService::Transaction
     Result::Success.new(result: set_adapter.configured?(community_id: community_id, author_id: author_id))
   end
 
- #need to replace this whole method for Stripe
+ #need to modify method for Stripe
   def create(opts, paypal_async: false)
     #starts setting up the paypal payment
     opts_tx = opts[:transaction]
 
+    #set up payment adapter
     set_adapter = settings_adapter(opts_tx[:payment_gateway])
     tx_process_settings = set_adapter.tx_process_settings(opts_tx)
 
@@ -95,9 +95,17 @@ module TransactionService::Transaction
                             gateway_adapter: gateway_adapter,
                             prefer_async: paypal_async)
 
-    res.maybe()
+    #need to check for stripe
+    res
       .map { |gw_fields| Result::Success.new(DataTypes.create_transaction_response(query(tx[:id]), gw_fields)) }
-      .or_else(res)
+      
+
+#    res.maybe()
+#      .map { |gw_fields| Result::Success.new(DataTypes.create_transaction_response(query(tx[:id]), gw_fields)) }
+#      .or_else(res)
+#
+    Rails.logger.warn "RESULT: #{res}"
+
   end
 
   def reject(community_id:, transaction_id:, message: nil, sender_id: nil)

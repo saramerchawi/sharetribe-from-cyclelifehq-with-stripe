@@ -207,6 +207,7 @@ module MarketplaceService
           old_status = transaction.current_state.to_sym if transaction.current_state.present?
 
           transaction_entity = Entity.transaction(transaction)
+	  #may need to update payment type for stripe
           payment_type = transaction.payment_gateway.to_sym
 
           Events.handle_transition(transaction_entity, payment_type, old_status, new_status)

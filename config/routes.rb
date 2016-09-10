@@ -11,7 +11,7 @@ Kassi::Application.routes.draw do
 
   #stripe callback
   get '/stripe/stripe_connect/callback/:result' => 'stripe#callback', as: 'stripe_callback'
-  get '/stripe/pay' => 'stripe#pay', as: 'stripe_pay'
+  get '/stripe/preauth/:token' => 'stripe#preauth', as: 'stripe_preauth'
 
   get "/robots.txt" => RobotsGenerator
 
@@ -105,7 +105,7 @@ Kassi::Application.routes.draw do
     get "/transactions/op_status/:process_token" => "transactions#op_status", :as => :transaction_op_status
 
     # All new transactions (in the future)
-    get "/transactions/new" => "transactions#new", as: :new_transaction #we need to intercept this and send to stripe first.
+    get "/transactions/new" => "transactions#new", as: :new_transaction 
 
     # preauthorize flow
     get "/listings/:listing_id/book" => "preauthorize_transactions#book", :as => :book

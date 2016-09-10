@@ -7,7 +7,7 @@ $(document).ready ->
   form = payButton.closest('form')
   handler = null
 
-  createHandler = ->
+  stripeHandler = ->
     handler = StripeCheckout.configure
       key: window.publishable_key
       description: window.description
@@ -17,18 +17,16 @@ $(document).ready ->
       zipCode: true
 
       allowRememberMe: false
-      closed: ->
-        form.removeClass('processing') unless is_submitted
       token: (token) ->
         is_submitted = true
-        form.find('input[name=token]').val(token.id)
+        form.find('input[name=listing_conversation_stripe_token]').val(token.id)
+        $('#listing_conversation_stripe_token').val(token.id)
         form.get(0).submit()
 
-  createHandler()
+  stripeHandler()
 
   payButton.click (e) ->
     e.preventDefault()
-    form.addClass('processing')
 
     handler.open
       name: 'CyclelifeHQ'

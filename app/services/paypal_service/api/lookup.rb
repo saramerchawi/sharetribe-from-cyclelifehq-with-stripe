@@ -13,6 +13,7 @@ module PaypalService::API
     end
 
     def with_active_account(cid, pid, &block)
+      return #change for stripe
       m_acc = AccountStore.get_active(person_id: pid, community_id: cid)
       if m_acc.nil?
         return log_and_return(Result::Error.new("Cannot find paypal account for the given community and person: community_id: #{cid}, person_id: #{pid}."))
