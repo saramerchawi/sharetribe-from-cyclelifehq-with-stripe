@@ -1,6 +1,7 @@
 module TransactionService::Process
   Gateway = TransactionService::Gateway
 
+  #change for stripe
   class Preauthorize
     TxStore = TransactionService::Store::Transaction
 
@@ -32,6 +33,10 @@ module TransactionService::Process
 
         Transition.transition_to(tx[:id], :paid)
       end
+
+      #for stripe, assume success, as doesn't matter here
+      Transition.transition_to(tx[:id], :paid)
+      res[:success] = true
 
       if res[:success] && message.present?
         send_message(tx, message, sender_id)

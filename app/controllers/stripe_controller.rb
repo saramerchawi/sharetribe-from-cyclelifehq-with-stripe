@@ -60,15 +60,30 @@ class StripeController < ApplicationController
          :customer_active_token => stripe_token
         })
     end
+
+    #write the transaction to the stripe table
+    save(:person_id, :id) 
+
     redirect_to person_transaction_path(person_id: current_user.id, locale: current_user.locale, id: tx_id)
 
   end
+
+  def new
+    stripe = Stripe.new(params[:person_id], params[:id])
+    if stripe.save
+      #record created
+      else
+      #report error
+    end
+  end
+
+
+
 
   private
 
   def client
     @client ||= OAuth2::Client.new(
-#    @client = OAuth2::Client.new(
     Rails.application.secrets.stripe_client_id,
     Rails.application.secrets.stripe_secret_key,
     {
@@ -77,6 +92,10 @@ class StripeController < ApplicationController
       token_url: '/oauth/token'
     }
     ).auth_code
+  end
+
+  def stripe_params
+    params.require(:transaction_id. :sender_id).permit(:recipient_id)
   end
 
 end
