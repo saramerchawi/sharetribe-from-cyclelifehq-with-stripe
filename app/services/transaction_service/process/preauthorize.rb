@@ -2,22 +2,14 @@ module TransactionService::Process
   Gateway = TransactionService::Gateway
 
   class Preauthorize
-    #Modify for STRIPE
-    #this is the transaction needed for stripe, too
     TxStore = TransactionService::Store::Transaction
 
     def create(tx:, gateway_fields:, gateway_adapter:, prefer_async:)
       Transition.transition_to(tx[:id], :initiated)
 
-      #change for stripe
-      # Gateway.unwrap_completion(
-      #   gateway_adapter.create_payment(
-      #     tx: tx,
-      #     gateway_fields: gateway_fields,
-      #     prefer_async: prefer_async)) do
-
-      #  Transition.transition_to(tx[:id], :preauthorized)
-      #end
+       #we go ahead and set to preauthorized here, since 
+       #the stripe charge has already been successful
+       Transition.transition_to(tx[:id], :preauthorized)
     end
 
     def reject(tx:, message:, sender_id:, gateway_adapter:)

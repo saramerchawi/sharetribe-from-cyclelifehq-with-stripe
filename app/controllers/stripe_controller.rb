@@ -42,7 +42,7 @@ class StripeController < ApplicationController
     #BUYER
     #save buyer's token to db for stripe
     stripe_token = params[:token]
-    listing_id = params[:id]
+    tx_id = params[:id]
 
     #create stripe customer 
     customer = Stripe::Customer.create(
@@ -60,15 +60,15 @@ class StripeController < ApplicationController
          :customer_active_token => stripe_token
         })
     end
-    redirect_to person_transaction_path(person_id: current_user.id, locale: current_user.locale, id: listing_id)
+    redirect_to person_transaction_path(person_id: current_user.id, locale: current_user.locale, id: tx_id)
 
   end
 
   private
 
   def client
-#    @client ||= OAuth2::Client.new(
-    @client = OAuth2::Client.new(
+    @client ||= OAuth2::Client.new(
+#    @client = OAuth2::Client.new(
     Rails.application.secrets.stripe_client_id,
     Rails.application.secrets.stripe_secret_key,
     {
@@ -76,11 +76,7 @@ class StripeController < ApplicationController
       authorize_url: '/oauth/authorize',
       token_url: '/oauth/token'
     }
-  ).auth_code
-end
-
-  # def render400
-  #   self.response_body = nil
-  #   render(nothing: true)
+    ).auth_code
+  end
 
 end

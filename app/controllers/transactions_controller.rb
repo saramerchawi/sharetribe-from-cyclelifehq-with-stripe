@@ -114,6 +114,7 @@ class TransactionsController < ApplicationController
       }
       .map { |tx_with_conv| [tx_with_conv, :admin] }
 
+    Rails.logger.warn "PERSON: #{@current_user.id} COM: #{@current_community.id} ID: #{params[:id]} PERSON: #{m_participant} AND #{m_admin}"
     transaction_conversation, role = m_participant.or_else { m_admin.or_else([]) }
 
     tx = TransactionService::Transaction.get(community_id: @current_community.id, transaction_id: params[:id])

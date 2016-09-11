@@ -29,22 +29,6 @@ module TransactionService::Gateway
          cancel: gateway_fields[:cancel_url],
          merchant_brand_logo_url: gateway_fields[:merchant_brand_logo_url]})
 
-      #reaches out to app/services/paypal_service/store/paypal_account.rb, with_active_account() 
-      result = paypal_api.payments.request(
-        tx[:community_id],
-        create_payment_info,
-        async: prefer_async)
-
-      #stripe modification
-      # unless result[:success]
-      #   return SyncCompletion.new(result)
-      # end
-
-      if prefer_async
-        AsyncCompletion.new(Result::Success.new({ process_token: result[:data][:process_token] }))
-      else
-        AsyncCompletion.new(Result::Success.new({ redirect_url: result[:data][:redirect_url] }))
-      end
     end
 
     def reject_payment(tx:, reason: "")

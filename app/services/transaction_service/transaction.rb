@@ -95,17 +95,8 @@ module TransactionService::Transaction
                             gateway_adapter: gateway_adapter,
                             prefer_async: paypal_async)
 
-    #need to check for stripe
-    res
-      .map { |gw_fields| Result::Success.new(DataTypes.create_transaction_response(query(tx[:id]), gw_fields)) }
-      
-
-#    res.maybe()
-#      .map { |gw_fields| Result::Success.new(DataTypes.create_transaction_response(query(tx[:id]), gw_fields)) }
-#      .or_else(res)
-#
-    Rails.logger.warn "RESULT: #{res}"
-
+    #we just need the id for stripe
+    tx[:id]
   end
 
   def reject(community_id:, transaction_id:, message: nil, sender_id: nil)

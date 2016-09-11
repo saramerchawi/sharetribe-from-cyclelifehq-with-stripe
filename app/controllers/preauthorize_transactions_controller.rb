@@ -90,10 +90,8 @@ class PreauthorizeTransactionsController < ApplicationController
 def initiated
     conversation_params = params[:listing_conversation]
 
-    #get stripe token and save it
+    #get stripe 
     stripe_token = conversation_params[:stripe_token]
-#    Rails.logger.warn "token: #{@stripe_token}"
-#    preauth
 
 
     if @current_community.transaction_agreement_in_use? && conversation_params[:contract_agreed] != "1"
@@ -128,8 +126,9 @@ def initiated
       delivery_method: delivery_method,
       shipping_price: shipping_price
     )
+    #Rails.logger.warn "TID: #{transaction_response}"
 
-    redirect_to stripe_preauth_path(token: stripe_token, id: @listing.id) and return
+    redirect_to stripe_preauth_path(token: stripe_token, id: transaction_response) and return
 
   end
 
@@ -411,11 +410,14 @@ def initiated
       transaction[:shipping_price] = opts[:shipping_price]
     end
 
-    TransactionService::Transaction.create({
+    #capture the transaction id for stripe
+    tx_id = TransactionService::Transaction.create({
         transaction: transaction,
         gateway_fields: gateway_fields
       },
       paypal_async: opts[:use_async])
+
+    
   end
 
   def query_person_entity(id)
