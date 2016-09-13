@@ -4,6 +4,7 @@ class StripeTransactions < ActiveRecord::Migration
       t.integer :transaction_id
       t.string :sender_id
       t.string :recipient_id
+      t.float :amount
       t.timestamps :created_at, :datetime
     end
   end

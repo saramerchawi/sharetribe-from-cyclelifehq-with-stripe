@@ -7,5 +7,4 @@ Rails.configuration.stripe = {
 
 }
 
-#Stripe.api_key = Rails.configuration.stripe[:stripe_secret_key]
 Stripe.api_key = Rails.application.secrets.stripe_secret_key

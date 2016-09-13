@@ -1,5 +1,4 @@
 class AcceptPreauthorizedConversationsController < ApplicationController
-  include Stripe
 
   before_filter do |controller|
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_accept_or_reject")
@@ -26,7 +25,6 @@ class AcceptPreauthorizedConversationsController < ApplicationController
     case payment_type
     when :paypal
       render_paypal_form("accept")
-      #stripe_charge_auth
     else
       raise ArgumentError.new("Unknown payment type: #{payment_type}")
     end
@@ -57,7 +55,6 @@ class AcceptPreauthorizedConversationsController < ApplicationController
     sender_id = @current_user.id
 
     tx = TransactionService::API::Api.transactions.query(tx_id)
-    Rails.logger.warn "TX: #{tx_id}"
     if tx[:current_state] != :preauthorized
       redirect_to person_transaction_path(person_id: @current_user.id, id: tx_id)
       return
@@ -88,10 +85,10 @@ class AcceptPreauthorizedConversationsController < ApplicationController
   end
 
   def accept_tx(community_id, tx_id, message, sender_id)
-    #edit for stripe
     Rails.logger.warn "SENDER: #{sender_id}, TX: #{tx_id}"
     #stripe - charge the preauth here
-    stripe_charge_preauth(sender_id: sender_id, transaction_id: tx_id)
+    stripe_trans = StripeTrans.new
+    stripe_trans.charge_preauth(tx_id, community_id)
 
     TransactionService::Transaction.complete_preauthorization(community_id: community_id,
                                                               transaction_id: tx_id,
@@ -171,12 +168,4 @@ class AcceptPreauthorizedConversationsController < ApplicationController
     }
   end
 
-  def stripe_charge_preauth(sender_id, transaction_id)
-#    Stripe.new(:sender_id, :tx_id) 
-    join_res = Stripe.find_by_sql("SELECT amount, C.customer_token FROM stripe_transactions A INNER JOIN people B ON A.transaction_id = B.id INNER JOIN people C ON B.id = A.sender_id WHERE A.transaction_id=?", transaction_id)
-    Rails.logger.warn "Join: #{join_res}"
-    # customer = Stripe::Charge.create(
-    #   :amount =>
-    # )  
-  end
 end

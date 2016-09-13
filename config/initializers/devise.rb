@@ -271,12 +271,14 @@ Devise.setup do |config|
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
 
-require "omniauth-stripe-connect"
-  config.omniauth :stripe_connect,
-        :client_id => 'ca_97IvYDwqhmxwnRCrf1LmtF5tM1qSNyKy',
-        :stripe_secret_key => 'sk_test_A4PMfoSce6mRbqgMhan4tIk8',
-        :scope => 'read_write',
-        :stripe_landing => 'register'
-
+#require "omniauth-stripe-connect"
+#  config.omniauth :stripe_connect,
+#        :client_id => 'ca_97IvYDwqhmxwnRCrf1LmtF5tM1qSNyKy',
+#        :stripe_secret_key => 'sk_test_A4PMfoSce6mRbqgMhan4tIk8',
+#	:authorize_options => {
+#        	:scope => 'read_write'
+#	},
+#        :stripe_landing => 'register'
+#
 
 end

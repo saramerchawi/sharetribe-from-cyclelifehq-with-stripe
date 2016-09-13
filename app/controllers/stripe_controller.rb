@@ -1,33 +1,37 @@
 class StripeController < ApplicationController
 
-  #This class makes changes to db variables of other controllers/modules 
-  #we do this here instead of in the People class because we want to keep the code
-  #separate for easier upgrades
+  def new
+    @stripe = Stripe.new
+  end
+
+  def oauth
+    url = client.authorize_url({
+      scope: 'read_write',
+      stripe_landing: 'register',
+    })
+
+    redirect_to url
+  end
+
 
   def callback
-    #we receive the callback from Stripe when a seller registers
-    params.each do |key,value|
-      Rails.logger.warn "Param #{key}: #{value}"
-    end
-    flash[:notice] = "In callback"
+    flash[:notice] = "Your Stripe account has been linked to your CyclelifeHQ account."
     @var = params[:code]
     stripe_return_code = params[:code]
-    #now use the code to contact stripe for user's key
 
     @data = client.get_token(stripe_return_code, {
       headers: {
-        'grant_type' => "authorization_code"
+        'grant_type' => "authorization_code",
+        'scope' => "read_write"
       }
     } )
 
-    Rails.logger.warn "DATA: #{@data}"
-
     save_token
+    
+    redirect_to paypal_account_settings_payment_path(person_id: current_user.id)
   end
 
   def save_token
-    #SELLER
-    #save user token permanently so we can interact with stripe on their behalf
     stripe_user = current_user
     stripe_user.update_attributes({
         :provider => "stripe",
@@ -39,17 +43,12 @@ class StripeController < ApplicationController
   end
 
   def preauth
-    #BUYER
-    #save buyer's token to db for stripe
     stripe_token = params[:token]
     tx_id = params[:id]
 
-    #create stripe customer 
     customer = Stripe::Customer.create(
       :source => stripe_token
       )
-    #TODO: error checking
-    #write customer to db
     unless current_user.customer_token?
       current_user.update_attributes({
          :customer_token => customer,
@@ -61,24 +60,9 @@ class StripeController < ApplicationController
         })
     end
 
-    #write the transaction to the stripe table
-    save(:person_id, :id) 
-
     redirect_to person_transaction_path(person_id: current_user.id, locale: current_user.locale, id: tx_id)
 
   end
-
-  def new
-    stripe = Stripe.new(params[:person_id], params[:id])
-    if stripe.save
-      #record created
-      else
-      #report error
-    end
-  end
-
-
-
 
   private
 
@@ -89,13 +73,11 @@ class StripeController < ApplicationController
     {
       site: 'https://connect.stripe.com',
       authorize_url: '/oauth/authorize',
-      token_url: '/oauth/token'
+      token_url: '/oauth/token',
+      scope: "read_write"
     }
     ).auth_code
   end
 
-  def stripe_params
-    params.require(:transaction_id. :sender_id).permit(:recipient_id)
-  end
 
 end

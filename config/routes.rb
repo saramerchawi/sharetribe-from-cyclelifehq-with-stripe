@@ -10,8 +10,11 @@ Kassi::Application.routes.draw do
   # first created -> highest priority.
 
   #stripe callback
-  get '/stripe/stripe_connect/callback/:result' => 'stripe#callback', as: 'stripe_callback'
+  get '/stripe/oauth/' => 'stripe#oauth', as: 'stripe_oauth'
+  get '/stripe/stripe_connect/:callback' => 'stripe#callback', as: 'stripe_callback'
   get '/stripe/preauth/:token' => 'stripe#preauth', as: 'stripe_preauth'
+  get '/stripe/pay/' => 'stripe#charge_preauth', as: 'stripe_charge_preauth'
+  get '/stripe/fees/' => 'stripe#list_fees', as: 'stripe_fees'
 
   get "/robots.txt" => RobotsGenerator
 
