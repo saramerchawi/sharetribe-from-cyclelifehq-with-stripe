@@ -2088,3 +2088,4 @@ en:
     payout_info_stripe: "%{service_name} uses Stripe as its payment provider. A %{create_stripe_account_link}  account is required in order to accept payments for your listings, and must be connected to %{service_name}." 
     create_stripe_link: "Stripe"
     commission_permission_needed: "You will also need to grant %{service_name} permission to charge a transaction fee."
+    registered_for_stripe: "Your account is linked to Stripe and you are able to create listings."

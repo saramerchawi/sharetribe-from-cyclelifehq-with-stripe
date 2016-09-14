@@ -14,4 +14,5 @@
         receive_funds_info_label_tr_key: receive_funds_info_label_tr_key,
         commission_required: commission_type != :none }
 
-    = link_to(image_tag("blue-on-light.png"), stripe_oauth_path)
+    - if @current_user.uid.blank?
+      = link_to(image_tag("blue-on-light.png"), stripe_oauth_path)
