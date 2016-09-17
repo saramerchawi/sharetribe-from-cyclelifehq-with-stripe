@@ -16,6 +16,7 @@ echo `which ruby`
 
 
 echo "--- bundle install ---"
+eval "$(rbenv init -)"
 gem install bundler
 bundle install
 
