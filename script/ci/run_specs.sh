@@ -7,29 +7,24 @@ echo "-----------------------------"
 
 set -e
 
-echo "----- USER -----"
-echo `whoami`
-echo "----- Current DIR -----"
-echo `pwd`
-echo "----- WHICH RUBY -----"
-echo `which ruby`
-
-
-echo "--- bundle install ---"
+echo "--- agent setup"
 eval "$(rbenv init -)"
 gem install bundler
+
+echo "--- bundle install"
 bundle install
 
-# if ! ruby -v &> /dev/null; then
-#   rbenv update
-#   rbenv install `cat .ruby-version`
-# fi
-#
-#
-# npm install
-#
-# bundle exec rake db:drop || true
-# bundle exec rake db:create
-# bundle exec rake db:migrate
-#
-# bundle exec rspec spec
+echo "--- ruby version check"
+if ! ruby -v &> /dev/null; then
+  rbenv update
+  rbenv install `cat .ruby-version`
+fi
+
+echo "--- setup database"
+cp config/database.example.yml config/database.yml
+bundle exec rake db:drop || true
+bundle exec rake db:create
+bundle exec rake db:schema:load
+
+echo "--- running specs"
+bundle exec rspec spec
