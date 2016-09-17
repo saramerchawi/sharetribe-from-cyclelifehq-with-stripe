@@ -16,6 +16,7 @@ echo `which ruby`
 
 
 echo "--- bundle install ---"
+gem install bundler
 bundle install
 
 # if ! ruby -v &> /dev/null; then
