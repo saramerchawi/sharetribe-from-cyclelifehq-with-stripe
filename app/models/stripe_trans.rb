@@ -21,6 +21,17 @@ class StripeTrans < ActiveRecord::Base
   
   def new
   	@trans = StripeTrans.new
+	@card_errors = {
+		invalid_number: "There is a problem with the card number",
+		incorrect_number: "There is a problem with the card number",
+		invalid_expiry_month: "There is a problem with the expiry date.",
+		invalid_expiry_year: "There is a problem with the expiry date.",
+		invalid_cvc: "There is a problem with the security code.",
+		incorrect_cvc: "There is a problem with the security code.",
+		incorrect_zip: "There is a problem with the postal code.",
+		card_declines: "The card was declined.",
+		processing_error: "An error occurred while processing the card."
+	}	
   end
 
   def get_fee
@@ -59,18 +70,12 @@ class StripeTrans < ActiveRecord::Base
     	})
     
     rescue Stripe::CardError => e
-    	#problem with card
+    	return trans.card_errors(e)
 	end
 
 	#write receipt
     trans = StripeTrans.create(sender_id: sender_id, transaction_id: transaction_id, recipient_id: recipient_id, amount: amount, receipt: charge)
-    unless trans.valid? 
-    	#transaction failed
-    end	
-
-
-	Rails.logger.warn "CHARGE: #{charge}"
-
+    return "success"
   end
 end
 

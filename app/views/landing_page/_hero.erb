@@ -1,7 +1,7 @@
 <% section_style_class = s["background_image_variation"] == "light" ? "hero__section--light" : "hero__section--dark" %>
 <% content_for :hero_css do %>
   .<%= section_style_class %> {
-    background-image: url('<%= s["background_image"]["src"] %>');
+  background-image: url(<%= asset_path  s["background_image"]["src"] %>);
   }
 
   .hero__search-button,

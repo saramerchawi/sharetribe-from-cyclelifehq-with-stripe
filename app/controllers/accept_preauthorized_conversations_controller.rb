@@ -75,7 +75,6 @@ class AcceptPreauthorizedConversationsController < ApplicationController
 
   def accept_or_reject_tx(community_id, tx_id, status, message, sender_id)
     if (status == :paid)
-
       accept_tx(community_id, tx_id, message, sender_id)
     elsif (status == :rejected)
       reject_tx(community_id, tx_id, message, sender_id)
@@ -85,29 +84,34 @@ class AcceptPreauthorizedConversationsController < ApplicationController
   end
 
   def accept_tx(community_id, tx_id, message, sender_id)
-    Rails.logger.warn "SENDER: #{sender_id}, TX: #{tx_id}"
     #stripe - charge the preauth here
     stripe_trans = StripeTrans.new
-    stripe_trans.charge_preauth(tx_id, community_id)
+    res = stripe_trans.charge_preauth(tx_id, community_id)
 
-    TransactionService::Transaction.complete_preauthorization(community_id: community_id,
+    if (res == "success")
+      TransactionService::Transaction.complete_preauthorization(community_id: community_id,
                                                               transaction_id: tx_id,
                                                               message: message,
                                                               sender_id: sender_id)
       .maybe()
       .map { |_| {flow: :accept, success: true}}
       .or_else({flow: :accept, success: false})
+      {flow: :accept, success: true}
+    else
+      flash[:error] = res
+    end
   end
 
   def reject_tx(community_id, tx_id, message, sender_id)
-    #change for stripe
-    #TransactionService::Transaction.reject(community_id: community_id,
-      #                                      transaction_id: tx_id,
-      #                                      message: message,
-      #                                      sender_id: sender_id)
-      # .maybe()
-      # .map { |_| {flow: :reject, success: true}}
-      # .or_else({flow: :reject, success: false})
+    Rails.logger.warn "REJECT: #{sender_id}, TX: #{tx_id}"
+    TransactionService::Transaction.reject(community_id: community_id,
+                                            transaction_id: tx_id,
+                                            message: message,
+                                            sender_id: sender_id)
+       .maybe()
+       .map { |_| {flow: :reject, success: true}}
+       .or_else({flow: :reject, success: false})
+      {flow: :reject, success: true}
   end
 
   def success_msg(flow)
