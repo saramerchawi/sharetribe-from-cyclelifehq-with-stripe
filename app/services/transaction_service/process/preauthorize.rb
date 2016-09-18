@@ -1,31 +1,22 @@
 module TransactionService::Process
   Gateway = TransactionService::Gateway
 
+  #change for stripe
   class Preauthorize
-
     TxStore = TransactionService::Store::Transaction
 
     def create(tx:, gateway_fields:, gateway_adapter:, prefer_async:)
       Transition.transition_to(tx[:id], :initiated)
 
-      Gateway.unwrap_completion(
-        gateway_adapter.create_payment(
-          tx: tx,
-          gateway_fields: gateway_fields,
-          prefer_async: prefer_async)) do
-
-        Transition.transition_to(tx[:id], :preauthorized)
-      end
+       #we go ahead and set to preauthorized here, since 
+       #the stripe charge has already been successful
+       Transition.transition_to(tx[:id], :preauthorized)
     end
 
     def reject(tx:, message:, sender_id:, gateway_adapter:)
-      res = Gateway.unwrap_completion(
-        gateway_adapter.reject_payment(tx: tx, reason: "")) do
+      Transition.transition_to(tx[:id], :rejected)
 
-        Transition.transition_to(tx[:id], :rejected)
-      end
-
-      if res[:success] && message.present?
+      if message.present?
         send_message(tx, message, sender_id)
       end
 
@@ -38,6 +29,10 @@ module TransactionService::Process
 
         Transition.transition_to(tx[:id], :paid)
       end
+
+      #for stripe, assume success, as doesn't matter here
+      Transition.transition_to(tx[:id], :paid)
+      res[:success] = true
 
       if res[:success] && message.present?
         send_message(tx, message, sender_id)

@@ -178,5 +178,7 @@ class SessionsController < ApplicationController
       locale_string
     end
   end
+  
+
 
 end

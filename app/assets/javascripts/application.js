@@ -87,4 +87,5 @@
 //= require transaction
 //= require listing_form
 //= require radio_buttons
+//= require stripe
 //= require_self

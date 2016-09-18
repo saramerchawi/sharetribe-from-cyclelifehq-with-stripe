@@ -16,6 +16,7 @@ class PaypalAccountsController < ApplicationController
     @selected_left_navi_link = "payments"
 
     community_ready_for_payments = PaypalHelper.community_ready_for_payments?(@current_community)
+    community_ready_for_payments = true
     unless community_ready_for_payments
       flash.now[:warning] = t("paypal_accounts.admin_account_not_connected",
                             contact_admin_link: view_context.link_to(

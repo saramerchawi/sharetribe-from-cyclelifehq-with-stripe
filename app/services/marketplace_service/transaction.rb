@@ -218,6 +218,7 @@ module MarketplaceService
       def save_transition(transaction, new_status, metadata = nil)
         transaction.current_state = new_status
         transaction.save!
+	#stripe - transaction saved here
 
         metadata_hash = Maybe(metadata)
           .map { |data| TransactionService::DataTypes::TransitionMetadata.create_metadata(data) }

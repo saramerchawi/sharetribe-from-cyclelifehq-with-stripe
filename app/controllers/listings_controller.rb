@@ -183,6 +183,7 @@ class ListingsController < ApplicationController
 
     payment_gateway = MarketplaceService::Community::Query.payment_type(@current_community.id)
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
+    #intercept this call? stripe needs to pay somehwere
     form_path = new_transaction_path(listing_id: @listing.id)
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
 
@@ -779,7 +780,8 @@ class ListingsController < ApplicationController
          matches([__, :none])
       [true, ""]
     when matches([:paypal])
-      can_post = PaypalHelper.community_ready_for_payments?(community.id)
+      can_post = true
+#      can_post = PaypalHelper.community_ready_for_payments?(community.id)
       error_msg =
         if user.has_admin_rights?
           t("listings.new.community_not_configured_for_payments_admin",

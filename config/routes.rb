@@ -9,6 +9,13 @@ Kassi::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
+  #stripe callback
+  get '/stripe/oauth/' => 'stripe#oauth', as: 'stripe_oauth'
+  get '/stripe/stripe_connect/:callback' => 'stripe#callback', as: 'stripe_callback'
+  get '/stripe/preauth/:token' => 'stripe#preauth', as: 'stripe_preauth'
+  get '/stripe/pay/' => 'stripe#charge_preauth', as: 'stripe_charge_preauth'
+  get '/stripe/fees/' => 'stripe#list_fees', as: 'stripe_fees'
+
   get "/robots.txt" => RobotsGenerator
 
   # A route for DV test file
@@ -101,7 +108,7 @@ Kassi::Application.routes.draw do
     get "/transactions/op_status/:process_token" => "transactions#op_status", :as => :transaction_op_status
 
     # All new transactions (in the future)
-    get "/transactions/new" => "transactions#new", as: :new_transaction
+    get "/transactions/new" => "transactions#new", as: :new_transaction 
 
     # preauthorize flow
     get "/listings/:listing_id/book" => "preauthorize_transactions#book", :as => :book

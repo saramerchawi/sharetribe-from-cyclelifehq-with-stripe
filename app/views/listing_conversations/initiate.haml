@@ -3,6 +3,17 @@
   ST.transaction.initializePayPalBuyForm("transaction-form");
 
 - content_for :extra_javascript do
+  = javascript_include_tag 'https://checkout.stripe.com/checkout.js'
+  :javascript
+
+    window.publishable_key=#{Rails.application.secrets.stripe_publishable_key.to_json},
+    window.current_user_email = #{@current_email.to_json};
+    window.name = "CyclelifeHQ";
+    window.description = "#{listing[:title]}";
+    window.payment_amount = #{@stripe_total};
+    window.image = "/assets/cyclelife.png";
+
+
   :javascript
     $('#transaction-agreement-read-more').click(function() { $('#transaction-agreement-content').lightbox_me({centered: true, zIndex: 1000000}); });
 
@@ -14,7 +25,6 @@
 #new_message_form.centered-section
 
   - author_link = link_to(author[:display_name], person_path(username: author[:username]))
-
   .preauthorize-section
     %h2.preauthorize-details-title
       = t("listing_conversations.preauthorize.details")
@@ -45,6 +55,7 @@
         .col-12
           = form.text_area :content, :class => "text_area"
           = form.hidden_field :sender_id, :value => @current_user.id
+          = form.hidden_field :stripe_token
 
       - if @current_community.transaction_agreement_in_use
         = render :partial => "listing_conversations/transaction_agreement_checkbox", locals: { form: form }
@@ -57,7 +68,10 @@
 
       .row
         .col-12.paypal-button-wrapper
-          = form.button t("paypal.pay_with_paypal"), class: "checkout-with-paypal-button"
+          .button.pay-button
+            .content
+              Pay with Stripe
+-#          = form.button t("paypal.pay_with_paypal"), class: "checkout-with-paypal-button"
 
       .row
         .col-12
@@ -70,3 +84,4 @@
 
   %noscript
     = "For security reasons JavaScript has to be enabled"
+

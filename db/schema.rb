@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160823120845) do
+ActiveRecord::Schema.define(version: 20160912073658) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -862,6 +862,13 @@ ActiveRecord::Schema.define(version: 20160823120845) do
     t.integer  "min_days_between_community_updates", limit: 4,     default: 1
     t.boolean  "deleted",                                          default: false
     t.string   "cloned_from",                        limit: 22
+    t.string   "publishable_key",                    limit: 64
+    t.string   "provider",                           limit: 20
+    t.string   "uid",                                limit: 64
+    t.string   "access_token",                       limit: 64
+    t.string   "refresh_token",                      limit: 64
+    t.string   "customer_token",                     limit: 4096
+    t.string   "customer_active_token",              limit: 64
   end
 
   add_index "people", ["authentication_token"], name: "index_people_on_authentication_token", using: :btree
@@ -904,6 +911,32 @@ ActiveRecord::Schema.define(version: 20160823120845) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "country_code",      limit: 8
+  end
+
+  create_table "stripe_settings", force: :cascade do |t|
+    t.string "publishable_key", limit: 64
+    t.string "secret_key",      limit: 64
+    t.string "stripe_user_id",  limit: 64
+    t.string "person_id",       limit: 64
+  end
+
+  create_table "stripe_transactions", force: :cascade do |t|
+    t.integer  "transaction_id", limit: 4
+    t.string   "sender_id",      limit: 255
+    t.string   "recipient_id",   limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "amount",         limit: 24
+    t.string   "receipt",        limit: 1536
+  end
+
+  create_table "stripe_users", force: :cascade do |t|
+    t.string "person_id",             limit: 255
+    t.string "stripe_account_type",   limit: 255
+    t.string "publishable_key",       limit: 255
+    t.string "secret_key",            limit: 255
+    t.string "currenty",              limit: 255
+    t.string "stripe_account_status", limit: 255
   end
 
   create_table "testimonials", force: :cascade do |t|

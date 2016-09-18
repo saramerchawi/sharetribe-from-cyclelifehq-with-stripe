@@ -1672,7 +1672,7 @@ en:
     paypal_account_connected_title: "PayPal account connected"
     paypal_account_connected: "The PayPal account <%{email}> has been connected with %{service_name}."
     change_account: "Change PayPal account"
-    missing: "You have open listings but your Paypal account is not set up to receive payments. Connect your Paypal account and grant %{service_name} permission to charge a transaction fee from your %{settings_link}."
+    missing: "You have open listings but your Stripe account is not set up to receive payments. Connect your Stripe account and grant %{service_name} permission to charge a transaction fee from your %{settings_link}."
     from_your_payment_settings_link_text: "payment settings"
     redirect_message: "Redirecting you to PayPal. If nothing happens, click %{redirect_link}."
     redirect_link_text: here
@@ -2082,3 +2082,10 @@ en:
         other: "Displaying <b>all&nbsp;%{count}</b> %{model}"
       multi_page: "Displaying %{model} %{from} - %{to} of %{count} in total"
       multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total"
+  stripe:
+    setup: "Stripe payments are set up and ready to go."
+    stripe_connected: "Stripe account '%{email}' is successfully connected"
+    payout_info_stripe: "%{service_name} uses Stripe as its payment provider. A %{create_stripe_account_link}  account is required in order to accept payments for your listings, and must be connected to %{service_name}." 
+    create_stripe_link: "Stripe"
+    commission_permission_needed: "You will also need to grant %{service_name} permission to charge a transaction fee."
+    registered_for_stripe: "Your account is linked to Stripe and you are able to create listings."

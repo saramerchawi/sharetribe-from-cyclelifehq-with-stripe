@@ -28,7 +28,9 @@ class PreauthorizeTransactionsController < ApplicationController
     :contract_agreed,
     :delivery_method,
     :quantity,
-    :listing_id
+    :listing_id,
+    #add stripe
+    :stripe_token
    ).with_validations {
     validates_presence_of :listing_id
     validates :delivery_method, inclusion: { in: %w(shipping pickup), message: "%{value} is not shipping or pickup." }, allow_nil: true
@@ -51,6 +53,12 @@ class PreauthorizeTransactionsController < ApplicationController
     vprms = view_params(listing_id: params[:listing_id],
                         quantity: quantity,
                         shipping_enabled: delivery_method == :shipping)
+    #BEGIN stripe
+    #get current user's email for Stripe transaction
+    @current_email = current_user_email 
+    @stripe_total = vprms[:total_price]*100; #all amounts in Stripe are in cents
+    #END stripe
+
 
     price_break_down_locals = TransactionViewUtils.price_break_down_locals({
       booking:  false,
@@ -79,13 +87,18 @@ class PreauthorizeTransactionsController < ApplicationController
     }
   end
 
-  def initiated
+def initiated
     conversation_params = params[:listing_conversation]
+
+    #get stripe 
+    stripe_token = conversation_params[:stripe_token]
+
 
     if @current_community.transaction_agreement_in_use? && conversation_params[:contract_agreed] != "1"
       return render_error_response(request.xhr?, t("error_messages.transaction_agreement.required_error"), action: :initiate)
     end
 
+    #in case the user put anything in the form when they paid
     preauthorize_form = PreauthorizeMessageForm.new(conversation_params.merge({
       listing_id: @listing.id
     }))
@@ -113,22 +126,13 @@ class PreauthorizeTransactionsController < ApplicationController
       delivery_method: delivery_method,
       shipping_price: shipping_price
     )
+    #Rails.logger.warn "TID: #{transaction_response}"
 
-    unless transaction_response[:success]
-      return render_error_response(request.xhr?, t("error_messages.paypal.generic_error"), action: :initiate) unless transaction_response[:success]
-    end
+    redirect_to stripe_preauth_path(token: stripe_token, id: transaction_response) and return
 
-    transaction_id = transaction_response[:data][:transaction][:id]
-
-    if (transaction_response[:data][:gateway_fields][:redirect_url])
-      redirect_to transaction_response[:data][:gateway_fields][:redirect_url]
-    else
-      render json: {
-        op_status_url: transaction_op_status_path(transaction_response[:data][:gateway_fields][:process_token]),
-        op_error_msg: t("error_messages.paypal.generic_error")
-      }
-    end
   end
+
+
 
   def book
     delivery_method = valid_delivery_method(delivery_method_str: params[:delivery],
@@ -325,6 +329,7 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def ensure_can_receive_payment
+    #no need for this. Just a single community
     payment_type = MarketplaceService::Community::Query.payment_type(@current_community.id) || :none
 
     ready = TransactionService::Transaction.can_start_transaction(transaction: {
@@ -333,10 +338,11 @@ class PreauthorizeTransactionsController < ApplicationController
         listing_author_id: @listing.author.id
       })
 
-    unless ready[:data][:result]
-      flash[:error] = t("layouts.notifications.listing_author_payment_details_missing")
-      return redirect_to listing_path(@listing)
-    end
+    #remove for stripe
+    # unless ready[:data][:result]
+    #   flash[:error] = t("layouts.notifications.listing_author_payment_details_missing")
+    #   return redirect_to listing_path(@listing)
+    # end
   end
 
   def verified_booking_data(start_on, end_on)
@@ -404,11 +410,14 @@ class PreauthorizeTransactionsController < ApplicationController
       transaction[:shipping_price] = opts[:shipping_price]
     end
 
-    TransactionService::Transaction.create({
+    #capture the transaction id for stripe
+    tx_id = TransactionService::Transaction.create({
         transaction: transaction,
         gateway_fields: gateway_fields
       },
       paypal_async: opts[:use_async])
+
+    
   end
 
   def query_person_entity(id)
@@ -430,4 +439,9 @@ class PreauthorizeTransactionsController < ApplicationController
       .or_else(nil)
   end
 
+  def current_user_email
+    Maybe(@current_user).confirmed_notification_email_to.or_else(nil)
+  end
+
+ 
 end

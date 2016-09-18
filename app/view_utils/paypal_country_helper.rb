@@ -38,7 +38,7 @@ module PaypalCountryHelper
 
 
   CREATE_ACCOUNT_URL = {
-    "au" => "https://www.paypal.com/au/webapps/mpp/account-selection",
+    "au" => "https://dashboard.stripe.com/register"
   }
 
   CREATE_ACCOUNT_URL.default = "https://www.paypal.com/%{country_code}/webapps/mpp/home"

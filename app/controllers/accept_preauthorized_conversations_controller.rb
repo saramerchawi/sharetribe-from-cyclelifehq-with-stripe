@@ -55,7 +55,6 @@ class AcceptPreauthorizedConversationsController < ApplicationController
     sender_id = @current_user.id
 
     tx = TransactionService::API::Api.transactions.query(tx_id)
-
     if tx[:current_state] != :preauthorized
       redirect_to person_transaction_path(person_id: @current_user.id, id: tx_id)
       return
@@ -85,23 +84,34 @@ class AcceptPreauthorizedConversationsController < ApplicationController
   end
 
   def accept_tx(community_id, tx_id, message, sender_id)
-    TransactionService::Transaction.complete_preauthorization(community_id: community_id,
+    #stripe - charge the preauth here
+    stripe_trans = StripeTrans.new
+    res = stripe_trans.charge_preauth(tx_id, community_id)
+
+    if (res == "success")
+      TransactionService::Transaction.complete_preauthorization(community_id: community_id,
                                                               transaction_id: tx_id,
                                                               message: message,
                                                               sender_id: sender_id)
       .maybe()
       .map { |_| {flow: :accept, success: true}}
       .or_else({flow: :accept, success: false})
+      {flow: :accept, success: true}
+    else
+      flash[:error] = res
+    end
   end
 
   def reject_tx(community_id, tx_id, message, sender_id)
+    Rails.logger.warn "REJECT: #{sender_id}, TX: #{tx_id}"
     TransactionService::Transaction.reject(community_id: community_id,
-                                           transaction_id: tx_id,
-                                           message: message,
-                                           sender_id: sender_id)
-      .maybe()
-      .map { |_| {flow: :reject, success: true}}
-      .or_else({flow: :reject, success: false})
+                                            transaction_id: tx_id,
+                                            message: message,
+                                            sender_id: sender_id)
+       .maybe()
+       .map { |_| {flow: :reject, success: true}}
+       .or_else({flow: :reject, success: false})
+      {flow: :reject, success: true}
   end
 
   def success_msg(flow)
