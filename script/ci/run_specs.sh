@@ -1,10 +1,5 @@
 #!/bin/bash
 
-echo "-----------------------------"
-echo "-------- CyclelifeHQ --------"
-echo "----------- Specs -----------"
-echo "-----------------------------"
-
 set -e
 
 echo "--- agent setup"
@@ -27,4 +22,6 @@ bundle exec rake db:create
 bundle exec rake db:schema:load
 
 echo "--- running specs"
-bundle exec rspec spec
+RAILS_ENV=test
+bundle exec rake test:prepare
+bundle exec rspec --exclude-pattern "**/services/paypal_service/api/*_spec.rb"
