@@ -5,7 +5,11 @@
   }
 
   background_image_enabled  = !s["background_image"].nil? 
-  background_image_style    = background_image_enabled ? "background-image: url(assets/#{s["background_image"]["src"]});" : ""
+  if (background_image_enabled)
+    background_image_path     = asset_path(s["background_image"]["src"])
+  end
+  background_image_style    = background_image_enabled ? "background-image: url(#{background_image_path});" : ""
+#  background_image_style    = background_image_enabled ? "background-image: url(/assets/#{s["background_image"]["src"]});" : ""
   background_color_enabled  = !s["background_color"].nil?
   variation_modifier        = variation_modifiers[s["variation"]]
   background_color_style    = background_color_enabled ? "background-color: rgb(#{s["background_color"].join(",")});" : "";
