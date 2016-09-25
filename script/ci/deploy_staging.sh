@@ -3,4 +3,4 @@
 set -e
 
 echo "--- deploying to staging"
-git push heroku-staging "$BUILDKITE_COMMIT":master
+git push -f heroku-staging "$BUILDKITE_COMMIT":master
