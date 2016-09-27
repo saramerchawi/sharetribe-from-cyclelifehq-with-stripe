@@ -152,6 +152,13 @@ def initiated
       return redirect_to listing_path(vprms[:listing][:id])
     end
 
+    #BEGIN stripe
+    #get current user's email for Stripe transaction
+    @current_email = current_user_email 
+    @stripe_total = vprms[:total_price]*100; #all amounts in Stripe are in cents
+    #END stripe
+
+
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
 
     price_break_down_locals = TransactionViewUtils.price_break_down_locals({
@@ -188,6 +195,9 @@ def initiated
     payment_type = MarketplaceService::Community::Query.payment_type(@current_community.id)
     conversation_params = params[:listing_conversation]
 
+    #get stripe 
+    stripe_token = conversation_params[:stripe_token]
+
     start_on = DateUtils.from_date_select(conversation_params, :start_on)
     end_on = DateUtils.from_date_select(conversation_params, :end_on)
     preauthorize_form = PreauthorizeBookingForm.new(conversation_params.merge({
@@ -209,11 +219,11 @@ def initiated
       return render_error_response(request.xhr?, "Delivery method is invalid.", action: :booked)
     end
 
-    unless preauthorize_form.valid?
-      return render_error_response(request.xhr?,
-        preauthorize_form.errors.full_messages.join(", "),
-       { action: :book, start_on: TransactionViewUtils.stringify_booking_date(start_on), end_on: TransactionViewUtils.stringify_booking_date(end_on) })
-    end
+    # unless preauthorize_form.valid?
+    #   return render_error_response(request.xhr?,
+    #     preauthorize_form.errors.full_messages.join(", "),
+    #    { action: :book, start_on: TransactionViewUtils.stringify_booking_date(start_on), end_on: TransactionViewUtils.stringify_booking_date(end_on) })
+    # end
 
     transaction_response = create_preauth_transaction(
       payment_type: payment_type,
@@ -230,27 +240,29 @@ def initiated
         end_on: preauthorize_form.end_on
       })
 
-    unless transaction_response[:success]
-      error =
-        if (payment_type == :paypal)
-          t("error_messages.paypal.generic_error")
-        else
-          "An error occured while trying to create a new transaction: #{transaction_response[:error_msg]}"
-        end
+    redirect_to stripe_preauth_path(token: stripe_token, id: transaction_response) and return
+    
+    # unless transaction_response[:success]
+    #   error =
+    #     if (payment_type == :paypal)
+    #       t("error_messages.paypal.generic_error")
+    #     else
+    #       "An error occured while trying to create a new transaction: #{transaction_response[:error_msg]}"
+    #     end
 
-      return render_error_response(request.xhr?, error, { action: :book, start_on: TransactionViewUtils.stringify_booking_date(start_on), end_on: TransactionViewUtils.stringify_booking_date(end_on) })
-    end
+    #   return render_error_response(request.xhr?, error, { action: :book, start_on: TransactionViewUtils.stringify_booking_date(start_on), end_on: TransactionViewUtils.stringify_booking_date(end_on) })
+    # end
 
-    transaction_id = transaction_response[:data][:transaction][:id]
+    # transaction_id = transaction_response[:data][:transaction][:id]
 
-    if (transaction_response[:data][:gateway_fields][:redirect_url])
-      return redirect_to transaction_response[:data][:gateway_fields][:redirect_url]
-    else
-      return render json: {
-        op_status_url: transaction_op_status_path(transaction_response[:data][:gateway_fields][:process_token]),
-        op_error_msg: t("error_messages.paypal.generic_error")
-      }
-    end
+    # if (transaction_response[:data][:gateway_fields][:redirect_url])
+    #   return redirect_to transaction_response[:data][:gateway_fields][:redirect_url]
+    # else
+    #   return render json: {
+    #     op_status_url: transaction_op_status_path(transaction_response[:data][:gateway_fields][:process_token]),
+    #     op_error_msg: t("error_messages.paypal.generic_error")
+    #   }
+    # end
   end
 
   private
@@ -278,6 +290,7 @@ def initiated
     action_button_label = translate(listing[:action_button_tr_key])
 
     subtotal = listing[:price] * quantity
+    Rails.logger.warn "PRICE: #{listing[:price]}"
     shipping_price = shipping_price_total(listing[:shipping_price], listing[:shipping_price_additional], quantity)
     total_price = shipping_enabled ? subtotal + shipping_price : subtotal
 
@@ -413,7 +426,8 @@ def initiated
     #capture the transaction id for stripe
     tx_id = TransactionService::Transaction.create({
         transaction: transaction,
-        gateway_fields: gateway_fields
+        gateway_fields: gateway_fields,
+        stripe_trans: true
       },
       paypal_async: opts[:use_async])
 

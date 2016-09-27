@@ -95,8 +95,14 @@ module TransactionService::Transaction
                             gateway_adapter: gateway_adapter,
                             prefer_async: paypal_async)
 
-    #we just need the id for stripe
-    tx[:id]
+    unless (opts[:stripe_trans])
+      res.maybe()
+        .map { |gw_fields| Result::Success.new(DataTypes.create_transaction_response(query(tx[:id]), gw_fields)) }
+        .or_else(res)
+    else
+      #we just need the id for stripe
+      tx[:id]
+    end
   end
 
   def reject(community_id:, transaction_id:, message: nil, sender_id: nil)

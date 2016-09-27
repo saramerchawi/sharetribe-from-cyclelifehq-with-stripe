@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912073658) do
+ActiveRecord::Schema.define(version: 20160926234918) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -867,7 +867,7 @@ ActiveRecord::Schema.define(version: 20160912073658) do
     t.string   "uid",                                limit: 64
     t.string   "access_token",                       limit: 64
     t.string   "refresh_token",                      limit: 64
-    t.string   "customer_token",                     limit: 4096
+    t.string   "customer_token",                     limit: 1536
     t.string   "customer_active_token",              limit: 64
   end
 
