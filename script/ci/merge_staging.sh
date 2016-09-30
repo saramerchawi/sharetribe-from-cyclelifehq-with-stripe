@@ -12,4 +12,4 @@ git merge origin/master --no-ff -m "Merging master into staging"
 
 echo "--- pushing changes to github"
 # this will kick off a build for staging
-git push origin staging:staging
+git push -f origin staging:staging
