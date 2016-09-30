@@ -2,11 +2,9 @@
 
 set -e
 
-git reset --hard
-
 echo "--- checking out branch"
-git checkout staging
 git reset --hard
+git checkout staging
 
 echo "--- merging master into staging"
 git fetch -p origin
