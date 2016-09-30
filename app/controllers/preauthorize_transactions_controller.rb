@@ -227,7 +227,7 @@ class PreauthorizeTransactionsController < ApplicationController
         pickup_enabled: listing.pickup_enabled)
 
       Validator.validate_initiate_params(marketplace_uuid: @current_community.uuid_object,
-                                         listing_uuid: listing.uuid,
+                                         listing_uuid: listing.uuid_object,
                                          tx_params: tx_params,
                                          quantity_selector: listing.quantity_selector&.to_sym,
                                          shipping_enabled: listing.require_shipping_address,
@@ -317,9 +317,6 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def initiated
-    #covers purchases and bookings now
-    #need to change here to add stripe param
-    Rails.logger.warn "PARAMS: #{params}"
     validation_result = NewTransactionParams.validate(params).and_then { |params_entity|
       tx_params = add_defaults(
         params: params_entity,
@@ -338,7 +335,6 @@ class PreauthorizeTransactionsController < ApplicationController
     #get stripe 
     stripe_token = params[:stripe_token]
 
-    Rails.logger.warn "RES: #{validation_result}"
     validation_result.on_success { |tx_params|
       is_booking = date_selector?(listing)
 
@@ -523,7 +519,6 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def ensure_can_receive_payment
-    #no need for this. Just a single community
     payment_type = MarketplaceService::Community::Query.payment_type(@current_community.id) || :none
 
     ready = TransactionService::Transaction.can_start_transaction(transaction: {
@@ -536,7 +531,7 @@ class PreauthorizeTransactionsController < ApplicationController
     # unless ready[:data][:result]
     #   flash[:error] = t("layouts.notifications.listing_author_payment_details_missing")
     #   redirect_to listing_path(listing)
-    #end
+    # end
   end
 
   def create_preauth_transaction(opts)
@@ -559,7 +554,7 @@ class PreauthorizeTransactionsController < ApplicationController
           community_id: opts[:community].id,
           community_uuid: opts[:community].uuid_object,
           listing_id: opts[:listing].id,
-          listing_uuid: opts[:listing].uuid,
+          listing_uuid: opts[:listing].uuid_object,
           listing_title: opts[:listing].title,
           starter_id: opts[:user].id,
           listing_author_id: opts[:listing].author.id,
@@ -595,9 +590,7 @@ class PreauthorizeTransactionsController < ApplicationController
     )
   end
 
-
   def current_user_email
     Maybe(@current_user).confirmed_notification_email_to.or_else(nil)
   end
-
 end

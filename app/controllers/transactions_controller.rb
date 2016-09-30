@@ -19,7 +19,6 @@ class TransactionsController < ApplicationController
   )
 
   def new
-    #may need to change for stripe
     Result.all(
       ->() {
         fetch_data(params[:listing_id])
@@ -46,7 +45,6 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    #may need to change for stripe
     Result.all(
       ->() {
         TransactionForm.validate(params)
@@ -79,7 +77,7 @@ class TransactionsController < ApplicationController
               community_id: @current_community.id,
               community_uuid: @current_community.uuid_object,
               listing_id: listing_id,
-              listing_uuid: listing_model.uuid,
+              listing_uuid: listing_model.uuid_object,
               listing_title: listing_model.title,
               starter_id: @current_user.id,
               listing_author_id: author_model.id,

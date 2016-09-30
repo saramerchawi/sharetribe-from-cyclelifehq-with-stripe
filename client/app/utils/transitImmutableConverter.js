@@ -1,5 +1,20 @@
 import transit from 'transit-js';
 import Immutable from 'immutable';
+import { Image, ImageRefs } from '../models/ListingModel';
+
+const toImage = (data) => {
+  const knownStyles = {
+    ':square': 'square',
+    ':square_2x': 'square2x',
+  };
+  const images = data.map(([type, height, width, url]) =>
+    new Image({ type, height, width, url }));
+  const styles = images.reduce((acc, val) => {
+    const style = knownStyles[val.type];
+    return style ? acc.set(style, val) : acc;
+  }, new ImageRefs());
+  return styles;
+};
 
 const createReader = function createReader() {
   return transit.reader('json', {
@@ -16,6 +31,8 @@ const createReader = function createReader() {
     handlers: {
       ':': (rep) => `:${rep}`,
       list: (rep) => Immutable.List(rep).asImmutable(),
+      r: (rep) => rep,
+      im: toImage,
     },
   });
 };

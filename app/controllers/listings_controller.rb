@@ -261,10 +261,10 @@ class ListingsController < ApplicationController
     params[:listing].delete("origin_loc_attributes") if params[:listing][:origin_loc_attributes][:address].blank?
 
     shape = get_shape(Maybe(params)[:listing][:listing_shape_id].to_i.or_else(nil))
-    listing_uuid = UUIDTools::UUID.timestamp_create
+    listing_uuid = UUIDUtils.create
 
     if FeatureFlagHelper.feature_enabled?(:availability) && shape.present? && shape[:availability] == :booking
-      bookable_res = create_bookable(@current_community.uuid_object, listing_uuid, @current_user.uuid)
+      bookable_res = create_bookable(@current_community.uuid_object, listing_uuid, @current_user.uuid_object)
       unless bookable_res.success
         flash[:error] = t("listings.error.something_went_wrong_plain")
         return redirect_to new_listing_path
@@ -289,7 +289,7 @@ class ListingsController < ApplicationController
     m_unit = select_unit(listing_unit, shape)
 
     listing_params = create_listing_params(listing_params).merge(
-        uuid: listing_uuid.raw,
+        uuid_object: listing_uuid,
         community_id: @current_community.id,
         listing_shape_id: shape[:id],
         transaction_process_id: shape[:transaction_process_id],
@@ -410,8 +410,9 @@ class ListingsController < ApplicationController
 
     listing_params = normalize_price_params(listing_params)
     m_unit = select_unit(listing_unit, shape)
+    listing_reopened = @listing.closed?
 
-    open_params = @listing.closed? ? {open: true} : {}
+    open_params = listing_reopened ? {open: true} : {}
 
     listing_params = create_listing_params(listing_params).merge(
       transaction_process_id: shape[:transaction_process_id],
@@ -429,6 +430,7 @@ class ListingsController < ApplicationController
       @listing.location.update_attributes(params[:location]) if @listing.location
       flash[:notice] = t("layouts.notifications.listing_updated_successfully")
       Delayed::Job.enqueue(ListingUpdatedJob.new(@listing.id, @current_community.id))
+      reprocess_missing_image_styles(@listing) if listing_reopened
       redirect_to @listing
     else
       logger.error("Errors in editing listing: #{@listing.errors.full_messages.inspect}")
@@ -811,9 +813,8 @@ class ListingsController < ApplicationController
          matches([__, :none])
       [true, ""]
     when matches([:paypal])
-      #stripe change
-      can_post = true
-#      can_post = PaypalHelper.community_ready_for_payments?(community.id)
+      can_post = true #stripe change
+      #can_post = PaypalHelper.community_ready_for_payments?(community.id)
       error_msg =
         if user.has_admin_rights?
           t("listings.new.community_not_configured_for_payments_admin",
@@ -946,5 +947,13 @@ class ListingsController < ApplicationController
         price_info: ListingViewUtils.shipping_info(delivery_type, price, shipping_price_additional),
         default: true
       }
+  end
+
+  # Create image sizes that might be missing
+  # from a reopened listing
+  def reprocess_missing_image_styles(listing)
+    listing.listing_images.pluck(:id).each { |image_id|
+      Delayed::Job.enqueue(CreateSquareImagesJob.new(image_id))
+    }
   end
 end
