@@ -94,16 +94,18 @@ sv:
         favicon: Favicon
         favicon_info_text: "Favicon kommer att ersätta Sharetribes standardlogotyp. Dimensionerna ska vara 32x32 pixlar och den uppladdade bilden kommer att skalas till den dimensionen."
         community_custom_color1: Huvudfärg
-        community_custom_color2: "Den andra färgen"
+        new_listing_button_custom_color: ~
         logo_instructions_text_with_dimensions: "Desktoplogotypens storlek ska vara %{width}x%{height}px. Den kommer att visas för användare med större skärm."
+        logo_instructions_text_with_dimensions_no_placing: ~
         logo_icon_instructions_text_with_dimensions: "Denna fyrkantiga logotyp kommer att visas när folk delar din sida på Facebook, när de ser din sida på en mobil enhet eller när de lägger ett bokmärke av din sida till hemmaskärmen på mobila enheter. Dimensionerna måste vara (minst) %{width}x%{height}px."
+        logo_icon_instructions_text_with_dimensions_no_placing: ~
         cover_photo_visibility: "Omslagsbild visas på startsidan för ej inloggade användare."
         cover_photo_instructions_text_with_dimensions: "Bilden kommer att skalas ner till %{width}x%{height} pixlar och större bilder kommer att beskäras i mitten. %{see_how_it_looks_like}."
         small_cover_photo_visibility: "Liten omslagsbild visas på alla sidor förutom på startsidan för ej inloggade användare."
         small_cover_photo_instructions_text_with_dimensions: "Bilden kommer att skalas ner till %{height}x%{width} pixlar och större bilder kommer att beskäras i mitten."
         main_content_width: "När du väljer en omslagsbild så notera att huvudsidans innehåll är %{main_width} pixlar brett som mest. Kom även ihåg att se hur omslagsbilden ser ut på mindre skärmar (t ex så kan du göra din webbläsares fönster mindre)."
         custom_color1_instructions_text: "Du kan ändra huvudfärgen på användargränssnittet genom att skriva in ett hex-värde. <a href=\"http://www.colorpicker.com/?colorcode=D96E21\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> kan hjälpa dig att välja en färg och kopiera koden här."
-        custom_color2_instructions_text: ~
+        new_listing_button_instructions_text: ~
         default_browse_view: "Standard bläddervy"
         default_browse_view_instructions_text: "Standard visningsläge används på startsidan för att se hur annonserna visas som standard."
         grid: Rutnätsvy
@@ -280,6 +282,10 @@ sv:
         all: ~
         max_number_of_links_info: ~
         about_page: ~
+      topbar:
+        topbar: ~
+        new_listing_button_label: ~
+        invalid_post_listing_button_label: ~
       transactions:
         export_all_as_csv: ~
         transactions: "Visa transaktioner"
@@ -854,7 +860,6 @@ sv:
       title_link_text: "%{community_name}"
       intro_paragraph: "Här är några saker som har hänt på %{community_link} under de senaste %{time_since_last_update}."
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: "Skapa annons!"
       reduce_email_footer_text: "För många e-postmeddelanden? %{settings_link} eller %{unsubscribe_link}"
       settings_link_text: "Ändra dina e-postinställningar här"
       unsubscribe_link_text: avprenumerera
@@ -959,8 +964,8 @@ sv:
       javascript_is_disabled_in_your_browser: "Javascript har avaktiverats i din webbläsare"
       kassi_does_not_currently_work_without_javascript: "Tyvärr %{service_name} fungerar inte utan Javascript. Försök att aktivera Javascript i din webbläsare och ladda om sidan."
       contact_us: "kontakta oss"
-      send_feedback: ~
-      your_feedback_to_admins: ~
+      send_feedback: "Skicka meddelande"
+      your_feedback_to_admins: "Ditt meddelande till %{service_name} -teamet"
     send: Skicka
     your_email_address: "Din e-postadress"
   errors:
@@ -1136,7 +1141,7 @@ sv:
       search: ~
       signup: ~
       search_placeholder: ~
-      search_location_placeholder: ~
+      search_location_placeholder: Plats
     listings:
       no_listing_image: ~
   layouts:
@@ -1149,17 +1154,17 @@ sv:
     no_tribe:
       inbox: Inkorg
       settings: Inställningar
-      feedback: ~
+      feedback: "Kontakta team %{service_name}"
     application:
       join_this_community: "Gå med marknadsplatsen"
       read_more: "Läs mer"
-      feedback: ~
+      feedback: "Ditt meddelande till %{service_name} -teamet"
       dont_use_to_contact_support: ~
       feedback_forum: "forum för feedback"
       feedback_handle: Feedback
       give_feedback: "Kontakta oss"
       or_check_our: "...eller kolla vår"
-      send_feedback_to_admin: ~
+      send_feedback_to_admin: "Skicka meddelande"
       to_see_what_others_have_suggested: "för att se vad andra användare har föreslagit, rösta på idéerna där."
       your_email_address: "Din e-postadress (för att kontakta dig)"
       connect: "Gå med"
@@ -1360,6 +1365,7 @@ sv:
       open_in_google_maps: ~
     error:
       something_went_wrong: "Något gick fel, felmeddelande: %{error_code}"
+      something_went_wrong_plain: ~
     follow_links:
       follow: "Få e-post om nya kommentarer"
       unfollow: "Få inga meddelanden om nya kommentarer"
@@ -1508,7 +1514,6 @@ sv:
       how_paypal_works: "Hur PayPal fungerar"
       payment_help: Betalningshjälp
     new:
-      post_a_new_listing: "Skapa annons"
       listing: annons
       selected_category: "Kategori: %{category}"
       selected_subcategory: "Underkategori: %{subcategory}"
@@ -1589,6 +1594,11 @@ sv:
       you_will_be_charged: "OBS! Du debiteras endast om %{author} accepterar ditt köp. %{author} behöver acceptera köpet inom %{expiration_period} dagar. Om %{author} avvisar eller inte svarar så sker ingen debitering."
       day: dag
       days: dagar
+      night: ~
+      nights: ~
+      invalid_parameters: ~
+      dates_not_available: ~
+      error_in_checking_availability: ~
     transaction_agreement_checkbox:
       read_more: Visa
   mapview:
@@ -1628,6 +1638,7 @@ sv:
     connected_account: "PayPal konto %{email} kopplades korrekt."
     paypal_receive_funds_info_label_australia_only: ~
     paypal_receive_funds_info_label: ~
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: ~
     upgrade_paypal_account_link_text: ~
     admin_account_not_connected: ~
@@ -2026,7 +2037,9 @@ sv:
   transactions:
     initiate:
       booked_days: "Bokade dagar:"
+      booked_nights: ~
       price_per_day: "Pris per dag:"
+      price_per_night: ~
       quantity: "Antal:"
       subtotal: "Delsumma:"
       shipping-price: "Frakt:"
@@ -2043,7 +2056,7 @@ sv:
       menu: ~
       more: ~
       search_placeholder: ~
-      search_location_placeholder: ~
+      search_location_placeholder: Plats
       user: ~
       inbox: ~
       profile: ~
@@ -2054,6 +2067,10 @@ sv:
       signup: ~
       admin_dashboard: ~
       language: ~
+    branding:
+      powered_by: ~
+      create_own: ~
+      learn_more: ~
   will_paginate:
     models:
       person:

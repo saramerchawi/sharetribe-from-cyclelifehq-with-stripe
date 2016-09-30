@@ -15,11 +15,18 @@ class LandingPageController < ActionController::Metal
   # Ensure ActiveSupport::Notifications events are fired
   include ActionController::Instrumentation
 
-  # Include route helpers
-  include Rails.application.routes.url_helpers
-
   # Adds helper_method
   include ActionController::Helpers
+
+  # Add redirect_to
+  include ActionController::Redirecting
+
+  # Include route helpers.
+  #
+  # This needs to be included last! Otherwise you may get error saying
+  # that you need to include url_helpers in order to use #url_for
+  #
+  include Rails.application.routes.url_helpers
 
   CACHE_TIME = APP_CONFIG[:clp_cache_time].to_i.seconds
   CACHE_HEADER = "X-CLP-Cache"
@@ -27,6 +34,8 @@ class LandingPageController < ActionController::Metal
   FONT_PATH = APP_CONFIG[:font_proximanovasoft_url]
 
   def index
+    return if perform_redirect!
+
     cid = community(request).id
     default_locale = community(request).default_locale
     version = CLP::LandingPageStore.released_version(cid)
@@ -81,6 +90,8 @@ class LandingPageController < ActionController::Metal
   end
 
   def preview
+    return if perform_redirect!
+
     cid = community(request).id
     default_locale = community(request).default_locale
 
@@ -110,15 +121,28 @@ class LandingPageController < ActionController::Metal
 
   private
 
+  def perform_redirect!
+    redirect_params = {
+      community: community(request),
+      plan: plan(request),
+      request: request
+    }
+
+    MarketplaceRouter.perform_redirect(redirect_params) do |target|
+      url = target[:url] || send(target[:route_name], protocol: target[:protocol])
+      redirect_to(url, status: target[:status])
+    end
+  end
+
   # Override basic instrumentation and provide additional info for
   # lograge to consume. These are pulled and logged in environment
   # configs.
   def append_info_to_payload(payload)
     super
-    payload[:host] = request.host
     payload[:community_id] = community(request)&.id
     payload[:current_user_id] = nil
-    payload[:request_uuid] = request.uuid
+
+    ControllerLogging.append_request_info_to_payload!(request, payload)
   end
 
   def initialize_i18n!(cid, locale)
@@ -189,6 +213,10 @@ class LandingPageController < ActionController::Metal
     @current_community ||= request.env[:current_marketplace]
   end
 
+  def plan(request)
+    @current_plan ||= request.env[:current_plan]
+  end
+
   def community_customization(request, locale)
     community(request).community_customizations.where(locale: locale).first
   end
@@ -213,6 +241,13 @@ class LandingPageController < ActionController::Metal
 
     initialize_i18n!(c&.id, landing_page_locale)
 
+    # Init feature flags with marketplace specific flags, skip personal
+    FeatureFlagHelper.init(community_id: c.id,
+                           user_id: nil,
+                           request: request,
+                           is_admin: false,
+                           is_marketplace_admin: false)
+
     props = topbar_props(c,
                          community_customization(request, landing_page_locale),
                          request.fullpath,
@@ -221,7 +256,6 @@ class LandingPageController < ActionController::Metal
                          true)
     marketplace_context = marketplace_context(c, topbar_locale, request)
 
-    FeatureFlagHelper.init(request, false, false)
 
     denormalizer = build_denormalizer(
       cid: c&.id,
@@ -275,6 +309,7 @@ class LandingPageController < ActionController::Metal
       path_after_locale_change: path,
       search_placeholder: community_customization&.search_placeholder,
       locale_param: locale_param,
+      current_path: request_path,
       landing_page: landing_page,
       host_with_port: request.host_with_port)
   end

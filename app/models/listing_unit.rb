@@ -18,16 +18,4 @@
 #
 
 class ListingUnit < ActiveRecord::Base
-  attr_accessible(
-    :listing_shape_id,
-    :unit_type,
-    :name_tr_key,
-    :selector_tr_key,
-    :quantity_selector,
-    :kind
-  )
-
-  def self.columns
-    super.reject { |c| c.name == "translation_key"}
-  end
 end

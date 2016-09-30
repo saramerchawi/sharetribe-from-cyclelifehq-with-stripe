@@ -1,16 +1,15 @@
-import { storiesOf, action } from '@kadira/storybook';
 import r from 'r-dom';
-import { storify, defaultRailsContext } from '../../Styleguide/withProps';
+import { mount } from 'enzyme';
+import { storify } from '../../Styleguide/withProps';
 
 import Topbar from './Topbar';
 
-const containerStyle = { style: { minWidth: '600px', background: 'white' } };
+const { storiesOf, action, specs, expect } = storybookFacade;
 
+const containerStyle = { style: { minWidth: '600px', background: 'white' } };
 const fakeRoute = () => '#';
 
 const baseProps = {
-  marketplaceContext: defaultRailsContext,
-  isAdmin: true,
   routes: {
     person_inbox_path: fakeRoute,
     person_path: fakeRoute,
@@ -40,8 +39,9 @@ const baseProps = {
         priority: 0,
       },
       {
-        link: 'http://example.com#link',
-        title: 'Link',
+        link: 'http://suspicious.com#link',
+        title: 'External',
+        external: true,
         priority: 1,
       },
       {
@@ -97,27 +97,84 @@ const baseProps = {
   newListingButton: {
     text: 'Post a new listing',
   },
+  i18n: {
+    locale: 'en',
+    defaultLocale: 'en',
+  },
+  marketplace: {
+    marketplace_color1: '#64A',
+    location: '/',
+  },
+  user: {
+    loggedInUsername: 'foo',
+    isAdmin: true,
+  },
 };
 
 const loggedOut = (props) => ({
   ...props,
-  marketplaceContext: {
-    ...props.marketplaceContext,
+  user: {
     loggedInUsername: null,
+    isAdmin: false,
   },
 });
 
 const storifyTopbar = (props) => r(storify(r(Topbar, props)), containerStyle);
 
+const topbarWithSpecs = (props, spec) => {
+  const component = r(Topbar, props);
+  const mounted = mount(component);
+  spec(mounted);
+  return r(storify(component, containerStyle));
+};
+
+const noLoginLinks = (component) => {
+  it('shouldn\'t contain login and signup links', () => {
+    expect(component.text()).to.not.contain('login');
+    expect(component.text()).to.not.contain('signup');
+  });
+  it('should contain logout link', () => {
+    expect(component.text()).to.contain('Log out');
+  });
+};
+
+const hasLoginLinks = (component) => {
+  it('should contain login and signup links', () => {
+    expect(component.text()).to.contain('Log in');
+    expect(component.text()).to.contain('Sign up');
+  });
+  it('shouldn\'t contain logout link', () => {
+    expect(component.text()).to.not.contain('Log out');
+  });
+};
+
+const hasLogo = (component) => {
+  it('should contain logo', () => {
+    expect(component.find('.Logo')).to.have.length(1);
+  });
+};
+
 storiesOf('Top bar')
   .add('Basic state', () => (
-    storifyTopbar(baseProps)))
+    topbarWithSpecs(baseProps, (component) => {
+      specs(() => describe('Basic topbar', () => {
+        noLoginLinks(component);
+        it('should have stuff in place');
+      }));
+    })))
   .add('Empty state', () => (
-    storifyTopbar({
+    topbarWithSpecs({
       logo: baseProps.logo,
-      marketplaceContext: baseProps.marketplaceContext,
+      marketplace: {
+        location: '/',
+      },
       routes: baseProps.routes,
       search_path: baseProps.search_path,
+    }, (component) => {
+      specs(() => describe('Empty state', () => {
+        hasLogo(component);
+        hasLoginLinks(component);
+      }));
     })))
   .add('Logged out', () => (
     storifyTopbar(loggedOut(baseProps))))

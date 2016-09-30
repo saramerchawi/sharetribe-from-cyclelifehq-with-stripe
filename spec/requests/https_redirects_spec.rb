@@ -61,7 +61,7 @@ describe "Redirect to HTTPS", type: :request do
       @community.reload
     end
 
-    context "when always_use_ssl is true:", :broken => true do
+    context "when always_use_ssl is true:" do
 
       include_context "common with ssl"
 
@@ -71,7 +71,7 @@ describe "Redirect to HTTPS", type: :request do
       end
     end
 
-    context "when always_use_ssl is false", :broken => true do
+    context "when always_use_ssl is false" do
       include_context "common no ssl"
     end
   end
@@ -95,7 +95,7 @@ describe "Redirect to HTTPS", type: :request do
       APP_CONFIG.domain = @orig_domain
     end
 
-    context "when always_use_ssl is true:", :broken => true do
+    context "when always_use_ssl is true:" do
       include_context "common with ssl"
 
       it "redirects and strips additional labels over HTTP" do
@@ -104,7 +104,7 @@ describe "Redirect to HTTPS", type: :request do
       end
     end
 
-    context "when always_use_ssl is false", :broken => true do
+    context "when always_use_ssl is false" do
       include_context "common no ssl"
     end
   end

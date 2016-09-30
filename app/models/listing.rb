@@ -4,6 +4,7 @@
 # Table name: listings
 #
 #  id                              :integer          not null, primary key
+#  uuid                            :binary(16)       not null
 #  community_id                    :integer          not null
 #  author_id                       :string(255)
 #  category_old                    :string(255)
@@ -45,6 +46,7 @@
 #  pickup_enabled                  :boolean          default(FALSE)
 #  shipping_price_cents            :integer
 #  shipping_price_additional_cents :integer
+#  availability                    :string(32)       default("none")
 #
 # Indexes
 #
@@ -55,6 +57,7 @@
 #  index_listings_on_listing_shape_id  (listing_shape_id)
 #  index_listings_on_new_category_id   (category_id)
 #  index_listings_on_open              (open)
+#  index_listings_on_uuid              (uuid) UNIQUE
 #  person_listings                     (community_id,author_id)
 #  updates_email_listings              (community_id,open,updates_email_at)
 #
@@ -103,6 +106,19 @@ class Listing < ActiveRecord::Base
     self.updates_email_at ||= Time.now
   end
 
+  def uuid
+    if self[:uuid].nil?
+      nil
+    else
+      UUIDTools::UUID.parse_raw(self[:uuid])
+    end
+  end
+
+  before_create :add_uuid
+  def add_uuid
+    self.uuid ||= UUIDTools::UUID.timestamp_create.raw
+  end
+
   before_validation do
     # Normalize browser line-breaks.
     # Reason: Some browsers send line-break as \r\n which counts for 2 characters making the
@@ -140,11 +156,11 @@ class Listing < ActiveRecord::Base
 
   # Overrides the to_param method to implement clean URLs
   def to_param
-    "#{id}-#{title.to_url}"
+    self.class.to_param(id, title)
   end
 
-  def self.columns
-    super.reject { |c| c.name == "transaction_type_id" || c.name == "visibility"}
+  def self.to_param(id, title)
+    "#{id}-#{title.to_url}"
   end
 
   def self.find_by_category_and_subcategory(category)

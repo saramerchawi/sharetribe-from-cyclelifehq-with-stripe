@@ -13,7 +13,6 @@
     window.payment_amount = #{@stripe_total};
     window.image = "/assets/cyclelife.png";
 
-
   :javascript
     $('#transaction-agreement-read-more').click(function() { $('#transaction-agreement-content').lightbox_me({centered: true, zIndex: 1000000}); });
 
@@ -25,6 +24,7 @@
 #new_message_form.centered-section
 
   - author_link = link_to(author[:display_name], person_path(username: author[:username]))
+
   .preauthorize-section
     %h2.preauthorize-details-title
       = t("listing_conversations.preauthorize.details")
@@ -37,15 +37,10 @@
       %li
         = render partial: "transactions/price_break_down", locals: price_break_down_locals
 
-  = form_for preauthorize_form,
-    :url => form_action,
-      :method => "post",
-      :html => { :id => "transaction-form" } do |form|
+  = form_tag form_action, method: :post, id: "transaction-form" do
 
-    -# TODO Fix this, no respond_to?
-    - if preauthorize_form.respond_to?(:start_on) && preauthorize_form.respond_to?(:end_on)
-      = form.date_select :start_on, { value: preauthorize_form.start_on }, { class: "hidden" }
-      = form.date_select :end_on, { value: preauthorize_form.end_on }, { class: "hidden" }
+    = hidden_field_tag(:start_on, start_on&.iso8601 )
+    = hidden_field_tag(:end_on, end_on&.iso8601 )
 
     .preauthorize-section
       %h2
@@ -53,25 +48,24 @@
 
       .row
         .col-12
-          = form.text_area :content, :class => "text_area"
-          = form.hidden_field :sender_id, :value => @current_user.id
-          = form.hidden_field :stripe_token
+          = text_area_tag :message, nil, :class => "text_area"
+          = hidden_field_tag :stripe_token
 
       - if @current_community.transaction_agreement_in_use
-        = render :partial => "listing_conversations/transaction_agreement_checkbox", locals: { form: form }
+        = render :partial => "listing_conversations/transaction_agreement_checkbox"
 
-      - if local_assigns.has_key?(:quantity)
-        = form.hidden_field :quantity, value: quantity
+      - if quantity
+        = hidden_field_tag :quantity, quantity
 
       - if delivery_method
-        = form.hidden_field :delivery_method, value: delivery_method
+        = hidden_field_tag :delivery, delivery_method
 
       .row
         .col-12.paypal-button-wrapper
           .button.pay-button
             .content
               Pay with Stripe
--#          = form.button t("paypal.pay_with_paypal"), class: "checkout-with-paypal-button"
+-#          = button_tag t("paypal.pay_with_paypal"), class: "checkout-with-paypal-button"
 
       .row
         .col-12
@@ -84,4 +78,3 @@
 
   %noscript
     = "For security reasons JavaScript has to be enabled"
-

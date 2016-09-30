@@ -94,16 +94,18 @@ nl:
         favicon: Favicon
         favicon_info_text: "Favicon zal het standaard Sharetribe-logo vervangen. De afmetingen moeten 32x32 pixels zijn. De afbeelding die wordt opgeladen zal verkleind worden naar deze afmetingen."
         community_custom_color1: Hoofdkleur
-        community_custom_color2: "Tweede kleur"
+        new_listing_button_custom_color: ~
         logo_instructions_text_with_dimensions: "Het desktop logo zou %{width}x%{height} pixels moeten zijn. Het zal getoond worden aan gebruikers met grotere schermen."
+        logo_instructions_text_with_dimensions_no_placing: ~
         logo_icon_instructions_text_with_dimensions: "Mobiele logo's zouden vierkant moeten zijn, bij voorkeur %{width}x%{height} pixels. Het zal getoond worden aan gebruikers met kleinere schermen."
+        logo_icon_instructions_text_with_dimensions_no_placing: ~
         cover_photo_visibility: "Cover afbeelding wordt getoond op de homepagina voor gebruikers die niet ingelogd zijn."
         cover_photo_instructions_text_with_dimensions: "De afbeelding zal verkleind worden naar %{width}x%{height} pixels. Grote afbeeldingen zullen in twee gesplitst worden. %{see_how_it_looks_like}"
         small_cover_photo_visibility: "Kleine cover afbeeldingen worden op alle pagina's getoond behalve op de homepagina voor gebruikers die niet ingelogd zijn."
         small_cover_photo_instructions_text_with_dimensions: "De afbeelding wordt verkleind tot %{width}x%{height} pixels. Grotere afbeeldingen worden in twee gesplitst."
         main_content_width: "Hou er bij het kiezen van een cover afbeelding rekening mee dat de hoofdpagina maximaal %{main_width} pixels is. Vergeet ook niet na te gaan hoe je cover afbeelding eruit ziet op kleinere schermen (b.v. door een smal browser scherm te gebruiken)."
         custom_color1_instructions_text: "Je kan de hoofdkleur van de intercace wijzigen door een zgn. hex kleur waarde in te geven. <a href=\"http://www.colorpicker.com/?colorcode=D96E21\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> kan je helpen deze kleur te kiezen en de bijbehorende code hier te kopiëren."
-        custom_color2_instructions_text: "Je kunt de kleur van de %{post_new_listing} button veranderen door een hex kleur code in te vullen. <a href=\"http://www.colorpicker.com/?colorcode=00a26c\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> kan je helpen de kleur en de hex code te vinden."
+        new_listing_button_instructions_text: ~
         default_browse_view: "Standaard browse overzicht"
         default_browse_view_instructions_text: "Standaard browse overzicht is gebruikt op de homepagina om te bepalen hoe de lijsten standaard weergegeven worden."
         grid: Raster
@@ -280,6 +282,10 @@ nl:
         all: ~
         max_number_of_links_info: ~
         about_page: ~
+      topbar:
+        topbar: ~
+        new_listing_button_label: ~
+        invalid_post_listing_button_label: ~
       transactions:
         export_all_as_csv: ~
         transactions: "Bekijk transacties"
@@ -838,7 +844,6 @@ nl:
       title_link_text: "%{community_name}"
       intro_paragraph: "Hieronder een paar dingen die afgelopen %{time_since_last_update} gebeurd zijn op %{community_link}."
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: "Plaats een nieuw item!"
       reduce_email_footer_text: "Te veel e-mail? %{settings_link} of %{unsubscribe_link}."
       settings_link_text: "Wijzig uw e-mail instellingen hier"
       unsubscribe_link_text: uitschrijven
@@ -1342,6 +1347,7 @@ nl:
       open_in_google_maps: ~
     error:
       something_went_wrong: ~
+      something_went_wrong_plain: ~
     follow_links:
       follow: "Ontvang e-mail wanneer er een reactie is geplaatst"
       unfollow: "Ontvang geen e-mails als er een reactie is geplaatst"
@@ -1490,7 +1496,6 @@ nl:
       how_paypal_works: "Hoe PayPal werkt"
       payment_help: ~
     new:
-      post_a_new_listing: "Plaats een nieuw item"
       listing: Item
       selected_category: "Categorie: %{category}"
       selected_subcategory: "Subcategorie: %{subcategory}"
@@ -1571,6 +1576,11 @@ nl:
       you_will_be_charged: "Je bestelling zal pas afgerekend worden als %{author} de transactie accepteert. Dit moet binnen %{expiration_period} dagen gebeuren. Als %{author} de transactie afwijst of niet reageert, worden er geen kosten gerekend."
       day: dag
       days: dagen
+      night: ~
+      nights: ~
+      invalid_parameters: ~
+      dates_not_available: ~
+      error_in_checking_availability: ~
     transaction_agreement_checkbox:
       read_more: Overzicht.
   mapview:
@@ -1610,6 +1620,7 @@ nl:
     connected_account: "PayPal account '%{email}' succesvol gekoppeld."
     paypal_receive_funds_info_label_australia_only: ~
     paypal_receive_funds_info_label: ~
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: ~
     upgrade_paypal_account_link_text: ~
     admin_account_not_connected: ~
@@ -1995,7 +2006,9 @@ nl:
   transactions:
     initiate:
       booked_days: ~
+      booked_nights: ~
       price_per_day: "Prijs per dag:"
+      price_per_night: ~
       quantity: "Hoeveelheid:"
       subtotal: "Subtotaal:"
       shipping-price: "Verzenden:"
@@ -2023,6 +2036,10 @@ nl:
       signup: ~
       admin_dashboard: ~
       language: ~
+    branding:
+      powered_by: ~
+      create_own: ~
+      learn_more: ~
   will_paginate:
     models:
       person:

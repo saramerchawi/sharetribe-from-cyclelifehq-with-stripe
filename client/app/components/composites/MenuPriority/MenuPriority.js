@@ -37,9 +37,13 @@ class MenuPriority extends Component {
       // Wait for a paint to be done before calculating offsetWidths and stuff
       // ComponentDidMount is called after React component is passed to DOM,
       // but painting is not necessarily ready yet at that point
-      window.requestAnimationFrame(() => {
+      if (typeof window.requestAnimationFrame === 'function') {
+        window.requestAnimationFrame(() => {
+          this.handleResize();
+        });
+      } else {
         this.handleResize();
-      });
+      }
 
       window.addEventListener('resize', this.handleResize);
     }
@@ -80,7 +84,8 @@ class MenuPriority extends Component {
     return withWidths;
   }
 
-  updateNav(links) {
+  updateNav(linksParam) {
+    const links = linksParam || [];
     const menuButtonDOMNode = ReactDOM.findDOMNode(this.hiddenLinksMounted);
     const menuButtonWidth = menuButtonDOMNode != null ? menuButtonDOMNode.offsetWidth : 0;
     const availableSpace = this.menuPriorityMounted.offsetWidth - menuButtonWidth - EXTRA_SPACING_RIGHT;
@@ -99,7 +104,7 @@ class MenuPriority extends Component {
       }
     }
 
-    if (i === links.length && links[links.length - 1].breakPoint < availableSpace) {
+    if (i === links.length && links[links.length - 1] && links[links.length - 1].breakPoint < availableSpace) {
       const breakPoint = links[links.length - 1].breakPoint + ROUNDING_ERROR_MARGIN;
       this.setState({ // eslint-disable-line react/no-set-state
         priorityWrapperWidth: `${breakPoint}px`,
@@ -124,7 +129,8 @@ class MenuPriority extends Component {
       width: '100%',
     };
 
-    const fallbackLabel = !isMeasured || this.state.priorityLinks.length === 0 ? { name: this.props.nameFallback, menuLabelType: this.props.menuLabelTypeFallback } : {};
+    const useFallback = !isMeasured || this.state.priorityLinks.length === 0;
+    const fallbackLabel = useFallback ? { name: this.props.nameFallback, menuLabelType: this.props.menuLabelTypeFallback } : {};
     const extraMenuProps = Object.assign({
       className: css.hiddenLinks,
       content: this.state.hiddenLinks,
@@ -135,7 +141,7 @@ class MenuPriority extends Component {
     const menuProps = Object.assign(Object.assign({}, this.props, extraMenuProps));
 
     return div({
-      className: classNames('MenuPriority', css.menuPriority, { [css.isMeasured]: isMeasured }),
+      className: classNames('MenuPriority', css.menuPriority, { [css.isMeasured]: isMeasured, [css.noPriorityLinks]: useFallback }),
       ref: (c) => {
         this.menuPriorityMounted = c;
       },
@@ -150,7 +156,8 @@ class MenuPriority extends Component {
         a({
           className: css.priorityLink,
           href: l.href,
-          target: l.external ? '_blank' : '',
+          target: l.external ? '_blank' : null,
+          rel: l.external ? 'noopener noreferrer' : null,
         }, l.content)
       ))),
       this.state.hiddenLinks.length > 0 ?

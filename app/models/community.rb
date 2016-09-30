@@ -3,6 +3,7 @@
 # Table name: communities
 #
 #  id                                         :integer          not null, primary key
+#  uuid                                       :binary(16)       not null
 #  ident                                      :string(255)
 #  domain                                     :string(255)
 #  use_domain                                 :boolean          default(FALSE), not null
@@ -85,14 +86,13 @@
 #  cover_photo_processing                     :boolean
 #  small_cover_photo_processing               :boolean
 #  favicon_processing                         :boolean
-#  dv_test_file_name                          :string(64)
-#  dv_test_file                               :string(64)
 #  deleted                                    :boolean
 #
 # Indexes
 #
 #  index_communities_on_domain  (domain)
 #  index_communities_on_ident   (ident)
+#  index_communities_on_uuid    (uuid) UNIQUE
 #
 
 class Community < ActiveRecord::Base
@@ -253,6 +253,23 @@ class Community < ActiveRecord::Base
 
   before_save :cache_previous_image_urls
 
+  def uuid_object
+    if self[:uuid].nil?
+      nil
+    else
+      UUIDUtils.parse_raw(self[:uuid])
+    end
+  end
+
+  def uuid_object=(uuid)
+    self.uuid = UUIDUtils.raw(uuid)
+  end
+
+  before_create :add_uuid
+  def add_uuid
+    self.uuid ||= UUIDUtils.create_raw
+  end
+
   validates_format_of :twitter_handle, with: /\A[A-Za-z0-9_]{1,15}\z/, allow_nil: true
 
   validates :facebook_connect_id, numericality: { only_integer: true }, allow_nil: true
@@ -261,10 +278,6 @@ class Community < ActiveRecord::Base
   validates_format_of :facebook_connect_secret, with: /\A[a-f0-9]{32}\z/, allow_nil: true
 
   attr_accessor :terms
-
-  def self.columns
-    super.reject { |c| ["only_public_listings"].include?(c.name) }
-  end
 
   # Wrapper for the various attachment images url methods
   # which returns url of old image, while new one is processing.
@@ -458,7 +471,7 @@ class Community < ActiveRecord::Base
     end
 
     if options[:with_protocol]
-      dom = "#{(APP_CONFIG.always_use_ssl ? "https://" : "http://")}#{dom}"
+      dom = "#{(APP_CONFIG.always_use_ssl.to_s == "true" ? "https://" : "http://")}#{dom}"
     end
 
     return dom
@@ -590,6 +603,12 @@ class Community < ActiveRecord::Base
     cover_photo.processing? ||
     small_cover_photo.processing? ||
     favicon.processing?
+  end
+
+  def as_json(options)
+    attrs = super(options)
+    uuid = UUIDUtils.parse_raw(attrs["uuid"])
+    attrs.merge({"uuid" => uuid.to_s})
   end
 
   private

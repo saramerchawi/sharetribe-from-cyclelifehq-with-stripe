@@ -61,7 +61,7 @@ sl:
         see_how_it_looks_like: ~
         verification_to_post_listings_info_content: ~
         verification_to_post_listings_info_content_description: ~
-        verification_to_post_listings_info_content_default: ~
+        verification_to_post_listings_info_content_default: "Na %{service_name} ti mora administrator osebno odobriti dodajanje objav. Trenutno žal nimaš te pravice. Prosim, kontaktiraj %{contact_admin_link}, da ti odobri dostop."
         contact_admin_link_text: ~
         save: ~
         transaction_agreement: ~
@@ -79,16 +79,18 @@ sl:
         favicon: ~
         favicon_info_text: ~
         community_custom_color1: ~
-        community_custom_color2: ~
+        new_listing_button_custom_color: ~
         logo_instructions_text_with_dimensions: ~
+        logo_instructions_text_with_dimensions_no_placing: ~
         logo_icon_instructions_text_with_dimensions: ~
+        logo_icon_instructions_text_with_dimensions_no_placing: ~
         cover_photo_visibility: ~
         cover_photo_instructions_text_with_dimensions: ~
         small_cover_photo_visibility: ~
         small_cover_photo_instructions_text_with_dimensions: ~
         main_content_width: ~
         custom_color1_instructions_text: ~
-        custom_color2_instructions_text: ~
+        new_listing_button_instructions_text: ~
         default_browse_view: ~
         default_browse_view_instructions_text: ~
         grid: Mreža
@@ -265,6 +267,10 @@ sl:
         all: ~
         max_number_of_links_info: ~
         about_page: ~
+      topbar:
+        topbar: ~
+        new_listing_button_label: ~
+        invalid_post_listing_button_label: ~
       transactions:
         export_all_as_csv: ~
         transactions: ~
@@ -591,7 +597,7 @@ sl:
       message: ~
       message_to: ~
       optional_message_to: ~
-      send_message: ~
+      send_message: "Pošlji sporočilo"
       send: ~
       this_message_is_private: ~
       you_will_get_notified_of_acceptance: ~
@@ -677,9 +683,9 @@ sl:
     anonymous_user: ~
   community_memberships:
     access_denied:
-      access_denied: ~
+      access_denied: "Dostop zavrnjen"
       you_are_banned_in_this_community: "Administrator ti je preprečil dostop do %{service_name}. Če želiš kontaktirati administratorja, lahko to storiš tu: %{link_to_contact_page}."
-      contact_page_link: ~
+      contact_page_link: "kontaktiraj nas"
     new:
       welcome_fb_user: ~
       fb_join_accept_terms: ~
@@ -823,7 +829,6 @@ sl:
       title_link_text: ~
       intro_paragraph: ~
       intro_paragraph_link_text: ~
-      post_a_new_listing: "Dodaj objavo!"
       reduce_email_footer_text: ~
       settings_link_text: ~
       unsubscribe_link_text: ~
@@ -926,8 +931,8 @@ sl:
       javascript_is_disabled_in_your_browser: ~
       kassi_does_not_currently_work_without_javascript: ~
       contact_us: "kontaktiraj nas"
-      send_feedback: ~
-      your_feedback_to_admins: ~
+      send_feedback: "Pošlji sporočilo"
+      your_feedback_to_admins: "Tvoje sporočilo za %{service_name} ekipo"
     send: ~
     your_email_address: "Tvoj e-naslov"
   errors:
@@ -1114,19 +1119,19 @@ sl:
       create_own: "Bi rad tudi ti ustvaril svoj spletni marketplace kot je %{service_name}? %{learn_more}"
       learn_more: "Izvedi več."
     no_tribe:
-      inbox: ~
-      settings: ~
-      feedback: ~
+      inbox: "Prejeta sporočila"
+      settings: Nastavitve
+      feedback: "Kontaktiraj %{service_name} ekipo."
     application:
       join_this_community: ~
       read_more: ~
-      feedback: ~
+      feedback: "Tvoje sporočilo za %{service_name} ekipo"
       dont_use_to_contact_support: ~
       feedback_forum: ~
       feedback_handle: ~
       give_feedback: Kontakt
       or_check_our: ~
-      send_feedback_to_admin: ~
+      send_feedback_to_admin: "Pošlji sporočilo"
       to_see_what_others_have_suggested: ~
       your_email_address: "Vaš e-naslov (da vas lahko kontaktiramo)."
       connect: Registracija
@@ -1189,7 +1194,7 @@ sl:
       additional_email_confirmed: ~
       could_not_get_email_from_facebook: ~
       facebook_email_unconfirmed: ~
-      create_new_listing: ~
+      create_new_listing: "Dodaj še eno objavo"
       create_one_here: "kreiraj tukaj."
       email_confirmation_sent_to_new_address: ~
       email_not_found: "Vnešenega e-naslova nismo našli v bazi %{service_name}."
@@ -1207,7 +1212,7 @@ sl:
       login_failed: ~
       account_creation_successful: ~
       account_deleted: ~
-      login_successful: ~
+      login_successful: "Pozdravljen/a, %{person_name}!"
       logout_successful: "Odlogiral/a si se iz %{service_name}. Se vidimo spet kmalu!"
       news_item_created: ~
       news_item_creation_failed: ~
@@ -1327,6 +1332,7 @@ sl:
       open_in_google_maps: ~
     error:
       something_went_wrong: ~
+      something_went_wrong_plain: ~
     follow_links:
       follow: ~
       unfollow: ~
@@ -1340,7 +1346,7 @@ sl:
       departure_time_radio_buttons:
         repeated: ~
       description:
-        detailed_description: "Podroben opis (in povezava do več informacij)"
+        detailed_description: "Podroben opis objave, vključno s podrobnostmi za prijavo in povezavami do več informacij"
         youtube_info: "Če tvoj opis vsebuje YouTube povezave, bojo videi prikazani na koncu opisa."
       destination:
         destination: ~
@@ -1367,7 +1373,7 @@ sl:
         removing: ~
         processing: ~
         loading_image: ~
-        image_uploading_in_progress: ~
+        image_uploading_in_progress: "Slike se nalagajo ..."
         processing_takes_a_while: "Vse slike so naložene! Trajalo bo sicer še nekaj časa, da bojo vidne, ampak lahko shraniš objavo in nadaljuješ."
         this_may_take_a_while: ~
         percentage_loaded: ~
@@ -1475,7 +1481,6 @@ sl:
       how_paypal_works: ~
       payment_help: ~
     new:
-      post_a_new_listing: "Dodaj objavo"
       listing: ~
       selected_category: "Kategorija: %{category}"
       selected_subcategory: ~
@@ -1546,7 +1551,7 @@ sl:
       week: ~
       month: ~
     verification_required:
-      verification_required: ~
+      verification_required: "Potrebna je odobritev"
   listing_conversations:
     preauthorize:
       details: ~
@@ -1556,6 +1561,11 @@ sl:
       you_will_be_charged: ~
       day: ~
       days: ~
+      night: ~
+      nights: ~
+      invalid_parameters: ~
+      dates_not_available: ~
+      error_in_checking_availability: ~
     transaction_agreement_checkbox:
       read_more: ~
   mapview:
@@ -1595,6 +1605,7 @@ sl:
     connected_account: ~
     paypal_receive_funds_info_label_australia_only: ~
     paypal_receive_funds_info_label: ~
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: ~
     upgrade_paypal_account_link_text: ~
     admin_account_not_connected: ~
@@ -1838,7 +1849,7 @@ sl:
       unsubscribe_unsuccesful: ~
       unsuccessful_unsubscribe_info_text: ~
     profile:
-      about_you: "O tebu"
+      about_you: "O tebi"
       city: ~
       family_name: Priimek
       given_name: Ime
@@ -1974,7 +1985,9 @@ sl:
   transactions:
     initiate:
       booked_days: ~
+      booked_nights: ~
       price_per_day: ~
+      price_per_night: ~
       quantity: ~
       subtotal: ~
       shipping-price: ~
@@ -1988,20 +2001,24 @@ sl:
     days: ~
   web:
     topbar:
-      menu: ~
-      more: ~
+      menu: Meni
+      more: Več
       search_placeholder: ~
       search_location_placeholder: ~
       user: ~
-      inbox: ~
+      inbox: "Prejeta sporočila"
       profile: Profil
       manage_listings: "Uredi svoje objave"
-      settings: ~
+      settings: Nastavitve
       logout: "Odjavi se"
       login: Prijava
       signup: Registracija
       admin_dashboard: ~
       language: ~
+    branding:
+      powered_by: ~
+      create_own: ~
+      learn_more: ~
   will_paginate:
     previous_label: ~
     next_label: ~

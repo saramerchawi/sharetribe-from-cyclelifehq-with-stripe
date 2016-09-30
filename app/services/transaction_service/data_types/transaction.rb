@@ -7,8 +7,10 @@ module TransactionService::DataTypes::Transaction
     [:payment_process, one_of: [:none, :postpay, :preauthorize]],
     [:payment_gateway, one_of: [:paypal, :checkout, :braintree, :none]],
     [:community_id, :fixnum, :mandatory],
+    [:community_uuid, :uuid], # This will be mandatory once the migrations have run
     [:starter_id, :string, :mandatory],
     [:listing_id, :fixnum, :mandatory],
+    [:listing_uuid, :uuid], # This will be mandatory once the migrations have run
     [:listing_title, :string, :mandatory],
     [:listing_price, :money, :optional],
     [:item_total, :money, :mandatory],
@@ -17,6 +19,7 @@ module TransactionService::DataTypes::Transaction
     [:listing_quantity, :fixnum, default: 1],
     [:unit_type, :to_symbol, one_of: [:hour, :day, :night, :week, :month, :custom, nil]],
     [:unit_tr_key, :string, :optional],
+    [:availability, :to_symbol, one_of: [:none, :booking]],
     [:unit_selector_tr_key, :string, :optional],
     [:automatic_confirmation_after_days, :fixnum],
     [:last_transition_at, :time],
@@ -40,8 +43,6 @@ module TransactionService::DataTypes::Transaction
   def create_transaction(opts); Transaction.call(opts) end
 
   def create_transaction_response(transaction, gateway_fields = {})
-    #important for stripe to get the tx_id from this
-    #returns to transaction_service/transition.rb in the create() method
     TransactionResponse.call({
         transaction: transaction,
         gateway_fields: gateway_fields

@@ -79,16 +79,18 @@ it:
         favicon: ~
         favicon_info_text: ~
         community_custom_color1: "Colore principale"
-        community_custom_color2: ~
+        new_listing_button_custom_color: ~
         logo_instructions_text_with_dimensions: ~
+        logo_instructions_text_with_dimensions_no_placing: ~
         logo_icon_instructions_text_with_dimensions: ~
+        logo_icon_instructions_text_with_dimensions_no_placing: ~
         cover_photo_visibility: ~
         cover_photo_instructions_text_with_dimensions: ~
         small_cover_photo_visibility: ~
         small_cover_photo_instructions_text_with_dimensions: ~
         main_content_width: ~
         custom_color1_instructions_text: ~
-        custom_color2_instructions_text: ~
+        new_listing_button_instructions_text: ~
         default_browse_view: ~
         default_browse_view_instructions_text: ~
         grid: Griglia
@@ -265,6 +267,10 @@ it:
         all: ~
         max_number_of_links_info: ~
         about_page: ~
+      topbar:
+        topbar: ~
+        new_listing_button_label: ~
+        invalid_post_listing_button_label: ~
       transactions:
         export_all_as_csv: ~
         transactions: "Visualizza transazioni"
@@ -827,7 +833,6 @@ it:
       title_link_text: "%{community_name}"
       intro_paragraph: "Ecco alcune cose che sono accadute su %{community_link} nel periodo di %{time_since_last_update}"
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: "Pubblica una nuova offerta"
       reduce_email_footer_text: "Troppe email? %{settings_link} or %{unsubscribe_link}"
       settings_link_text: "Modifica le tue preferenze email qui"
       unsubscribe_link_text: "Annulla sottoscrizione"
@@ -1335,6 +1340,7 @@ it:
       open_in_google_maps: "Apri in Google Maps"
     error:
       something_went_wrong: "Qualcosa è andato storto. Codice errore: %{error_code}"
+      something_went_wrong_plain: "Qualcosa è andato storto"
     follow_links:
       follow: "Ricevi email per ogni nuovo commento"
       unfollow: "Non ricevere email per ogni nuovo commento"
@@ -1483,7 +1489,6 @@ it:
       how_paypal_works: "Come funziona PayPal"
       payment_help: "Aiuto per i pagamenti con PayPal"
     new:
-      post_a_new_listing: "Pubblica una nuova offerta"
       listing: inserzione
       selected_category: "Categoria: %{category}"
       selected_subcategory: "Sottocategoria: %{subcategory}"
@@ -1564,6 +1569,11 @@ it:
       you_will_be_charged: "Il pagamento sarà convalidato solo se %{author} accetterà il pagamento. %{author} ha tempo %{expiration_period} giorni per convalidare. Se %{author} rifiuta o non risponde il pagamento non sarà effettuato."
       day: giorno
       days: giorni
+      night: notte
+      nights: notti
+      invalid_parameters: "La nuova transazione non è andata a buon fine, per causa di un errore."
+      dates_not_available: "Le date selezionate non sono disponibili"
+      error_in_checking_availability: "Non è possibile verificare la disponibilità nei giorni selezionati"
     transaction_agreement_checkbox:
       read_more: Mostra
   mapview:
@@ -1603,6 +1613,7 @@ it:
     connected_account: "Il conto PayPal '%{email}' è stato connesso con successo."
     paypal_receive_funds_info_label_australia_only: "Devi abilitare il tuo conto PayPal per accettare i pagamenti. Può essere richiesto un conto PayPal premier o business. L'aggiornamento ad un conto PayPal business è semplice e non costa nulla."
     paypal_receive_funds_info_label: "Raramente accade che non è possibile collegare il conto PayPal."
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: "Se avviene un errore tentando di collegare il tuo Conto PayPal a %{service_name}, il tuo conto potrebbe essere obsoleto, e aver bisogno di un aggiornamento ad un Conto Premier a questo link: %{upgrade_paypal_account_link}. La cosa migliore è contattare il servizio clienti PayPal e farsi guidare."
     upgrade_paypal_account_link_text: "Aggiorna l'account PayPal."
     admin_account_not_connected: "Non è possibile utilizzare il sistema di pagamenti di %{service_name} e ricevere pagamenti, se prima non è stato settato. Per favore %{contact_admin_link} per i dettagli."
@@ -1997,7 +2008,15 @@ it:
   transactions:
     initiate:
       booked_days: "Giorni prenotati:"
+      booked_nights: "Notti prenotate"
+      booked_days_label:
+        one: "Giorno prenotato:"
+        other: "Giorni prenotati:"
+      booked_nights_label:
+        one: "Notte prenotata:"
+        other: "Notti prenotate:"
       price_per_day: "Prezzo al giorno:"
+      price_per_night: "Prezzo per notte"
       quantity: "Quantità:"
       subtotal: "Subtotale:"
       shipping-price: "Spedizione:"
@@ -2014,7 +2033,7 @@ it:
       menu: Menù
       more: Altro..
       search_placeholder: Cerca...
-      search_location_placeholder: ~
+      search_location_placeholder: "Cerca per luogo.."
       user: ~
       inbox: Messaggi
       profile: Profilo
@@ -2025,6 +2044,10 @@ it:
       signup: Registrati
       admin_dashboard: ~
       language: Lingua
+    branding:
+      powered_by: ~
+      create_own: ~
+      learn_more: ~
   will_paginate:
     models:
       listing_conversation:
