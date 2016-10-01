@@ -40,6 +40,13 @@
 #  min_days_between_community_updates :integer          default(1)
 #  deleted                            :boolean          default(FALSE)
 #  cloned_from                        :string(22)
+#  publishable_key                    :string(64)
+#  provider                           :string(20)
+#  uid                                :string(64)
+#  access_token                       :string(64)
+#  refresh_token                      :string(64)
+#  customer_token                     :string(1536)
+#  customer_active_token              :string(64)
 #
 # Indexes
 #
