@@ -16,6 +16,7 @@ Kassi::Application.routes.draw do
   get '/stripe/preauth/:token' => 'stripe#preauth', as: 'stripe_preauth'
   get '/stripe/pay/' => 'stripe#charge_preauth', as: 'stripe_charge_preauth'
   get '/stripe/fees/' => 'stripe#list_fees', as: 'stripe_fees'
+  get '/stripe/unlink/' => 'stripe#unlink', as: 'stripe_unlink'
 
   get "/robots.txt" => RobotsGenerator
 

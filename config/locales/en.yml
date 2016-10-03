@@ -2089,3 +2089,5 @@ en:
     create_stripe_link: "Stripe"
     commission_permission_needed: "You will also need to grant %{service_name} permission to charge a transaction fee."
     registered_for_stripe: "Your account is linked to Stripe and you are able to create listings."
+    unlink_account: "If you wish to un-link your Stripe account, you may do so by clicking on the button below. Please note that buyers are unable to purchase your goods or services without you having a linked Stripe account."
+    unregistered_account: "This seller is not registered to accept payments. Please contact them if you are interested in their listing."
