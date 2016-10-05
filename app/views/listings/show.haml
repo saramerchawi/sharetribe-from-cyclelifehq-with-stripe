@@ -141,10 +141,7 @@
         #listing-message-links
           -# the listing date js pop-up
           -# also the button
-          - unless @listing.author.uid.blank?
-            = render :partial => "listing_actions", locals: { form_path: form_path, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code }
-          - else 
-            = t("stripe.unregistered_account")
+          = render :partial => "listing_actions", locals: { form_path: form_path, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code }
 
     .row-with-divider
       .col-12
