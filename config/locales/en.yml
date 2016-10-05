@@ -69,7 +69,7 @@ en:
         private_community_homepage_content: "Private marketplace homepage content"
         edit_private_community_homepage_content_description: "This content is shown on the homepage of private marketplaces to users who are not logged in. Here you can describe your marketplace and the process to join it. You can also add images, videos and HTML content here. %{see_how_it_looks_like}."
         update_information: "Save settings"
-        invite_people: "Invite new users"
+        invite_people: "Invite new users to %{service_name}"
         edit_signup_info: "Signup info"
         edit_signup_info_description: "This is an info text that can be shown to users in the signup page. There you can give the users instructions for signing up, information like where to get an invite, etc. By default there are no instructions."
         edit_info: "Edit information"
@@ -94,16 +94,18 @@ en:
         favicon: Favicon
         favicon_info_text: "Favicon will replace the default Sharetribe logo. The dimensions should be 32x32 pixels and the uploaded image will be resized to these dimensions."
         community_custom_color1: "Main color"
-        community_custom_color2: "%{post_new_listing} button color"
+        new_listing_button_custom_color: "Post a new listing button color"
         logo_instructions_text_with_dimensions: "The logo size should be %{width}x%{height}px. It will be shown to users with bigger screens."
+        logo_instructions_text_with_dimensions_no_placing: "The logo size should be %{width}x%{height}px."
         logo_icon_instructions_text_with_dimensions: "This square logo will be shown when people share your site in Facebook, when they view your site on a mobile device or when they bookmark your site to the home screen of their mobile device. The dimensions should be (at least) %{width}x%{height}px."
+        logo_icon_instructions_text_with_dimensions_no_placing: "This square logo will be shown when people share your site in Facebook or when they bookmark your site to the home screen of their mobile device. The dimensions should be (at least) %{width}x%{height}px."
         cover_photo_visibility: "Cover photo is shown in the homepage for users who are not logged in."
         cover_photo_instructions_text_with_dimensions: "The photo will be resized to %{width}x%{height} pixel size and taller images will be cut in the middle. %{see_how_it_looks_like}."
         small_cover_photo_visibility: "Small cover photo is shown in all pages except in the homepage for users who are not logged in."
         small_cover_photo_instructions_text_with_dimensions: "The photo will be resized to %{width}x%{height} pixel size and taller images will be cut in the middle."
         main_content_width: "When choosing cover photos please note that the page main content is %{main_width} pixels wide at most. Remember to also check how your cover photo looks on the smaller screens (e.g. by using a more narrow browser window)."
         custom_color1_instructions_text: "You can change the main color of the user interface by entering a hex color value. <a href=\"http://www.colorpicker.com/?colorcode=D96E21\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> can help you choose the color and copy the code here."
-        custom_color2_instructions_text: "You can change the color of the %{post_new_listing} button by entering a hex color value. <a href=\"http://www.colorpicker.com/?colorcode=00a26c\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> can help you choose the color and copy the code here."
+        new_listing_button_instructions_text: "You can change the color of the Post a new listing button by entering a hex color value. %{link_to_colorpicker} can help you choose the color and copy the code here."
         default_browse_view: "Default browse view"
         default_browse_view_instructions_text: "Default browse view is used on the homepage to set how the listings are displayed by default."
         grid: Grid
@@ -280,6 +282,10 @@ en:
         all: All
         max_number_of_links_info: "Link to %{about_page} is always displayed as the first menu link"
         about_page: "about page"
+      topbar:
+        topbar: "Top bar"
+        new_listing_button_label: "Post a new listing button text"
+        invalid_post_listing_button_label: "Please provide a valid text for \"Post a new listing\" button"
       transactions:
         export_all_as_csv: "Export all as CSV"
         transactions: "View transactions"
@@ -305,7 +311,7 @@ en:
           pending_ext: "Waiting PayPal payment"
         not_available: "Not available"
       paypal_account:
-        paypal_admin_account: Payments
+        paypal_admin_account: "Payment system"
     custom_fields:
       edit:
         edit_listing_field: "Edit listing field '%{field_name}'"
@@ -462,15 +468,15 @@ en:
           quantity_label: "Quantity (per piece, per kg, per person, per 2 hour tour...)"
           time_label: "Time (per 30 minutes, per 2 weeks, per year...)"
     paypal_accounts:
-      marketplace_paypal_integration: "Payment preferences"
-      preferences_updated: "Payment preferences updated"
+      marketplace_paypal_integration: "Payment system preferences"
+      preferences_updated: "Payment system preferences updated"
       marketplace_currency_used: "This marketplace uses %{currency} as its currency. To change the currency, %{contact_support_link}."
       contact_support_link_text: "contact Sharetribe support"
-      integration_info_text: "Sharetribe payments are powered by PayPal. To allow your users to pay using your marketplace, you must connect your PayPal account. Once you have connected your PayPal account, you can choose a minimum transaction size and a possible commission fee."
+      integration_info_text: "The payment system of your marketplace is powered by Stripe. To allow your users to pay using your marketplace, you must connect your Stripe account. Once you have connected your Stripe account, you can choose a minimum transaction size and a possible commission fee."
       link_paypal_personal_account_label: "Are you providing products or services yourself?"
-      link_paypal_personal_account: "If so, you will also need to connect your PayPal account to %{personal_payment_preferences_link}."
+      link_paypal_personal_account: "If so, you will also need to connect your Stripe account to %{personal_payment_preferences_link}."
       personal_payment_preferences_link_text: "your personal marketplace account"
-      read_more_about_paypal: "Read more about Sharetribe's payment system"
+      read_more_about_paypal: "Read more about the payment system"
       set_minimum_price_and_fee: "Set a minimum price & transaction fee"
       minimum_listing_price_label: "Minimum transaction size:"
       transaction_fee_label: "Transaction fee:"
@@ -771,7 +777,7 @@ en:
       show_thread: "Show conversation"
     confirmation_instructions:
       confirmation_instructions_signature: "Best regards,<br/>The %{service_name} Team"
-      need_to_confirm: "Confirm your email address by clicking the button below."
+      need_to_confirm: "To join %{service_name}, confirm your email address by clicking the button below."
       confirmation_link_text: "Confirm my address"
       or_paste_link: "Alternatively, you can copy the following link to your browser's address bar:"
     common:
@@ -854,7 +860,6 @@ en:
       title_link_text: "%{community_name}"
       intro_paragraph: "Here are some of the things that happened on %{community_link} during the past %{time_since_last_update}."
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: "Post a new listing!"
       reduce_email_footer_text: "Too much email? %{settings_link} or %{unsubscribe_link}."
       settings_link_text: "Edit your email settings here"
       unsubscribe_link_text: unsubscribe
@@ -932,8 +937,8 @@ en:
       seller_express_checkout_disabled: "PayPal Express Checkout has been disabled for the listing author's PayPal account. Please contact the author and let them know that there's an issue with their PayPal account, and advise them to contact PayPal Customer Service."
       generic_error: "An error occurred during the payment process. Could not finalize your PayPal payment."
       cancel_error: "An error occurred during cancellation. Could not finalize cancel."
-      accept_authorization_error: "An error occurred while trying to accept preauthorized Paypal payment. Please, try again."
-      reject_authorization_error: "An error occurred while trying to reject preauthorized Paypal payment. Please, try again."
+      accept_authorization_error: "An error occurred while trying to accept preauthorized Stripe payment. Please, try again."
+      reject_authorization_error: "An error occurred while trying to reject preauthorized Stripe payment. Please, try again."
   error_pages:
     back_to_kassi_front_page: "Back to the front page"
     error_404:
@@ -1362,6 +1367,7 @@ en:
       open_in_google_maps: "Open in Google Maps"
     error:
       something_went_wrong: "Something went wrong, error code: %{error_code}"
+      something_went_wrong_plain: "Something went wrong"
     follow_links:
       follow: "Get emails about new comments"
       unfollow: "Don't get emails about new comments"
@@ -1510,7 +1516,6 @@ en:
       how_paypal_works: "How PayPal Works"
       payment_help: "Payment help"
     new:
-      post_a_new_listing: "Post a new listing"
       listing: listing
       selected_category: "Category: %{category}"
       selected_subcategory: "Subcategory: %{subcategory}"
@@ -1545,7 +1550,7 @@ en:
       inquiry: Announcement
       item_offer_trade: "Swap offer"
       item_request_trade: "Swap request"
-      no_description: "This listing doesn't have description"
+      no_description: "This listing doesn't have a description"
       no_image: "No image"
       no_reviews: "No reviews received"
       offer: Offer
@@ -1591,6 +1596,9 @@ en:
       you_will_be_charged: "You will be charged only if %{author} accepts the transaction. %{author} needs to accept the transaction within %{expiration_period} days. If %{author} declines or does not respond, no charge is made."
       day: day
       days: days
+      night: night
+      nights: nights
+      invalid_parameters: "Invalid values for new transaction"
     transaction_agreement_checkbox:
       read_more: View.
   mapview:
@@ -1630,6 +1638,7 @@ en:
     connected_account: "PayPal account '%{email}' connected successfully."
     paypal_receive_funds_info_label_australia_only: "Your PayPal account needs to be able to accept payments. This might require a Premier or Business account."
     paypal_receive_funds_info_label: "Your PayPal account needs to be able to accept payments. This might require a Business account."
+    paypal_receive_funds_info_australia_only: "If you see an error when trying to connect your account to %{service_name}, either %{upgrade_paypal_account_link} and upgrade to a Business account, or (if you are an individual), create a new Premier account. Both account types are completely free."
     paypal_receive_funds_info: "If you see an error when trying to connect your account to %{service_name}, upgrade your PayPal account by %{upgrade_paypal_account_link}. It's free and easy. If you're an individual, PayPal recommends using your name as the Business name."
     upgrade_paypal_account_link_text: "logging in and clicking the upgrade link"
     admin_account_not_connected: "Using %{service_name}'s payment system in order to receive payments is not possible since payments have not been set up. Please %{contact_admin_link} for details."
@@ -1882,7 +1891,7 @@ en:
       given_name: "First name"
       first_name_with_initial: "(only first letter shown to other users)"
       first_name_only: "(not shown to other users)"
-      location_description: "You can give either your exact location or, for example, only your zip code. Please add at least your zip code. You can also select a location from the map below."
+      location_description: "You can provide either your street address or only a city or zip/postal code. It’s good to also add your country when adding your location. Examples: \"10117 Berlin, Germany\" or \"2000 Sand Hill Road, CA, USA\"."
       phone_number: "Phone number"
       profile_picture: "Profile picture"
       postal_code: "Postal code"
@@ -2028,7 +2037,15 @@ en:
   transactions:
     initiate:
       booked_days: "Booked days:"
+      booked_nights: "Booked nights:"
+      booked_days_label:
+        one: "Booked day:"
+        other: "Booked days:"
+      booked_nights_label:
+        one: "Booked night:"
+        other: "Booked nights:"
       price_per_day: "Price per day:"
+      price_per_night: "Price per night:"
       quantity: "Quantity:"
       subtotal: "Subtotal:"
       shipping-price: "Shipping:"
@@ -2041,6 +2058,8 @@ en:
     day: day
     days: days
   web:
+    listing_card:
+      no_picture: "No picture"
     topbar:
       menu: Menu
       more: More
@@ -2056,6 +2075,10 @@ en:
       signup: "Sign up"
       admin_dashboard: "Admin dashboard"
       language: Language
+    branding:
+      powered_by: "%{service_name} is powered by the %{sharetribe_link} marketplace platform."
+      create_own: "Want to create your own online marketplace website like %{service_name}? %{learn_more}."
+      learn_more: "Learn more"
   will_paginate:
     models:
       person:
@@ -2085,9 +2108,10 @@ en:
   stripe:
     setup: "Stripe payments are set up and ready to go."
     stripe_connected: "Stripe account '%{email}' is successfully connected"
-    payout_info_stripe: "%{service_name} uses Stripe as its payment provider. A %{create_stripe_account_link}  account is required in order to accept payments for your listings, and must be connected to %{service_name}." 
+    payout_info_stripe: "%{service_name} uses Stripe as its payment provider. A %{create_stripe_account_link}  account is required in order to accept payments for your listings, and must be connected to %{service_name}."
     create_stripe_link: "Stripe"
     commission_permission_needed: "You will also need to grant %{service_name} permission to charge a transaction fee."
     registered_for_stripe: "Your account is linked to Stripe and you are able to create listings."
     unlink_account: "If you wish to un-link your Stripe account, you may do so by clicking on the button below. Please note that buyers are unable to purchase your goods or services without you having a linked Stripe account."
     unregistered_account: "This seller is not registered to accept payments. Please contact them if you are interested in their listing."
+
