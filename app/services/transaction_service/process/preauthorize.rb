@@ -1,22 +1,53 @@
 module TransactionService::Process
   Gateway = TransactionService::Gateway
+  Worker = TransactionService::Worker
+  ProcessStatus = TransactionService::DataTypes::ProcessStatus
 
-  #change for stripe
   class Preauthorize
+
     TxStore = TransactionService::Store::Transaction
 
-    def create(tx:, gateway_fields:, gateway_adapter:, prefer_async:)
+    def create(tx:, gateway_fields:, gateway_adapter:, force_sync:)
+      #for stripe
       Transition.transition_to(tx[:id], :initiated)
 
-       #we go ahead and set to preauthorized here, since 
-       #the stripe charge has already been successful
-       Transition.transition_to(tx[:id], :preauthorized)
+      # if use_async?(force_sync, gateway_adapter)
+      #   Rails.logger.warn "PROC_TOKEN"
+      #   proc_token = Worker.enqueue_preauthorize_op(
+      #     community_id: tx[:community_id],
+      #     transaction_id: tx[:id],
+      #     op_name: :do_create,
+      #     op_input: [tx, gateway_fields])
+
+      #   proc_status_response(proc_token)
+      # else
+      #   Rails.logger.warn "DO_CREATE"
+      #   do_create(tx, gateway_fields)
+      # end
+      Transition.transition_to(tx[:id], :preauthorized)
+    end
+
+    def do_create(tx, gateway_fields)
+      gateway_adapter = TransactionService::Transaction.gateway_adapter(tx[:payment_gateway])
+
+      completion = gateway_adapter.create_payment(
+        tx: tx,
+        gateway_fields: gateway_fields,
+        force_sync: true)
+
+      Gateway.unwrap_completion(completion) do
+        Transition.transition_to(tx[:id], :preauthorized)
+      end
     end
 
     def reject(tx:, message:, sender_id:, gateway_adapter:)
-      Transition.transition_to(tx[:id], :rejected)
+      res = Gateway.unwrap_completion(
+        gateway_adapter.reject_payment(tx: tx, reason: "")) do
 
-      if message.present?
+        Transition.transition_to(tx[:id], :rejected)
+      end
+
+      if res[:success] && message.present?
         send_message(tx, message, sender_id)
       end
 
@@ -33,7 +64,7 @@ module TransactionService::Process
       #for stripe, assume success, as doesn't matter here
       Transition.transition_to(tx[:id], :paid)
       res[:success] = true
-
+      
       if res[:success] && message.present?
         send_message(tx, message, sender_id)
       end
@@ -77,5 +108,16 @@ module TransactionService::Process
                           sender_id: sender_id)
     end
 
+    def proc_status_response(proc_token)
+      Result::Success.new(
+        ProcessStatus.create_process_status({
+                                              process_token: proc_token[:process_token],
+                                              completed: proc_token[:op_completed],
+                                              result: proc_token[:op_output]}))
+    end
+
+    def use_async?(force_sync, gw_adapter)
+      !force_sync && gw_adapter.allow_async?
+    end
   end
 end

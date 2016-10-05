@@ -94,16 +94,18 @@ pt-BR:
         favicon: Favicon
         favicon_info_text: "Favicon irá substituir o logotipo Sharetribe padrão. As dimensões devem ser 32x32 pixels e a imagem carregada será redimensionado para essas dimensões."
         community_custom_color1: "Cor Principal"
-        community_custom_color2: "Cor secundaria"
+        new_listing_button_custom_color: ~
         logo_instructions_text_with_dimensions: "Área de Trabalho tamanho do logotipo deve ser %{width}x%{height} px. Ele será exibido para os usuários com telas maiores."
+        logo_instructions_text_with_dimensions_no_placing: ~
         logo_icon_instructions_text_with_dimensions: "Este logo quadrado será exibido quando as pessoas compartilhem seu site no Facebook, quando visualizem seu site num dispositivo móvel ou quando criem um bookmark para seu site na tela de entrada de um dispositivo móvel. O tamanho deve ser de (pelo menos) %{width}x%{height}px."
+        logo_icon_instructions_text_with_dimensions_no_placing: ~
         cover_photo_visibility: "Foto da capa apresentada na página inicial para usuários não conectados."
         cover_photo_instructions_text_with_dimensions: "A foto será redimensionada para %{width} x %{height} pixel e imagens mais altas serão cortadas no meio. %{see_how_it_looks_like}"
         small_cover_photo_visibility: "Foto pequena da capa mostrado para usuários não conectados."
         small_cover_photo_instructions_text_with_dimensions: "A foto será redimensionada para %{width} x %{height} pixel e imagens mais altas serão cortadas no meio."
         main_content_width: "Ao escolher fotos de capa, por favor, note que o conteúdo principal da página é %{main_width} pixels de largura, no máximo. Lembre-se de verificar também como a sua foto da capa parece nas telas menores (por exemplo, usando uma janela do navegador mais estreita)."
         custom_color1_instructions_text: "Você pode mudar a cor principal da interface de usuário desta comunidade, inserindo um valor de cor hex. <a href=\"http://www.colorpicker.com/?colorcode=D96E21\" target=\"_blank\" rel=\"noreferrer\"> ColorPicker.com </a> pode ajudar você a escolher a cor e copie o código aqui."
-        custom_color2_instructions_text: "Você pode alterar a cor do botão %{post_new_listing} inserindo um valor de cor hexadecimal. O site <a href=\"http://www.colorpicker.com/?colorcode=00a26c\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> pode ajudá-lo a escolher a cor, basta copiar o código aqui."
+        new_listing_button_instructions_text: ~
         default_browse_view: "Visualização navegação padrão"
         default_browse_view_instructions_text: "Visualização de navegação padrão é usado na página inicial para definir a forma como os anúncios são exibidos por padrão."
         grid: Grade
@@ -236,7 +238,7 @@ pt-BR:
         ban_user_confirmation: "Isso remove o usuário do mercado virtual e o impede de acessar o site novamente com esta conta. Tem certeza de que deseja continuar?"
         ban_me_error: "Você não pode se banir."
       new_layout:
-        new_layout: ~
+        new_layout: "Novo layout"
         description_roadmap: ~
         description_process: ~
         enabled_for_you: ~
@@ -276,10 +278,14 @@ pt-BR:
         language: Idioma
         url: URL
         empty: "Você não tem quaisquer ligações de menu adicionais"
-        max_number_of_links: ~
-        all: ~
-        max_number_of_links_info: ~
-        about_page: ~
+        max_number_of_links: "Número máximo de links mostrados na topbar %{select_max_number}"
+        all: Todos
+        max_number_of_links_info: "O link para %{about_page} é sempre mostrado em primeiro lugar"
+        about_page: "Sobre nós"
+      topbar:
+        topbar: ~
+        new_listing_button_label: ~
+        invalid_post_listing_button_label: ~
       transactions:
         export_all_as_csv: "Exporte tudo como CSV"
         transactions: "Ver transações"
@@ -854,7 +860,6 @@ pt-BR:
       title_link_text: "%{community_name}"
       intro_paragraph: "Veja algumas coisas que aconteceram no %{community_link} desde %{time_since_last_update}."
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: "Postar um novo anúncio!"
       reduce_email_footer_text: "E-mails demais? %{settings_link} ou %{unsubscribe_link}"
       settings_link_text: "Edite suas configurações de e-mail aqui"
       unsubscribe_link_text: "Cancelar inscrição"
@@ -957,8 +962,8 @@ pt-BR:
       javascript_is_disabled_in_your_browser: "Javascript está desabilitado no seu navegador"
       kassi_does_not_currently_work_without_javascript: "%{service_name} não funciona corretamente sem javascript. Tente habilitar o javascript nas configurações de seu navegador e recarregar a pagina novamente."
       contact_us: Contato
-      send_feedback: ~
-      your_feedback_to_admins: ~
+      send_feedback: "Enviar mensagem"
+      your_feedback_to_admins: "Sua mensagem para a equipe do %{service_name}"
     send: Enviar
     your_email_address: "Seu endereço de e-mail"
   errors:
@@ -1134,7 +1139,7 @@ pt-BR:
       search: Busca
       signup: "Criar conta"
       search_placeholder: "O que você está procurando?"
-      search_location_placeholder: ~
+      search_location_placeholder: Localização
     listings:
       no_listing_image: "Sem imagem"
   layouts:
@@ -1147,17 +1152,17 @@ pt-BR:
     no_tribe:
       inbox: "caixa de entrada"
       settings: Configurações
-      feedback: ~
+      feedback: "Entre em contato com a equipe do %{service_name}"
     application:
       join_this_community: "Juntar-se ao mercado virtual"
       read_more: "Ler o seguinte"
-      feedback: ~
+      feedback: "Sua mensagem para a equipe do %{service_name}"
       dont_use_to_contact_support: ~
       feedback_forum: "fórum de respostas"
       feedback_handle: Reposta
       give_feedback: Contato
       or_check_our: "...ou verifique nosso"
-      send_feedback_to_admin: ~
+      send_feedback_to_admin: "Enviar mensagem"
       to_see_what_others_have_suggested: "para ver o que outros usuários sugeriram, e votar para novas idéias."
       your_email_address: "Seu e-mail (para entrar em contato)"
       connect: "Criar conta"
@@ -1227,7 +1232,7 @@ pt-BR:
       error_with_session: "Erro na sessão."
       feedback_considered_spam: "Feedback não gravado, devido a sua formatação. Tente novamente ou use o fórum de feedback."
       feedback_not_saved: "Feedback não pode ser enviado."
-      feedback_saved: ~
+      feedback_saved: "Agradecemos seu contato! retornaremos assim que possível."
       feedback_sent_to: "Feedback enviado para %{target_person}."
       feedback_skipped: "Feedback pulado."
       invitation_cannot_be_sent: "Convite não pôde ser enviado"
@@ -1318,7 +1323,7 @@ pt-BR:
       user_does_not_have_email_to_delete: "Você não tem o endereço de e-mail que você está tentando remover"
       email_deleted: "E-mail removido"
       listing_author_payment_details_missing: "Por favor entre em contato com o anunciante pressionando o botão \"Contato\" abaixo. Ele precisa atualizar suas informações para receber pagamentos."
-      images_are_processing: ~
+      images_are_processing: "Estamos processando suas imagens. Estarão visíveis em um ou dois minutos."
       maintenance_mode:
         zero: "O site sairá do ar agora para manutenção"
         one: "O site sairá do ar para manutenção em %{count} minuto"
@@ -1362,6 +1367,7 @@ pt-BR:
       open_in_google_maps: "Abrir no Google Maps"
     error:
       something_went_wrong: "Alguma coisa deu errado, código do erro: %{error_code}"
+      something_went_wrong_plain: ~
     follow_links:
       follow: "Receber e-mails quando houver novos comentários"
       unfollow: "Não receber e-mails quando houver novos comentários"
@@ -1510,7 +1516,6 @@ pt-BR:
       how_paypal_works: "Como o Paypal Trabalha"
       payment_help: "Ajuda com o pagamento"
     new:
-      post_a_new_listing: "Postar um novo anúncio"
       listing: anúncio
       selected_category: "Categoria: %{category}"
       selected_subcategory: "Sub-categoria: %{subcategory}"
@@ -1593,6 +1598,11 @@ pt-BR:
           %{author} precisa aceitar a transação em no máximo %{expiration_period} dias. Se %{author} rejeitar ou não responder neste período você não será cobrado.
       day: dia
       days: dias
+      night: noite
+      nights: noites
+      invalid_parameters: "Valores inválidos para uma nova transação"
+      dates_not_available: ~
+      error_in_checking_availability: ~
     transaction_agreement_checkbox:
       read_more: Ver.
   mapview:
@@ -1632,6 +1642,7 @@ pt-BR:
     connected_account: "Conta PayPal '%{email}' connectada com sucesso."
     paypal_receive_funds_info_label_australia_only: "Sua conta PayPal deve poder aceitar pagamentos. Talvez você precise de uma conta especifica para receber pagamentos."
     paypal_receive_funds_info_label: "Sua conta PayPal deve ser capaz de aceitar pagamentos. Por isso ela deve ser uma conta para \"Receber pagamentos com PayPal\"."
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: "Se você receber um erro quando tentar conectar sua conta com o %{service_name}, faça um upgrade da sua conta PayPal clicando em %{upgrade_paypal_account_link}. É fácil e rápido. Se você for pessoa física o PayPal recomenda que você use seu nome como nome da companhia."
     upgrade_paypal_account_link_text: "entrando e clicando no link de upgrade"
     admin_account_not_connected: "Não é possível receber pagamentos pelo %{service_name}  porque o sistema ainda não foi configurado. Por favor %{contact_admin_link} para mais informações."
@@ -2030,7 +2041,9 @@ pt-BR:
   transactions:
     initiate:
       booked_days: "Dias reservados:"
+      booked_nights: "Noites reservadas"
       price_per_day: "Preço por dia:"
+      price_per_night: ~
       quantity: "Quantidade:"
       subtotal: "Sub-total:"
       shipping-price: "Envio:"
@@ -2047,7 +2060,7 @@ pt-BR:
       menu: Menu
       more: Mais
       search_placeholder: Busca...
-      search_location_placeholder: ~
+      search_location_placeholder: Localização
       user: Usuário
       inbox: "Caixa de Entrada"
       profile: Perfil
@@ -2058,6 +2071,10 @@ pt-BR:
       signup: "Criar conta"
       admin_dashboard: "Painel de administração"
       language: Idioma
+    branding:
+      powered_by: ~
+      create_own: ~
+      learn_more: ~
   will_paginate:
     models:
       person:

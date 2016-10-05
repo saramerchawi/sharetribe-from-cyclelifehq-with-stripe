@@ -36,6 +36,9 @@ default: &default_settings
   # Default bucket
   s3_bucket_name:
 
+  # AWS S3 region
+  s3_region: us-east-1
+
   # Cache-Control: max-age time in seconds for assets uploaded to S3.
   # Default is one day. Normally, you can use the default. Links to images have
   # modification timestamp appended as query parameter and that should be enough for cache invalidation.
@@ -119,10 +122,6 @@ default: &default_settings
   # Note that you can set this value separately to each enironment below (e.g. if your developing)
   always_use_ssl: false
 
-  # Sharetribe can use an Aalto Social Interface server to store userinformation
-  # This version of Sharetribe no longer support ASI so keep the setting below as false
-  use_asi: false
-
   # The default locale (language) of the user interface
   # if locales are listed in the community specific settings in db. The first in that list is used as default for that community.
   # This setting here is the server wide default, and it's used if no community specific setting is found.
@@ -193,12 +192,6 @@ default: &default_settings
   # CAS is a centralized authentication system, it is completely optional
   # If not needed leave to false
   use_CAS: false
-
-  # Bit.ly url shortener
-  # At some places urls can be made shorter if you add your bit.ly login and apikey here:
-  # if you leave these empty, urls will be kept long
-  bitly_username:
-  bitly_key:
 
   # If you want to force Sharetribe to show mobile view even when accessed with normal desktop browser, set this to true
   # Useful only for mobile development
@@ -295,6 +288,9 @@ default: &default_settings
   # Perform Thinking Sphinx incremental indexing delayed jobs
   use_thinking_sphinx_indexing: true
 
+  # Harmony service API connection
+  harmony_api_url:
+
   # Rails config.eager_load. Eager loads classes. Should be true only for production
   eager_load: false
 
@@ -379,6 +375,22 @@ default: &default_settings
   # - https://s3.amazonaws.com/my-bucket/fonts/
   #
   font_proximanovasoft_url:
+
+  # Maximum number of links in sitemap.xml.
+  #
+  # The default number is 500. Increasing the limit may affect performance.
+  #
+  # The hard coded max limit is 50000.
+  #
+  max_sitemap_links: 500
+
+  # Turn `enable_sitemap` to `false` to disable the sitemap
+  enable_sitemap: true
+
+  # Sitemap cache time in seconds
+  # Default 24 hours
+  sitemap_cache_time: 86400
+
 
 production: &production_settings
   <<: *default_settings

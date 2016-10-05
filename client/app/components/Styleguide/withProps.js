@@ -10,7 +10,6 @@ const defaultRailsContext = {
   marketplaceId: 1,
 
   marketplace_color1: '#64A',
-  marketplace_color2: '#00a26c',
 
   loggedInUsername: 'foo',
 };
@@ -34,7 +33,7 @@ const storify = (ComposedComponent, containerStyle) => (
   class EnhancedComponent extends Component {
     render() {
       return div(null, [
-        div({ className: css.componentWrapper, key: 'componentWrapper' }, [
+        div({ key: 'componentWrapper' }, [
           div(containerStyle, ComposedComponent),
         ]),
 

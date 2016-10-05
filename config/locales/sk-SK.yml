@@ -74,7 +74,7 @@ sk-SK:
         private_community_homepage_content: "Obsah domovskej stránky súkromného trhoviska"
         edit_private_community_homepage_content_description: "Tento obsah je zobrazený na domovskej stránke súkromného trhoviska neprihláseným užívateľom. Tu môžete opísať Vaše trhovisko a postup ako sa pripojiť. Taktiež sem môžete pridávať obrázky, videá a HTML obsah. %{see_how_it_looks_like}."
         update_information: "Uložiť nastavenia"
-        invite_people: "Pozvať nových užívateľov"
+        invite_people: "Pozvať nových užívateľov do %{service_name}"
         edit_signup_info: "Prihlasovacie údaje"
         edit_signup_info_description: "Toto je informačný text, ktorý sa zobrazuje iba užívateľom pri registrácii. Tu môžete napísať užívateľom inštrukcie k registrácii, ako napríklad, kde získať pozvánku atď. V základnom nastavení nie sú k dispozícii akékoľvek inštrukcie."
         edit_info: "Uprav informácie"
@@ -99,16 +99,18 @@ sk-SK:
         favicon: "Ikonka webovej stránky"
         favicon_info_text: "Ikonka webovej stránky nahradí základné Sharetribe logo. Rozmery by mali byť 32x32 pixelov a nahratý súbor bude prispôsobený týmto rozmerom."
         community_custom_color1: "Hlavná farba"
-        community_custom_color2: "%{post_new_listing} farba tlačítka"
+        new_listing_button_custom_color: "Farba tlačítka Pridať nový inzerát"
         logo_instructions_text_with_dimensions: "Veľkosť loga by mala byť %{width}x%{height} pixelov. Toto logo bude zobrazené užívateľom s veľkou obrazovkou."
+        logo_instructions_text_with_dimensions_no_placing: "Velkosť loga by mala byť %{width}x%{height}pixelov."
         logo_icon_instructions_text_with_dimensions: "Toto štvorcové logo sa zobrazí v prípade zdieľania Vašej stránky na Facebooku, na mobilnom zariadení, alebo v prípade nastavenia Vašej stránky ako domovskej na mobilnom zariadení. Rozmery by mali byť (aspoň) %{width}x%{height} px."
+        logo_icon_instructions_text_with_dimensions_no_placing: "Toto štvorcové logo sa zobrazí v prípade zdieľania Vašej stránky na Facebooku, alebo v prípade nastavenia Vašej stránky ako domovskej na mobilnom zariadení. Rozmery by mali byť (aspoň) %{width}x%{height} pixelov."
         cover_photo_visibility: "Úvodná fotografia sa zobrazí na domovskej stránke neprihláseným užívateľom."
         cover_photo_instructions_text_with_dimensions: "Fotografie budú prispôsobené veľkosti %{width}x%{height} pixelov a väčšie snímky budú orezané. %{see_how_it_looks_like}."
         small_cover_photo_visibility: "Malá úvodná fotografia sa zobrazí neprihláseným užívateľom na všetkých stránkach okrem domovskej stránky."
         small_cover_photo_instructions_text_with_dimensions: "Fotografia bude prispôsobená veľkosti %{width}x%{height} pixelov a vačšie obrázky budú orezané."
         main_content_width: "Pri výbere úvodných fotiek berte na vedomie, že rozlíšenie hlavnej stránky je maximálne %{main_width} pixelov na šírku. Nezabudnite tiež skontrolovať, ako bude Vaša úvodná fotografia vyzerať na menších obrazovkách."
         custom_color1_instructions_text: "Môžete zmeniť základnú farbu užívateľského rozhrania zadaním hexadecimálnej hodnoty farby. Na <a href=\"http://www.colorpicker.com/?colorcode=D96E21\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> si môžete vybrať farbu a následne hodnotu skopírovať sem."
-        custom_color2_instructions_text: "Môžete zmeniť farbu %{post_new_listing} tlačítka zadaním hexadecimálneho kódu farby.<a href=\"http://www.colorpicker.com/?colorcode=00a26c\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> Vám pomôže vybrať farbu a okopírovať kód farby."
+        new_listing_button_instructions_text: "Môžete zmeniť farbu tlačítka pridať nový inzerát zadaním hexadecimálneho čísla farby. %{link_to_colorpicker} Vám pomôže vybrať farbu a kód."
         default_browse_view: "Východzie zobrazenie prehliadača"
         default_browse_view_instructions_text: "Východzie zobrazenie prehliadača sa používa na domovskej stránke k nastavení, ako majú byť inzeráty zobrazené vo východzom nastavení."
         grid: Mriežka
@@ -242,8 +244,8 @@ sk-SK:
         ban_me_error: "Nemôžete seba samého vylúčiť."
       new_layout:
         new_layout: "Nový vzhľad"
-        description_roadmap: "Môžete si vybrať, či chcete použiť nový vzhľad, alebo starý Vašeho trhoviska. Odporúča sa použiť nový vzhľad, pretože väčšina nových funkcií nepodporuje starý vzhľad. Starý vzhľad bude kompletne odstránený (budete upozornený, keď sa to stane)."
-        description_process: "Nový vzhľad je nasadený raz za čas. Môžete sa rozhodnúť ponechať si starý vzhľad pre niektoré stránky a použiť nový pre ostatné. Všetky stránky si môžete prezrieť v náhľade bez toho, aby to užívatelia videli, tým, že si nové stránky aktivujete pre seba."
+        description_roadmap: "Sharetribe momentálne vyvíja nový vylepšený vzhľad. Môžete si vybrať, či chcete použiť nový, alebo starý vzhľad vašeho trhoviska. Odporúča sa použiť nový vzhľad, pretože väčšina nových funkcií nepodporuje starý vzhľad. Starý vzhľad bude kompletne odstránený ."
+        description_process: "Podpora pre starý vzhľad bude v budúcnosti odstránená. Sharetribe tím vás o tom bude informovať. Otázky? Kontaktujte tím cez %{support_link}"
         enabled_for_you: "Sprístupnené pre Vás"
         enabled_for_all: "Sprístupnené pre všetkých"
         new_topbar: "Nová horná lišta (viditeľná na každej stránke)"
@@ -285,6 +287,10 @@ sk-SK:
         all: Všetky
         max_number_of_links_info: "Odkaz na %{about_page} je vždy zobrazený ako prvá možnosť v menu."
         about_page: "o nás"
+      topbar:
+        topbar: "Horná lišta"
+        new_listing_button_label: "Text tlačítka Pridať nový inzerát"
+        invalid_post_listing_button_label: "Prosím zadajte platný text pre tlačítko \"Pridať nový inzerát\""
       transactions:
         export_all_as_csv: "Exportovať všetko do CSV"
         transactions: "Zobraziť platby"
@@ -310,7 +316,7 @@ sk-SK:
           pending_ext: "Čaká sa na PayPal platbu"
         not_available: "Teraz k dispozicií"
       paypal_account:
-        paypal_admin_account: Platby
+        paypal_admin_account: "Platobný systém"
     custom_fields:
       edit:
         edit_listing_field: "Upraviť pole inzerátu '%{field_name}'"
@@ -471,15 +477,15 @@ sk-SK:
           quantity_label: "Množstvo (za kus, za kg, za osobu, za dve hodiny výletu...)"
           time_label: "Čas (za 30 minút, za 2 týždne, za rok...)"
     paypal_accounts:
-      marketplace_paypal_integration: "Nastavenie platieb"
-      preferences_updated: "Nastavenia platieb boli aktualizované"
+      marketplace_paypal_integration: "Nastavenia platobného systému"
+      preferences_updated: "Nastavenia platobného systému boli upravené"
       marketplace_currency_used: "Toto trhovisko používa platobnú menu %{currency}. Pre zmenu meny, %{contact_support_link}."
       contact_support_link_text: "kontaktujte Sharetribe podporu"
-      integration_info_text: "Platobný systém Sharetribe je založený na PayPal. Pokiaľ chcete užívateľom umožniť, aby prevádzali platby cez Vaše trhovisko, musíte se pripojiť k Vašemu PayPal účtu, zadať minimálnu veľkosť transakcie a poplatok z každej prevedenej transakcie."
+      integration_info_text: "Platobný systém vašeho trhoviska je založený na PayPal. Pokiaľ chcete užívateľom umožniť, aby prevádzali platby cez vaše trhovisko, musíte sa pripojiť k Vašemu PayPal účtu, zadať minimálnu veľkosť transakcie a poplatok z každej prevedenej transakcie."
       link_paypal_personal_account_label: "Ponúkate tovar alebo poskytujete služby?"
       link_paypal_personal_account: "pokiaľ áno, tak sa musíte pripojiť na Váš PayPal účet. %{personal_payment_preferences_link}"
       personal_payment_preferences_link_text: "Váš osobný účet"
-      read_more_about_paypal: "Čítať viac o Sharetribe platobnom systéme"
+      read_more_about_paypal: "Čítať viac o platobnom systéme"
       set_minimum_price_and_fee: "Nastaviť minimálnu cenu a transakčný poplatok"
       minimum_listing_price_label: "Minimálna čiastka transakcie:"
       transaction_fee_label: "Transakčný poplatok:"
@@ -780,7 +786,7 @@ sk-SK:
       show_thread: "Zobraz konverzáciu"
     confirmation_instructions:
       confirmation_instructions_signature: "S pozdravom,<br/>Váš %{service_name} tím"
-      need_to_confirm: "Potvrďte Vašu e-mailovú adresu kliknutím na tlačítko nižšie."
+      need_to_confirm: "Pre prihlásenie do %{service_name}, potvrďte Vašu e-mailovú adresu kliknutím na tlačítko nižšie."
       confirmation_link_text: "Potvrdiť moju e-mailovú adresu"
       or_paste_link: "Alebo si môžete nasledujúci odkaz skopírovať do internetového prehliadača:"
     common:
@@ -863,7 +869,6 @@ sk-SK:
       title_link_text: "%{community_name}"
       intro_paragraph: "Tu nájdete výpis udalostí, ktoré sa stali na %{community_link} od %{time_since_last_update}."
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: "Pridať nový inzerát!"
       reduce_email_footer_text: "Príliš veľa e-mailových správ? %{settings_link} alebo %{unsubscribe_link}."
       settings_link_text: "Upraviť nastavenia Vašeho e-mailu tu"
       unsubscribe_link_text: "Odhlásiť sa"
@@ -1143,7 +1148,7 @@ sk-SK:
       search: Hľadať
       signup: "Zaregistrovať sa"
       search_placeholder: "Čo hľadáte?"
-      search_location_placeholder: ~
+      search_location_placeholder: Lokalita
     listings:
       no_listing_image: "bez obrázku"
   layouts:
@@ -1372,6 +1377,7 @@ sk-SK:
       open_in_google_maps: "Otvoriť v Google Maps"
     error:
       something_went_wrong: "Niekde nastala chyba, kód chyby: %{error_code}"
+      something_went_wrong_plain: "Niekde nastala chyba"
     follow_links:
       follow: "Prijať e-mail v prípade nového komentára."
       unfollow: "Neprijímať e-mail v prípade nového komentára."
@@ -1520,7 +1526,6 @@ sk-SK:
       how_paypal_works: "Ako funguje PayPal"
       payment_help: "Pomoc k platbe"
     new:
-      post_a_new_listing: "Pridať nový inzerát"
       listing: inzerát
       selected_category: "Kategória: %{category}"
       selected_subcategory: "podkategória: %{subcategory}"
@@ -1555,7 +1560,7 @@ sk-SK:
       inquiry: Oznamy
       item_offer_trade: "Ponuka výmeny"
       item_request_trade: "Žiadosť výmeny"
-      no_description: "Tento zoznam nemá popis"
+      no_description: "Tento inzerát nemá popis"
       no_image: "Žiadny obrázok"
       no_reviews: "Bez hodnotení"
       offer: ponuka
@@ -1601,6 +1606,11 @@ sk-SK:
       you_will_be_charged: "Platba Vám bude zaúčtovaná, keď užívateľ %{author} prijme podmienky transakcie. Užívateľ %{author} musí tieto podmienky prijať do %{expiration_period} dní. Pokiaľ tak užívateľ %{author} neučiní, či podmienky odmietne, tak platba nebude prevedená."
       day: deň
       days: dni
+      night: noc
+      nights: noci
+      invalid_parameters: "Nesprávne hodnoty pre novú transakciu"
+      dates_not_available: ~
+      error_in_checking_availability: ~
     transaction_agreement_checkbox:
       read_more: Zobraziť.
   mapview:
@@ -1640,6 +1650,7 @@ sk-SK:
     connected_account: "Paypal účet '%{email}' bol úspešne pripojený."
     paypal_receive_funds_info_label_australia_only: "Váš PayPal účet musí byť nastavený pre príjem platieb. K tomuto je potrebný Premier alebo Business účet."
     paypal_receive_funds_info_label: "Váš PayPal účet musí byť nastavený pre príjem platieb. K tomuto je potrebný Business účet."
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: "Pokiaľ dôjde k chybe pri pokuse o prepojenie účtu do %{service_name}, budete musieť aktualizovať Váš PayPal účet,%{upgrade_paypal_account_link}. Je to jednoduché a zadarmo. PayPal odporúča použiť svoje meno ako názov spoločnosti."
     upgrade_paypal_account_link_text: "prihlásiť sa a kliknúť na odkaz"
     admin_account_not_connected: "Použitie %{service_name} ako platobného systému pre platby nie je možné, pretože platby nie sú nastavené. Prosím %{contact_admin_link} pre podrobnosti."
@@ -1893,7 +1904,7 @@ sk-SK:
       given_name: Meno
       first_name_with_initial: "(zobrazí sa iba prvé písmeno užívateľom)"
       first_name_only: "(nezobrazí sa ostatným užívateľom)"
-      location_description: "Môžete zadať Vašu presnú polohu, alebo napríklad iba PSČ. Prosím zadajte aspoň Vaše PSČ. Môžete si vybrať polohu z mapy pod textom."
+      location_description: "Môžete zadať Vašu presnú adresu, alebo napríklad iba PSČ. Je dobré tiež pridať krajinu. Príklady: \"10117 Berlin, Germany\" or \"2000 Sand Hill Road, CA, USA\"."
       phone_number: "Telefónne číslo"
       profile_picture: "Profilová fotka"
       postal_code: PSČ
@@ -2044,7 +2055,17 @@ sk-SK:
   transactions:
     initiate:
       booked_days: "Rezervované dni:"
+      booked_nights: "Rezervované noci:"
+      booked_days_label:
+        one: "Rezervovaný deň:"
+        few: "Rezervované dni:"
+        other: "Rezervovaných dní:"
+      booked_nights_label:
+        one: "Rezervovaná noc:"
+        few: "Rezervované noci:"
+        other: "Rezervovaných nocí:"
       price_per_day: "Cena za deň:"
+      price_per_night: "Cena za noc:"
       quantity: "Množstvo:"
       subtotal: "Medzisúčet:"
       shipping-price: "Doprava:"
@@ -2072,6 +2093,10 @@ sk-SK:
       signup: "Zaregistrovať sa"
       admin_dashboard: "Konzola správcu"
       language: Jazyk
+    branding:
+      powered_by: ~
+      create_own: ~
+      learn_more: ~
   will_paginate:
     models:
       person:

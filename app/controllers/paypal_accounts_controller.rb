@@ -16,7 +16,6 @@ class PaypalAccountsController < ApplicationController
     @selected_left_navi_link = "payments"
 
     community_ready_for_payments = PaypalHelper.community_ready_for_payments?(@current_community)
-    community_ready_for_payments = true
     unless community_ready_for_payments
       flash.now[:warning] = t("paypal_accounts.admin_account_not_connected",
                             contact_admin_link: view_context.link_to(
@@ -42,6 +41,7 @@ class PaypalAccountsController < ApplicationController
       paypal_fees_url: PaypalCountryHelper.fee_link(community_country_code),
       create_url: PaypalCountryHelper.create_paypal_account_url(community_country_code),
       receive_funds_info_label_tr_key: PaypalCountryHelper.receive_funds_info_label_tr_key(community_country_code),
+      receive_funds_info_tr_key: PaypalCountryHelper.receive_funds_info_tr_key(community_country_code),
       upgrade_url: "https://www.paypal.com/#{community_country_code}/upgrade"
     })
   end
@@ -224,7 +224,7 @@ class PaypalAccountsController < ApplicationController
   end
 
   def accounts_api
-    PaypalService::API::Api.accounts_api
+    PaypalService::API::Api.accounts
   end
 
 end

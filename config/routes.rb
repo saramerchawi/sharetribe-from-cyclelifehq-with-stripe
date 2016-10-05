@@ -1,3 +1,4 @@
+# coding: utf-8
 Kassi::Application.routes.draw do
 
   namespace :mercury do
@@ -15,8 +16,23 @@ Kassi::Application.routes.draw do
   get '/stripe/preauth/:token' => 'stripe#preauth', as: 'stripe_preauth'
   get '/stripe/pay/' => 'stripe#charge_preauth', as: 'stripe_charge_preauth'
   get '/stripe/fees/' => 'stripe#list_fees', as: 'stripe_fees'
+  get '/stripe/unlink/' => 'stripe#unlink', as: 'stripe_unlink'
 
   get "/robots.txt" => RobotsGenerator
+
+  # URLs for sitemaps
+  #
+  # From Rails guide: By default dynamic segments don’t accept dots –
+  # this is because the dot is used as a separator for formatted
+  # routes. If you need to use a dot within a dynamic segment add a
+  # constraint which overrides this – for example :id => /[^\/]+/
+  # allows anything except a slash.
+  #
+  # That's why there's the constraints in generate URL to accept host
+  # parameter with dots
+  #
+  get "/sitemap.xml.gz"                        => "sitemap#sitemap", format: :xml
+  get "/sitemap/:sitemap_host/generate.xml.gz" => "sitemap#generate", format: :xml, :constraints => { sitemap_host: /[.\-\w]+/ }
 
   # A route for DV test file
   # A CA will check if there is a file in this route
@@ -105,15 +121,22 @@ Kassi::Application.routes.draw do
 
     put '/mercury_update' => "mercury_update#update", :as => :mercury_update
 
-    get "/transactions/op_status/:process_token" => "transactions#op_status", :as => :transaction_op_status
+    get "/transactions/op_status/:process_token" => "transactions#paypal_op_status", as: :paypal_op_status
+    get "/transactions/transaction_op_status/:process_token" => "transactions#transaction_op_status", :as => :transaction_op_status
 
     # All new transactions (in the future)
-    get "/transactions/new" => "transactions#new", as: :new_transaction 
+    get "/transactions/new" => "transactions#new", as: :new_transaction
 
     # preauthorize flow
-    get "/listings/:listing_id/book" => "preauthorize_transactions#book", :as => :book
-    post "/listings/:listing_id/booked" => "preauthorize_transactions#booked", :as => :booked
-    get "/listings/:listing_id/initiate" => "preauthorize_transactions#initiate", :as => :initiate_order
+
+    # Deprecated route (26-08-2016)
+    get "/listings/:listing_id/book", :to => redirect { |params, request|
+      "/#{params[:locale]}/listings/#{params[:listing_id]}/initiate?#{request.query_string}"
+    }
+    # Deprecated route (26-08-2016)
+    post "/listings/:listing_id/booked"    => "preauthorize_transactions#initiated", as: :booked # POST request, no redirect
+
+    get "/listings/:listing_id/initiate"   => "preauthorize_transactions#initiate", :as => :initiate_order
     post "/listings/:listing_id/initiated" => "preauthorize_transactions#initiated", :as => :initiated_order
 
     # free flow
@@ -175,6 +198,10 @@ Kassi::Application.routes.draw do
       get   "/new_layout"         => "communities#new_layout",                  as: :new_layout
       patch "/new_layout"         => "communities#update_new_layout",           as: :update_new_layout
 
+      # Topbar menu
+      get   "/topbar/edit"        => "communities#topbar",                      as: :topbar_edit
+      patch "/topbar"             => "communities#update_topbar",               as: :topbar
+
       resources :communities do
         member do
           get :edit_welcome_email
@@ -187,9 +214,16 @@ Kassi::Application.routes.draw do
           get :analytics
           put :social_media, to: 'communities#update_social_media'
           put :analytics, to: 'communities#update_analytics'
-          get :menu_links
-          put :menu_links, to: 'communities#update_menu_links'
           delete :delete_marketplace
+
+          # DEPRECATED (2016-08-26)
+          # These routes are not in use anymore, don't use them
+          # See new "Topbar menu" routes above, outside of communities resource
+          get :topbar, to: redirect("/admin/topbar/edit")
+          put :topbar, to: "communities#update_topbar" # PUT request, no redirect
+          # also redirect old menu link requests to topbar
+          get :menu_links, to: redirect("/admin/topbar/edit")
+          put :menu_links, to: "communities#update_topbar" # PUT request, no redirect
 
           # DEPRECATED (2016-07-07)
           # These routes are not in use anymore, don't use them

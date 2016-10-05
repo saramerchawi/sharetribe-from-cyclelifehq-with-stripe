@@ -5,7 +5,9 @@ module TransactionService::Store::Transaction
 
   NewTransaction = EntityUtils.define_builder(
     [:community_id, :fixnum, :mandatory],
+    [:community_uuid, :uuid, :mandatory],
     [:listing_id, :fixnum, :mandatory],
+    [:listing_uuid, :uuid, :mandatory],
     [:starter_id, :string, :mandatory],
     [:listing_quantity, :fixnum, default: 1],
     [:listing_title, :string, :mandatory],
@@ -14,6 +16,7 @@ module TransactionService::Store::Transaction
     [:unit_price, :money, default: Money.new(0)],
     [:unit_tr_key, :string],
     [:unit_selector_tr_key, :string],
+    [:availability, :to_symbol, one_of: [:none, :booking]],
     [:shipping_price, :money],
     [:delivery_method, :to_symbol, one_of: [:none, :shipping, :pickup], default: :none],
     [:payment_process, one_of: [:none, :postpay, :preauthorize]],
@@ -27,7 +30,9 @@ module TransactionService::Store::Transaction
   Transaction = EntityUtils.define_builder(
     [:id, :fixnum, :mandatory],
     [:community_id, :fixnum, :mandatory],
+    [:community_uuid, :uuid], # This will be mandatory once the migrations have run
     [:listing_id, :fixnum, :mandatory],
+    [:listing_uuid, :uuid, :mandatory], # This will be mandatory once the migrations have run
     [:starter_id, :string, :mandatory],
     [:listing_quantity, :fixnum, :mandatory],
     [:listing_title, :string, :mandatory],
@@ -36,6 +41,7 @@ module TransactionService::Store::Transaction
     [:unit_price, :money, default: Money.new(0)],
     [:unit_tr_key, :string],
     [:unit_selector_tr_key, :string],
+    [:availability, :to_symbol, one_of: [:none, :booking]],
     [:shipping_price, :money],
     [:delivery_method, :to_symbol, :mandatory, one_of: [:none, :shipping, :pickup]],
     [:payment_process, :to_symbol, one_of: [:none, :postpay, :preauthorize]],
@@ -75,7 +81,10 @@ module TransactionService::Store::Transaction
 
   def create(opts)
     tx_data = HashUtils.compact(NewTransaction.call(opts))
-    tx_model = TransactionModel.new(tx_data.except(:content, :booking_fields))
+    tx_model = TransactionModel.new(tx_data
+                                      .except(:content, :booking_fields)
+                                      .merge(listing_uuid: tx_data[:listing_uuid].raw,
+                                             community_uuid: tx_data[:community_uuid].raw))
     build_conversation(tx_model, tx_data)
     build_booking(tx_model, tx_data)
 
@@ -150,6 +159,11 @@ module TransactionService::Store::Transaction
 
         hash = add_opt_shipping_address(hash, m)
         hash = add_opt_booking(hash, m)
+
+        hash[:listing_uuid] = UUIDTools::UUID.parse_raw(hash[:listing_uuid]) if hash[:listing_uuid].present?
+        hash[:community_uuid] = UUIDTools::UUID.parse_raw(hash[:community_uuid]) if hash[:community_uuid].present?
+
+        hash
       }
       .map { |hash| Transaction.call(hash) }
       .or_else(nil)
@@ -167,7 +181,7 @@ module TransactionService::Store::Transaction
     if m.booking
       booking_data = EntityUtils.model_to_hash(m.booking)
       hash.merge(booking: Booking.call(
-                  booking_data.merge(duration: booking_duration(booking_data))))
+                  booking_data.merge(duration: m.listing_quantity)))
     else
       hash
     end
@@ -200,13 +214,6 @@ module TransactionService::Store::Transaction
 
   def build_booking(tx_model, tx_data)
     if is_booking?(tx_data)
-
-      # TODO What's the correct place for the booking calculation logic?
-      # Make sure listing_quantity equals duration
-      if booking_duration(tx_data[:booking_fields]) != tx_model.listing_quantity
-        raise ArgumentException.new("Listing quantity (#{tx_listing_quantity}) must be equal to booking duration in days (#{booking_duration(tx_data)})")
-      end
-
       start_on = tx_data[:booking_fields][:start_on]
       end_on = tx_data[:booking_fields][:end_on]
       tx_model.build_booking({start_on: start_on, end_on: end_on})
@@ -215,12 +222,6 @@ module TransactionService::Store::Transaction
 
   def is_booking?(tx_data)
     tx_data[:booking_fields] && tx_data[:booking_fields][:start_on] && tx_data[:booking_fields][:end_on]
-  end
-
-  def booking_duration(booking_data)
-    start_on = booking_data[:start_on]
-    end_on = booking_data[:end_on]
-    DateUtils.duration_days(start_on, end_on)
   end
 
   def do_mark_as_unseen_by_other(tx_model, person_id)

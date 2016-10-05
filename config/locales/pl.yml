@@ -79,16 +79,18 @@ pl:
         favicon: "Ikona strony, tzw. favicon"
         favicon_info_text: ~
         community_custom_color1: "Główny kolor"
-        community_custom_color2: "Kolor przycisku %{post_new_listing}"
+        new_listing_button_custom_color: "Opublikuj nowy kolor oferty"
         logo_instructions_text_with_dimensions: "Rozmiar loga na komputery powinno mieć %{width} na %{height} pikseli. Będzie wyświetlane użytkownikom z większym ekranem."
+        logo_instructions_text_with_dimensions_no_placing: "Wielkość logotypu powinna mieścić się w przedziale %{width} na %{height} pikseli."
         logo_icon_instructions_text_with_dimensions: ~
+        logo_icon_instructions_text_with_dimensions_no_placing: "Ten kwadratowy logotyp będzie pojawiał się, gdy ludzie udostępnią Twoją stronę na Facebooku lub, gdy zapiszą Twoją stronę na głównej witrynie ich urządzenia mobilnego. Rozmiary powinny mieścić się (przynajmniej) w %{width} na %{height} pikseli."
         cover_photo_visibility: "Zdjęcie w tle jest wyświetlane na stronie głównej dla użytkowników, którzy nie są zalogowani."
         cover_photo_instructions_text_with_dimensions: ~
         small_cover_photo_visibility: "Małe zdjęcie profilowe jest wyświetlane na wszystkich stronach poza stroną główną dla użytkowników, którzy nie są zalogowani."
         small_cover_photo_instructions_text_with_dimensions: "Zdjęcie będzie zmniejszone do %{width} na %{height} pikseli i wyższe zdjęcia będą ucięte w połowie."
         main_content_width: ~
         custom_color1_instructions_text: "Możesz zmienić główny kolor interfejsu wprowadzając jego wartość HEX. <a href=\"http://www.colorpicker.com/?colorcode=D96E21\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a> może Tobie pomoc wybrać kolor, a Ty go później wklej tutaj."
-        custom_color2_instructions_text: "Możesz zmienić kolor przycisku %{post_new_listing} wprowadzając wartość koloru w kodzie szesnastkowym. Możesz użyć <a href=\"http://www.colorpicker.com/?colorcode=00a26c\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a>, aby wybrać kolor i skopiować jego kod tutaj."
+        new_listing_button_instructions_text: ~
         default_browse_view: "Domyślny widok przeglądarki"
         default_browse_view_instructions_text: "Domyślny widok przeglądarki jest używany na stronie głównej, aby określić w jaki sposób oferty są domyślnie wyświetlane."
         grid: ~
@@ -175,7 +177,7 @@ pl:
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
-        keyword_and_location_search: ~
+        keyword_and_location_search: "Słowo kluczowe i wyszukiwanie po lokalizacji"
         location_search: ~
         select_distance_unit: ~
         km: ~
@@ -221,12 +223,12 @@ pl:
         ban_user_confirmation: ~
         ban_me_error: ~
       new_layout:
-        new_layout: ~
-        description_roadmap: ~
-        description_process: ~
-        enabled_for_you: ~
-        enabled_for_all: ~
-        new_topbar: ~
+        new_layout: "Nowy układ"
+        description_roadmap: "Platforma Sharetribe właśnie jest w procesie aktualizacji nowego i usprawnionego interfejsu. W trakcie możesz wybrać te części Twojej platformy, które mają korzystać ze starego interfejsu. Nowe funkcje będą widoczne tylko w nowym interfejsie."
+        description_process: "Wsparcie dla starego interfejsu zostanie wstrzymana w przyszłości. Zespół Sharetribe powiadomi Cię zanim to nastąpi. Pytania? Skontaktuj się z zespołem poprzez %{support_link}."
+        enabled_for_you: "Włączone dla Ciebie"
+        enabled_for_all: "Włączone dla wszystkich"
+        new_topbar: "Nowy pasek górny (widoczny na każdej stronie)"
       social_media:
         social_media: ~
         twitter_handle: ~
@@ -265,6 +267,10 @@ pl:
         all: Wszystkie
         max_number_of_links_info: "Link do %{about_page} jest zawsze wyświetlany jako pierwszy w menu"
         about_page: "o stronie"
+      topbar:
+        topbar: "Górny pasek"
+        new_listing_button_label: "Opublikuj nowy tekst na guziku oferty"
+        invalid_post_listing_button_label: "Proszę podaj poprawny tekst dla guzika \"Opublikuj nową ofertę\""
       transactions:
         export_all_as_csv: ~
         transactions: ~
@@ -823,7 +829,6 @@ pl:
       title_link_text: "%{community_name}"
       intro_paragraph: "Kilka rzeczy, które zadziały się w %{community_link} podczas ostatnich %{time_since_last_update}."
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: "Wystaw swoją ofertę!"
       reduce_email_footer_text: "Otrzymujesz za dużo wiadomości email? %{settings_link} lub %{unsubscribe_link}"
       settings_link_text: "Zmień swoje preferencje dot. emaili tutaj"
       unsubscribe_link_text: "wypisz się"
@@ -926,8 +931,8 @@ pl:
       javascript_is_disabled_in_your_browser: "Javascript jest wyłączony w Twojej przeglądarce"
       kassi_does_not_currently_work_without_javascript: "%{service_name} nie działa poprawnie bez javascript. Spróbuj włączyć javascript w ustawieniach preferencji Twojej przeglądarki i później odśwież stronę."
       contact_us: "skontaktuj się z nami"
-      send_feedback: ~
-      your_feedback_to_admins: ~
+      send_feedback: "Wyślij wiadomość"
+      your_feedback_to_admins: "Wyślij wiadomość do zespołu platformy %{service_name}"
     send: Wyślij
     your_email_address: "Twój adres email"
   errors:
@@ -1103,7 +1108,7 @@ pl:
       search: ~
       signup: ~
       search_placeholder: ~
-      search_location_placeholder: ~
+      search_location_placeholder: Lokalizacja
     listings:
       no_listing_image: ~
   layouts:
@@ -1116,17 +1121,17 @@ pl:
     no_tribe:
       inbox: "Skrzynka odbiorcza"
       settings: Ustawienia
-      feedback: ~
+      feedback: "Skontaktuj się z zespołem platformy %{service_name}"
     application:
       join_this_community: "Dołącz do platformy"
       read_more: "Czytaj więcej"
-      feedback: ~
-      dont_use_to_contact_support: ~
+      feedback: "Twoja wiadomość do zespołu platformy %{service_name}"
+      dont_use_to_contact_support: "Powiadomiliśmy właściciela platformy %{service_name}. Ten formularz to to, z czego korzystają Twoi użytkownicy. Nie możesz używać tego formularza, aby kontaktować się ze wsparciem Sharetribe. Możesz zrobić to przez link Wsparcia w panelu administracyjnym."
       feedback_forum: "forum opinii"
       feedback_handle: Opinia
       give_feedback: "Skontaktuj się z nami"
       or_check_our: "... lub spróbuj nasze"
-      send_feedback_to_admin: ~
+      send_feedback_to_admin: "Wyślij wiadomość"
       to_see_what_others_have_suggested: "aby zobaczyć, co zasugerowali inni użytkownicy i zagłosować na pomysły."
       your_email_address: "Twój adres email (do kontaktu)"
       connect: Rejestracja
@@ -1196,7 +1201,7 @@ pl:
       error_with_session: "Problem z sesją."
       feedback_considered_spam: "Opinia nie została zapisana ze względu na jego formatowanie. Spróbuj ponownie lub skorzystaj z forum opinii."
       feedback_not_saved: "Opinia nie stała wysłana."
-      feedback_saved: ~
+      feedback_saved: "Dziękujemy bardzo za Twoją wiadomość! Wrócimy do Ciebie tak szybko, jak to możliwe."
       feedback_sent_to: "Opinia przesłana do %{target_person}"
       feedback_skipped: "Opinia pominięta"
       invitation_cannot_be_sent: "Zaproszenie nie może być wysłane"
@@ -1287,7 +1292,7 @@ pl:
       user_does_not_have_email_to_delete: "Nie masz adresu email, który chcesz usunąć"
       email_deleted: "Adres email usunięty"
       listing_author_payment_details_missing: ~
-      images_are_processing: ~
+      images_are_processing: "Procesujemy Twoje zdjęcia. Daj nam minutę lub dwie i będą widoczne."
       automatically_logged_out_please_sign_in: ~
     settings:
       account: Konto
@@ -1327,6 +1332,7 @@ pl:
       open_in_google_maps: "Otwórz w Google Maps"
     error:
       something_went_wrong: ~
+      something_went_wrong_plain: "Coś poszło nie tak"
     follow_links:
       follow: "Powiadom mnie emailem, gdy pojawią się nowe komentarze"
       unfollow: "Nie powiadamiaj mnie emailem, gdy pojawią się nowe komentarze"
@@ -1475,7 +1481,6 @@ pl:
       how_paypal_works: ~
       payment_help: ~
     new:
-      post_a_new_listing: "Wystaw swoją ofertę"
       listing: oferta
       selected_category: "Kategoria: %{category}"
       selected_subcategory: "Podkategoria: %{subcategory}"
@@ -1556,6 +1561,11 @@ pl:
       you_will_be_charged: ~
       day: ~
       days: ~
+      night: noc
+      nights: nocy
+      invalid_parameters: "Niepoprawna wartość dla nowej transakcji"
+      dates_not_available: "Wybrane daty nie są dostępne"
+      error_in_checking_availability: "Nie możemy sprawdzić dostępności dla wskazanych dni"
     transaction_agreement_checkbox:
       read_more: ~
   mapview:
@@ -1595,6 +1605,7 @@ pl:
     connected_account: ~
     paypal_receive_funds_info_label_australia_only: ~
     paypal_receive_funds_info_label: ~
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: ~
     upgrade_paypal_account_link_text: ~
     admin_account_not_connected: ~
@@ -1984,7 +1995,19 @@ pl:
   transactions:
     initiate:
       booked_days: ~
+      booked_nights: "Zarezerwowanych nocy:"
+      booked_days_label:
+        one: "Zarezerwowane dzień:"
+        few: "Zarezerwowane dni:"
+        many: "Zarezerwowane dni:"
+        other: "Zarezerwowane dni:"
+      booked_nights_label:
+        one: "Zarezerwowana noc:"
+        few: "Zarezerwowanych nocy:"
+        many: "Zarezerwowanych nocy:"
+        other: "Zarezerwowanych nocy:"
       price_per_day: "Cena za dzień:"
+      price_per_night: "Cena za noc:"
       quantity: ~
       subtotal: ~
       shipping-price: ~
@@ -2001,7 +2024,7 @@ pl:
       menu: ~
       more: ~
       search_placeholder: ~
-      search_location_placeholder: ~
+      search_location_placeholder: Lokalizacja
       user: ~
       inbox: ~
       profile: ~
@@ -2012,6 +2035,10 @@ pl:
       signup: ~
       admin_dashboard: "Panel administracyjny"
       language: Język
+    branding:
+      powered_by: "Platforma %{service_name} działa na silniku %{sharetribe_link}."
+      create_own: "Chcesz stworzyć swoją platformę online jak %{service_name}? %{learn_more}."
+      learn_more: "Dowiedz się więcej"
   will_paginate:
     models:
       person:

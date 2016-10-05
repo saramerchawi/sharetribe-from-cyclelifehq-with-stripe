@@ -69,7 +69,7 @@ describe NumericFieldValue, type: :model do
       expect(NumericFieldValue.search_many(with_many.compact).count).to eq(expected_count)
     end
 
-    it "searches by numeric field and value pairs", :broken => true do
+    it "searches by numeric field and value pairs" do
       test_search((0..50),  (0..20),  0) # Neither matches
       test_search((0..150), (0..20),  0) # Length matches 1, width matches 0
       test_search((0..150), (0..35),  1) # Length matches 1, width matches 1

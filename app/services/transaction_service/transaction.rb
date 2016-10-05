@@ -18,7 +18,6 @@ module TransactionService::Transaction
 
   TX_PROCESSES = {
     preauthorize: TransactionService::Process::Preauthorize.new,
-#    preauthorize: TransactionService::Process::Free.new,
     none: TransactionService::Process::Free.new
   }
 
@@ -77,12 +76,9 @@ module TransactionService::Transaction
     Result::Success.new(result: set_adapter.configured?(community_id: community_id, author_id: author_id))
   end
 
- #need to modify method for Stripe
-  def create(opts, paypal_async: false)
-    #starts setting up the paypal payment
+  def create(opts, force_sync: true)
     opts_tx = opts[:transaction]
 
-    #set up payment adapter
     set_adapter = settings_adapter(opts_tx[:payment_gateway])
     tx_process_settings = set_adapter.tx_process_settings(opts_tx)
 
@@ -93,9 +89,10 @@ module TransactionService::Transaction
     res = tx_process.create(tx: tx,
                             gateway_fields: opts[:gateway_fields],
                             gateway_adapter: gateway_adapter,
-                            prefer_async: paypal_async)
+                            force_sync: force_sync)
 
-    unless (opts[:stripe_trans])
+#    unless (opts[:stripe_trans])
+    if (opts_tx[:payment_gateway] == :none)
       res.maybe()
         .map { |gw_fields| Result::Success.new(DataTypes.create_transaction_response(query(tx[:id]), gw_fields)) }
         .or_else(res)
@@ -205,13 +202,16 @@ module TransactionService::Transaction
         payment_process: tx[:payment_process],
         payment_gateway: tx[:payment_gateway],
         community_id: tx[:community_id],
+        community_uuid: tx[:community_uuid],
         starter_id: tx[:starter_id],
         listing_id: tx[:listing_id],
+        listing_uuid: tx[:listing_uuid],
         listing_title: tx[:listing_title],
         listing_price: tx[:unit_price],
         unit_type: tx[:unit_type],
         unit_tr_key: tx[:unit_tr_key],
         unit_selector_tr_key: tx[:unit_selector_tr_key],
+        availability: tx[:availability],
         item_total: item_total,
         shipping_price: tx[:shipping_price],
         listing_author_id: tx[:listing_author_id],

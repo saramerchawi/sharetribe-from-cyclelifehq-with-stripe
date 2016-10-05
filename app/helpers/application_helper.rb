@@ -47,19 +47,6 @@ module ApplicationHelper
      URI.escape(str, Regexp.new("[^-_!~*()a-zA-Z\\d]"))
   end
 
-  def self.shorten_url(url)
-    if APP_CONFIG.bitly_username && APP_CONFIG.bitly_key
-      begin
-        bit_ly_query = "http://api.bit.ly/shorten/?version=2.0.1&login=#{APP_CONFIG.bitly_username}&longUrl=#{escape_for_url(url)}&apiKey=#{APP_CONFIG.bitly_key}"
-        return JSON.parse(RestClient.get(bit_ly_query))["results"][url]["shortUrl"]
-      rescue => e
-        return url
-      end
-    else
-      return url
-    end
-  end
-
   # Changes line breaks to <br>-tags and transforms URLs to links
   def text_with_line_breaks_html_safe(&block)
     haml_concat add_p_tags(capture_haml(&block)).html_safe
@@ -117,9 +104,10 @@ module ApplicationHelper
     end
   end
 
-  def pageless(total_pages, target_id, url=nil, loader_message='Loading more results')
+  def pageless(total_pages, target_id, url=nil, loader_message='Loading more results', current_page = 1)
 
     opts = {
+      :currentPage => current_page,
       :totalPages => total_pages,
       :url        => url,
       :loaderMsg  => loader_message,
@@ -392,26 +380,23 @@ module ApplicationHelper
         :icon_class => "ss-paintroller",
         :path => admin_look_and_feel_edit_path,
         :name => "tribe_look_and_feel"
+      },
+      {
+        :topic => :configure,
+        :text => t("admin.communities.new_layout.new_layout"),
+        :icon_class => icon_class("layout"),
+        :path => admin_new_layout_path,
+        :name => "new_layout"
       }
     ]
-
-    if(FeatureFlagHelper.feature_enabled?(:feature_flags_page))
-      links << {
-          :topic => :configure,
-          :text => t("admin.communities.new_layout.new_layout"),
-          :icon_class => icon_class("layout"),
-          :path => admin_new_layout_path,
-          :name => "new_layout"
-        }
-    end
 
     links += [
       {
         :topic => :configure,
-        :text => t("admin.communities.menu_links.menu_links"),
-        :icon_class => icon_class("link"),
-        :path => menu_links_admin_community_path(@current_community),
-        :name => "menu_links"
+        :text => t("admin.communities.topbar.topbar"),
+        :icon_class => icon_class("topbar_menu"),
+        :path => admin_topbar_edit_path,
+        :name => "topbar"
       },
       {
         :topic => :configure,

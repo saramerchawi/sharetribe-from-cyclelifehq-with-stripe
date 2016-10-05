@@ -20,23 +20,21 @@ module PaypalHelper
   # :paypal payment gateway and that the given user has connected his
   # paypal account.
   def user_and_community_ready_for_payments?(person_id, community_id)
-    PaypalHelper.account_prepared_for_user?(person_id, community_id)# &&
-      #PaypalHelper.community_ready_for_payments?(community_id)
+    PaypalHelper.account_prepared_for_user?(person_id, community_id) 
   end
 
   # Check that the user has connected his paypal account for the
   # community
   def account_prepared_for_user?(person_id, community_id)
-    ready = Person.find(person_id).publishable_key.nil? ? true : false
+    #may need to modify for stripe
+    payment_settings =
+      TransactionService::API::Api.settings.get(
+      community_id: community_id,
+      payment_gateway: :paypal,
+      payment_process: :preauthorize)
+      .maybe
 
-#    payment_settings =
-#      TransactionService::API::Api.settings.get(
-#      community_id: community_id,
-#      payment_gateway: :paypal,
-#      payment_process: :preauthorize)
-#      .maybe
-#
-    account_prepared?(community_id: community_id, person_id: person_id, settings: ready)
+    account_prepared?(community_id: community_id, person_id: person_id, settings: payment_settings)
   end
 
   def account_prepared_for_community?(community_id)
@@ -45,13 +43,6 @@ module PaypalHelper
 
   # Private
   def account_prepared?(community_id:, person_id: nil, settings: Maybe(nil))
-    # if settings == ready
-    # 	acc_state == :verified
-    # end
-    # acc_state = accounts_api.get(community_id: community_id, person_id: person_id).maybe()[:state].or_else(:not_connected)
-    # #commission_type = settings[:commission_type].or_else(nil)
-
-    #acc_state == :verified  || (acc_state == :connected && commission_type == :none)
     true
   end
   private_class_method :account_prepared?

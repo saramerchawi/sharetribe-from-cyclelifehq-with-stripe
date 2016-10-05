@@ -5,15 +5,20 @@ const fontSizeSmaller = '12px';
 const fontSizeSmall = '13px';
 const fontSize = '14px';
 const fontSizeBig = '16px';
+const fontSizeBigger = '19px';
 
 const fontSizeMobileSmaller = '14px';
 const fontSizeMobileSmall = '15px';
 const fontSizeMobile = '17px';
 
+const fontWeightMedium = '500';
+const fontWeightSemibold = '600';
+
 const textColor = 'rgb(82, 89, 97)';
 const textColorFocus = 'rgb(0, 0, 0)';
 const textColorGrey = 'rgb(122, 125, 128)';
 const textColorLight = 'rgb(255, 255, 255)';
+const textColorDark = 'rgb(28, 30, 33)';
 const textColorSelected = '#4a4a4a';
 const backgroundLightColor = 'white';
 const backgroundLightColorHover = 'rgba(169, 172, 176, 0.07)';
@@ -22,7 +27,7 @@ const customColorFallback = '#4a90e2';
 const customColor2Fallback = '#2ab865';
 const alertColor = '#ff4e36';
 
-const topbarBorderColor = 'rgba(169, 172, 176, 0.5)';
+const borderColor = 'rgba(169, 172, 176, 0.5)';
 const topbarItemHeight = '44px';
 const topbarMediumItemHeight = '36px';
 const bodyPadding = '24px';
@@ -147,7 +152,7 @@ module.exports = {
   '--SearchBar_width': `${searchBarWidth}px`,
   '--SearchBar_mobileHeight': '50px',
   '--SearchBar_height': topbarItemHeight,
-  '--SearchBar_borderColor': topbarBorderColor,
+  '--SearchBar_borderColor': borderColor,
   '--SearchBar_borderColorActive': textColorGrey,
   '--SearchBar_textColor': textColorGrey,
   '--SearchBar_textColorActive': 'rgb(82, 89, 97)',
@@ -160,8 +165,9 @@ module.exports = {
   '--SearchBar_sidePaddingMobile': '1.13em',
   '--SearchBar_sidePadding': '1.715em',
   '--SearchBar_inputFontWeight': '500',
-  '--SearchBar_keywordInputWidth': '63%',
-  '--SearchBar_keywordInputFocusWidth': '78%',
+  '--SearchBar_keywordInputWidthNarrow': '68%',
+  '--SearchBar_keywordInputWidth': '55%',
+  '--SearchBar_keywordInputFocusWidth': '75%',
   '--SearchBar_formZIndex': zIndexMinimum + 1,
   '--SearchBar_focusContainerZIndex': zIndexMinimum,
   '--SearchBar_childZIndex': zIndexMinimum + 1,
@@ -175,9 +181,9 @@ module.exports = {
   '--SearchBar_iconTopMarginFix': '4px',
 
   // ProfileDropdown
-  '--ProfileDropdown_border': `1px solid ${topbarBorderColor}`,
-  '--ProfileDropdown_borderColor': topbarBorderColor,
-  '--ProfileDropdown_zIndex': zIndexMinimum,
+  '--ProfileDropdown_border': `1px solid ${borderColor}`,
+  '--ProfileDropdown_borderColor': borderColor,
+  '--ProfileDropdown_zIndex': zIndexMinimum + 1,
   '--ProfileDropdown_rightOffset': bodyPadding,
   '--ProfileDropdown_textColor': textColor,
   '--ProfileDropdown_textColorFocus': textColorFocus,
@@ -189,9 +195,10 @@ module.exports = {
   '--ProfileDropdown_lineWidth': '2px',
   '--ProfileDropdown_fontSizeNotification': fontSizeSmaller,
 
-  '--MenuItem_borderColor': topbarBorderColor,
+  '--MenuItem_borderColor': borderColor,
   '--MenuItem_backgroundColorHover': backgroundLightColorHover,
   '--MenuItem_paddingTopbarVertical': pxToEms(13, 14),
+  '--MenuItem_paddingTopbarHorizontalMin': pxToEms(13, 14),
   '--MenuItem_paddingTopbarHorizontal': pxToEms(24, 14),
   '--MenuItem_paddingOffScreenVertical': pxToEms(10, 17),
   '--MenuItem_paddingOffScreenHorizontal': pxToEms(24, 17),
@@ -208,7 +215,7 @@ module.exports = {
   '--Menu_textColor': textColor,
   '--Menu_textColorFocus': textColorFocus,
   '--Menu_colorBackground': backgroundLightColor,
-  '--Menu_borderColor': topbarBorderColor,
+  '--Menu_borderColor': borderColor,
   '--Menu_boxShadow': '0px 2px 4px 0px rgba(0, 0, 0, 0.1)',
   '--Menu_iconPadding': pxToEms(5, 14),
   '--Menu_zIndex': zIndexMinimum,
@@ -273,4 +280,30 @@ module.exports = {
   '--AddNewListingButton_textColor': '#fff',
   '--AddNewListingButton_maxTextWidth': '15em',
   '--AddNewListingButton_textPadding': '1.5em',
+
+  // SEARCH PAGE
+  '--ListingCard_noImageText': textColor,
+  '--ListingCard_fontSize': fontSize,
+  '--ListingCard_fontSizeTitle': fontSizeBig,
+  '--ListingCard_fontSizeDistance': fontSizeSmaller,
+  '--ListingCard_fontSizePrice': fontSizeBigger,
+  '--ListingCard_lineHeight': '26px',
+  '--ListingCard_lineHeightTitle': '22px',
+  '--ListingCard_colorTitle': textColorDark,
+  '--ListingCard_colorDistance': textColorGrey,
+  '--ListingCard_colorBackground': backgroundLightColor,
+  '--ListingCard_spacingHorizontal': '20px',
+  '--ListingCard_spacingVertical': '16px',
+  '--ListingCard_avatarSize': '42px',
+  '--ListingCard_spacingAvatar': '16px',
+  '--ListingCard_textSpacing': '6px',
+  '--ListingCard_letterSpacing': '0.2px',
+  '--ListingCard_fontWeightMedium': fontWeightMedium,
+  '--ListingCard_fontWeightSemibold': fontWeightSemibold,
+
+  '--ListingCardPanel_gutterSpacing': bodyPadding,
+  '--ListingCardPanel_backgroundColor': backgroundColorGrey,
+
+  '--Branding_textColor': textColor,
+  '--Branding_borderColor': borderColor,
 };

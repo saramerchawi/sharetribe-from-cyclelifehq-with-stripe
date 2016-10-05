@@ -13,6 +13,19 @@ class StripeController < ApplicationController
     redirect_to url
   end
 
+  def unlink
+    flash[:notice] = "Your Stripe account has been un-linked from your CyclelifeHQ account."
+    stripe_user = current_user
+    stripe_user.update_attributes({
+        :provider => "",
+        :uid => "",
+        :access_token => "", 
+        :refresh_token => "",
+        :publishable_key => ""
+      })    
+
+    redirect_to paypal_account_settings_payment_path(person_id: current_user.id)
+  end
 
   def callback
     flash[:notice] = "Your Stripe account has been linked to your CyclelifeHQ account."

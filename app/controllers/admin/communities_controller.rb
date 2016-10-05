@@ -47,7 +47,7 @@ class Admin::CommunitiesController < ApplicationController
              can_set_sender_address: can_set_sender_address(@current_plan),
              knowledge_base_url: APP_CONFIG.knowledge_base_url,
              ses_in_use: ses_in_use,
-             show_branding_info: !PlanService::API::Api.plans.get_current(community_id: @current_community.id).data[:features][:whitelabel],
+             show_branding_info: !@current_plan[:features][:whitelabel],
              link_to_sharetribe: "https://www.sharetribe.com/?utm_source=#{@current_community.ident}.sharetribe.com&utm_medium=referral&utm_campaign=nowl-admin-panel"
            }
   end
@@ -122,16 +122,12 @@ class Admin::CommunitiesController < ApplicationController
   end
 
   def new_layout
-    redirect_to admin_getting_started_guide_path and return unless(FeatureFlagHelper.feature_enabled?(:feature_flags_page))
-
     @selected_left_navi_link = "new_layout"
 
     render :new_layout, locals: { community: @current_community, features: NewLayoutViewUtils.features(@current_community.id, @current_user.id) }
   end
 
   def update_new_layout
-    redirect_to admin_getting_started_guide_path and return unless(FeatureFlagHelper.feature_enabled?(:feature_flags_page))
-
     @community = @current_community
 
     enabled_for_user = Maybe(params[:enabled_for_user]).map { |f| NewLayoutViewUtils.enabled_features(f) }.or_else([])
@@ -152,27 +148,26 @@ class Admin::CommunitiesController < ApplicationController
     redirect_to admin_new_layout_path
   end
 
-  def menu_links
-    @selected_left_navi_link = "menu_links"
+  def topbar
+    @selected_left_navi_link = "topbar"
 
     if FeatureFlagHelper.feature_enabled?(:topbar_v1) || CustomLandingPage::LandingPageStore.enabled?(@current_community.id)
       limit_priority_links = MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data[:limit_priority_links]
       all = view_context.t("admin.communities.menu_links.all")
       limit_priority_links_options = (0..5).to_a.map {|o| [o, o]}.concat([[all, -1]])
       limit_priority_links_selected = Maybe(limit_priority_links).or_else(-1)
-
-      render :menu_links, locals: {
-        community: @current_community,
-        limit_priority_links: limit_priority_links,
-        limit_priority_links_options: limit_priority_links_options,
-        limit_priority_links_selected: limit_priority_links_selected
-      }
-    else
-      render :menu_links, locals: { community: @current_community }
     end
+
+    # Limits are by default nil
+    render :topbar, locals: {
+             community: @current_community,
+             limit_priority_links: limit_priority_links,
+             limit_priority_links_options: limit_priority_links_options,
+             limit_priority_links_selected: limit_priority_links_selected
+           }
   end
 
-  def update_menu_links
+  def update_topbar
     @community = @current_community
 
     menu_links_params = Maybe(params)[:menu_links].permit!.or_else({menu_link_attributes: {}})
@@ -187,10 +182,23 @@ class Admin::CommunitiesController < ApplicationController
       })
     end
 
+    translations = params[:post_new_listing_button].map{ |k, v| {locale: k, translation: v}}
+
+    if translations.any?{ |t| t[:translation].blank? }
+      flash[:error] = t("admin.communities.topbar.invalid_post_listing_button_label")
+      redirect_to admin_topbar_edit_path and return
+    end
+
+    translations_group = [{
+      translation_key: "homepage.index.post_new_listing",
+      translations: translations
+    }]
+    TranslationService::API::Api.translations.create(@community.id, translations_group)
+
     update(@community,
             menu_links_params,
-            menu_links_admin_community_path(@community),
-            :menu_links)
+            admin_topbar_edit_path,
+            :topbar)
   end
 
   def test_welcome_email

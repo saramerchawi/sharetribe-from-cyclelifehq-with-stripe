@@ -20,3 +20,5 @@ Rails.application.config.assets.paths << Rails.root.join("app", "assets", "image
 Rails.application.config.assets.precompile << "server-bundle.js"
 
 Rails.application.config.assets.precompile += ["application.js", "application.css"]
+Rails.application.config.assets.precompile += ["application.js", "application_reactpage.js", "application.css"]
+

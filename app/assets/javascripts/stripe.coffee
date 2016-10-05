@@ -19,8 +19,8 @@ $(document).ready ->
       allowRememberMe: false
       token: (token) ->
         is_submitted = true
-        form.find('input[name=listing_conversation_stripe_token]').val(token.id)
-        $('#listing_conversation_stripe_token').val(token.id)
+        form.find('input[name=stripe_token]').val(token.id)
+        $('#stripe_token').val(token.id)
         form.get(0).submit()
 
   stripeHandler()

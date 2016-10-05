@@ -89,16 +89,18 @@ ja:
         favicon: ファビコン
         favicon_info_text: ファビコンは初期ではSharetribeロゴに置き換えられています。32x32ピクセルにしてアップロードしていない場合は、リサイズされます
         community_custom_color1: 第一カラー
-        community_custom_color2: 第二カラー
+        new_listing_button_custom_color: ~
         logo_instructions_text_with_dimensions: "デスクトップロゴは%{width}ｘ%{height}ピクセルにしてください。それは特に大きいスクリーンを使用しているユーザに表示されます。"
+        logo_instructions_text_with_dimensions_no_placing: ~
         logo_icon_instructions_text_with_dimensions: "モバイル用ロゴは出来れば、%{width}ｘ%{height}ピクセルの正方形にしてください。それは特に小さいスクリーンを使用しているユーザに表示されます。"
+        logo_icon_instructions_text_with_dimensions_no_placing: ~
         cover_photo_visibility: カバー写真はログイン前のユーザに表示されます
         cover_photo_instructions_text_with_dimensions: "写真は%{width}ｘ%{height}ピクセルにリサイズされます。縦長のイメージ画像の場合中心を使用する形でカットされます%{see_how_it_looks_like}。"
         small_cover_photo_visibility: 小さいカバー写真はログイン前のユーザを除いて、すべてのページに表示されます。
         small_cover_photo_instructions_text_with_dimensions: "写真は%{width}ｘ%{height}ピクセルにリサイズされます。縦長のイメージ画像の場合中心を使用する形でカットされます。"
         main_content_width: "カバー写真を選ぶとき最大幅%{main_width}ピクセルであることに注意してください。カバー写真は小さいスクリーンでどのように見えるか、一応確認してください（例、ブラウザの幅を狭くしてみる）。"
         custom_color1_instructions_text: "ユーザインターフェイスの（ボタンなどに使われる）メインカラーを、カラーコードを入力することにより変更できます。<a href=\"http://www.colorpicker.com/?colorcode=D96E21\" target=\"_blank\" rel=\"noreferrer\">カラーコード表</a>からご確認の上コードをコピーしてご利用ください。"
-        custom_color2_instructions_text: ~
+        new_listing_button_instructions_text: ~
         default_browse_view: 初期ブラウザ表示
         default_browse_view_instructions_text: 初期ブラウザ表示は、初めての訪問者に、リストをどのように表示させるかを選択できます。
         grid: 画像表示
@@ -275,6 +277,10 @@ ja:
         all: ~
         max_number_of_links_info: ~
         about_page: ~
+      topbar:
+        topbar: ~
+        new_listing_button_label: ~
+        invalid_post_listing_button_label: ~
       transactions:
         export_all_as_csv: ~
         transactions: お支払い履歴の表示
@@ -837,7 +843,6 @@ ja:
       title_link_text: "%{community_name}"
       intro_paragraph: "こちらは%{time_since_last_update}間に、%{community_link}で更新された情報です。"
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: 投稿する！
       reduce_email_footer_text: "メールが多すぎますか。%{settings_link} or %{unsubscribe_link}"
       settings_link_text: ここからメール設定を編集
       unsubscribe_link_text: 購読を解除する
@@ -1140,7 +1145,7 @@ ja:
       feedback_handle: レビューを書く
       give_feedback: お問い合わせ
       or_check_our: "...それとも確認する"
-      send_feedback_to_admin: ~
+      send_feedback_to_admin: メッセージを送信する
       to_see_what_others_have_suggested: 他のユーザがそのアイデアについて、何を提案や投票したかを見てみる。
       your_email_address: あなたのメールアドレス
       connect: 新規登録
@@ -1341,6 +1346,7 @@ ja:
       open_in_google_maps: ~
     error:
       something_went_wrong: "何か不具合がありました。 エラーコード： %{error_code}"
+      something_went_wrong_plain: ~
     follow_links:
       follow: 新しいコメントについてのメールを受けとります
       unfollow: 新しいコメントについてのメールを受けとりません
@@ -1489,7 +1495,6 @@ ja:
       how_paypal_works: PayPalの仕組み
       payment_help: ~
     new:
-      post_a_new_listing: 投稿する
       listing: リスト
       selected_category: "カテゴリー： %{category}"
       selected_subcategory: "サブカテゴリー： %{subcategory}"
@@ -1570,6 +1575,11 @@ ja:
       you_will_be_charged: "%{author}さんが取引を受け入れた場合のみ、その後あなたに請求がされます。%{author}さんが%{expiration_period}日以内に取引を受け入れる必要があります。%{author}さんがこの件に関して拒否したり、返事をしない場合はお支払いは完了しません。"
       day: 日
       days: 日
+      night: ~
+      nights: ~
+      invalid_parameters: ~
+      dates_not_available: ~
+      error_in_checking_availability: ~
     transaction_agreement_checkbox:
       read_more: 表示
   mapview:
@@ -1609,6 +1619,7 @@ ja:
     connected_account: "PayPalアカウントと「%{email}」は接続されました。"
     paypal_receive_funds_info_label_australia_only: ~
     paypal_receive_funds_info_label: ~
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: ~
     upgrade_paypal_account_link_text: ~
     admin_account_not_connected: ~
@@ -1992,7 +2003,9 @@ ja:
   transactions:
     initiate:
       booked_days: 予約日数
+      booked_nights: ~
       price_per_day: 日割り料金
+      price_per_night: ~
       quantity: 数量：
       subtotal: 合計金額：
       shipping-price: 送料：
@@ -2020,6 +2033,10 @@ ja:
       signup: ~
       admin_dashboard: ~
       language: ~
+    branding:
+      powered_by: ~
+      create_own: ~
+      learn_more: ~
   will_paginate:
     models:
       person:

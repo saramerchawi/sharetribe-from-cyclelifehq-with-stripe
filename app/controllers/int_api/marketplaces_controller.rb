@@ -1,6 +1,6 @@
 class IntApi::MarketplacesController < ApplicationController
 
-  skip_filter :fetch_community, :check_http_auth
+  skip_filter :fetch_community, :check_http_auth, :perform_redirect
 
   before_filter :set_access_control_headers
 
@@ -48,6 +48,10 @@ class IntApi::MarketplacesController < ApplicationController
 
     auth_token = UserService::API::AuthTokens.create_login_token(user[:id])
     url = URLUtils.append_query_param(marketplace[:url], "auth", auth_token[:token])
+
+    # Enable specific features for all new trials
+    FeatureFlagService::API::Api.features.enable(community_id: marketplace[:id], person_id: user[:id], features: [:topbar_v1])
+    FeatureFlagService::API::Api.features.enable(community_id: marketplace[:id], features: [:topbar_v1])
 
     # TODO handle error cases with proper response
 

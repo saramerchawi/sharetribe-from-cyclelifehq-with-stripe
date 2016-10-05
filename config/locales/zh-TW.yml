@@ -89,16 +89,18 @@ zh-TW:
         favicon: 网站图标
         favicon_info_text: Favicon将取代默认的Sharetribe标识。它的尺寸应该是32x32像素，上传的图片将被调整为这个大小。
         community_custom_color1: 主要颜色
-        community_custom_color2: 第二颜色
+        new_listing_button_custom_color: ~
         logo_instructions_text_with_dimensions: "封面图片尺寸必须是%{width}x%{height}像素。它将显示给使用大屏幕的用户。"
+        logo_instructions_text_with_dimensions_no_placing: ~
         logo_icon_instructions_text_with_dimensions: "当人们在Facebook分享你的站点，当他们在移动设备上查看你的站点或者当他们在移动设备的主屏幕收藏你的站点时，这个方形的图标将被显示。它的尺寸必须（至少）是%{width}x%{height}像素。"
+        logo_icon_instructions_text_with_dimensions_no_placing: ~
         cover_photo_visibility: 封面照片将显示在未登录用户的首页
         cover_photo_instructions_text_with_dimensions: "照片大小将调整为%{width}x%{height}像素，超过高度的图片将从中间截取。%{see_how_it_looks_like}"
         small_cover_photo_visibility: 小的封面照片将显示在除未登录用户首页的所有页面。
         small_cover_photo_instructions_text_with_dimensions: "照片大小将调整为%{width}x%{height}像素，超过高度的图片将从中间截取。"
         main_content_width: "在选择封面照片时注意页面主要内容最多是%{main_width}像素宽。记得检查你的封面照片在较小屏幕上看上去如何（比如使用较窄的浏览器窗口）。"
         custom_color1_instructions_text: "你可以通过输入十六进制色彩值改变用户接口的主体颜色。<a href=\"http://www.colorpicker.com/?colorcode=D96E21\" target=\"_blank\" rel=\"noreferrer\">ColorPicker.com</a>可以帮助你选择颜色并且复制色彩代码。"
-        custom_color2_instructions_text: ~
+        new_listing_button_instructions_text: ~
         default_browse_view: 默认查看视图
         default_browse_view_instructions_text: 主页使用默认查看视图来设置信息的默认展示方式。
         grid: 网格
@@ -275,6 +277,10 @@ zh-TW:
         all: ~
         max_number_of_links_info: ~
         about_page: ~
+      topbar:
+        topbar: ~
+        new_listing_button_label: ~
+        invalid_post_listing_button_label: ~
       transactions:
         export_all_as_csv: ~
         transactions: 查看交易记录
@@ -843,7 +849,6 @@ zh-TW:
       title_link_text: "%{community_name}"
       intro_paragraph: "这儿是一些在过去%{time_since_last_update}发生在%{community_link}的事情。"
       intro_paragraph_link_text: "%{community_name}"
-      post_a_new_listing: 提交了一个新的物品！
       reduce_email_footer_text: "太多邮件？%{settings_link}或者%{unsubscribe_link}"
       settings_link_text: 在这里编辑你的邮箱设定
       unsubscribe_link_text: 取消订阅
@@ -1347,6 +1352,7 @@ zh-TW:
       open_in_google_maps: ~
     error:
       something_went_wrong: "出错了，错误代码：%{error_code}"
+      something_went_wrong_plain: ~
     follow_links:
       follow: 接收关于新评论的电子邮件
       unfollow: 不再接收关于新评论的电子邮件
@@ -1495,7 +1501,6 @@ zh-TW:
       how_paypal_works: PayPal如何工作
       payment_help: ~
     new:
-      post_a_new_listing: 发布信息
       listing: 信息
       selected_category: "分类：%{category}"
       selected_subcategory: "子分类：%{subcategory}"
@@ -1576,6 +1581,11 @@ zh-TW:
       you_will_be_charged: "你只有在%{author}接受交易后才会被收费。%{author}需要在%{expiration_period}天内接受交易。如果%{author}拒绝或者没有响应，不会产生任何费用。"
       day: 日
       days: 天
+      night: ~
+      nights: ~
+      invalid_parameters: ~
+      dates_not_available: ~
+      error_in_checking_availability: ~
     transaction_agreement_checkbox:
       read_more: 查看。
   mapview:
@@ -1615,6 +1625,7 @@ zh-TW:
     connected_account: "PayPal帐号“%{email}”连接成功。"
     paypal_receive_funds_info_label_australia_only: ~
     paypal_receive_funds_info_label: ~
+    paypal_receive_funds_info_australia_only: ~
     paypal_receive_funds_info: ~
     upgrade_paypal_account_link_text: ~
     admin_account_not_connected: ~
@@ -2007,7 +2018,9 @@ zh-TW:
   transactions:
     initiate:
       booked_days: "预订的天数:"
+      booked_nights: ~
       price_per_day: "每天的价格:"
+      price_per_night: ~
       quantity: "数量:"
       subtotal: "小结:"
       shipping-price: "运费:"
@@ -2035,6 +2048,10 @@ zh-TW:
       signup: ~
       admin_dashboard: ~
       language: ~
+    branding:
+      powered_by: ~
+      create_own: ~
+      learn_more: ~
   will_paginate:
     models:
       person:

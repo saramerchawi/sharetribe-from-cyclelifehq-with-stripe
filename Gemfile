@@ -25,15 +25,14 @@ gem 'jquery-rails', '3.1.3'
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
 gem "passenger", "~> 5.0.18"
 
-gem "mysql2", "~> 0.3.14"
+gem "mysql2", "~> 0.4.4"
 gem 'haml', "~> 4.0.5"
 gem 'sass', "  ~> 3.2.9"
 gem 'rest-client', '~> 1.8.0'
 
-gem 'paperclip', '~> 4.3.6'
-gem 'delayed_paperclip', "~> 2.9.1"
+gem 'paperclip', '~> 5.1.0'
+gem 'delayed_paperclip', "~> 3.0"
 
-gem 'aws-sdk-v1', "~> 1.64.0"
 gem 'aws-sdk', '~> 2'
 gem "will_paginate", '~>3.0.5'
 gem 'dalli', "~> 2.6.4"
@@ -109,10 +108,12 @@ gem 'demoji', "~> 0.0.5"
 
 gem 'faraday', '~> 0.9.1'
 gem 'faraday_middleware', '~> 0.10.0'
+gem 'faraday-encoding', '~> 0.0.3'
 
 gem "react_on_rails", "~> 6.0.5"
 
 gem "css_parser", "~> 1.4.5"
+gem 'sitemap_generator', "~> 5.1.0"
 
 # Use latest from master
 #
@@ -182,6 +183,8 @@ gem 'js-routes', '~> 1.2.5'
 # Color utilities needed for landing page
 gem 'color', '~> 1.8'
 
+gem 'uuidtools', '~> 2.1'
+gem 'transit-ruby', '~> 0.8'
+
 gem 'stripe'
 gem 'omniauth-stripe-connect'
-
