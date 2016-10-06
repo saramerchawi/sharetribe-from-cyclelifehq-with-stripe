@@ -470,7 +470,7 @@ en:
     paypal_accounts:
       marketplace_paypal_integration: "Payment system preferences"
       preferences_updated: "Payment system preferences updated"
-      marketplace_currency_used: "This marketplace uses %{currency} as its currency. To change the currency, %{contact_support_link}."
+      marketplace_currency_used: "This marketplace uses %{currency} as its currency."
       contact_support_link_text: "contact Sharetribe support"
       integration_info_text: "The payment system of your marketplace is powered by Stripe. To allow your users to pay using your marketplace, you must connect your Stripe account. Once you have connected your Stripe account, you can choose a minimum transaction size and a possible commission fee."
       link_paypal_personal_account_label: "Are you providing products or services yourself?"

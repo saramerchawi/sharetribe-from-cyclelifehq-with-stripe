@@ -108,14 +108,14 @@
 
       = hidden_field_tag(:listing_id, @listing.id)
 
-      - unless @listing.author.uid.blank?
+      - if (@listing.author.uid.blank? && !@listing.price.blank?)
+        = t("stripe.unregistered_account")
+      - else 
         %button.book-button
           .content
             -# the button to submit booking 
             = action_button_label(@listing)
-      - else 
-        = t("stripe.unregistered_account")
-
+ 
 
     - if payment_gateway == :paypal && process != :none
       .row
