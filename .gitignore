@@ -3,6 +3,7 @@
 *~
 *.swp
 *.swo
+client/.storybook
 db/*.sqlite3
 db/sphinx
 config/*.sphinx.conf
