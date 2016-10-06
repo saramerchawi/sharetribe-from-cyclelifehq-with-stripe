@@ -307,8 +307,8 @@ en:
           paid: Paid
           confirmed: Confirmed
           canceled: Canceled
-          initiated: "Waiting PayPal payment"
-          pending_ext: "Waiting PayPal payment"
+          initiated: "Waiting Stripe payment"
+          pending_ext: "Waiting Stripe payment"
         not_available: "Not available"
       paypal_account:
         paypal_admin_account: "Payment system"
@@ -549,13 +549,13 @@ en:
     what_is_this: "What's this?"
     removed_user: "Removed user"
     paypal_fee_info:
-      title: "PayPal's payment processing fee"
+      title: "Stripe's payment processing fee"
       body_text: |-
-          PayPal charges a processing fee from each payment. This fee is between 2% and 5% of the total sales price, depending on your monthly sales volume and the country of residence of the buyer. In general, domestic purchases have lower fees than international ones, and higher monthly sales give you a discount on fees.
-          You can see the exact fees by logging in to your PayPal account and going %{link_to_paypal}. After each purchase you will get a receipt displaying the exact fee.
+          Stripe charges a processing fee from each payment. This fee is between 2% and 5% of the total sales price, depending on your monthly sales volume and the country of residence of the buyer. In general, domestic purchases have lower fees than international ones, and higher monthly sales give you a discount on fees.
+          You can see the exact fees by logging in to your Stripe account and going %{link_to_paypal}. After each purchase you will get a receipt displaying the exact fee.
       body_with_shipping_text: |-
-          PayPal charges a processing fee from each payment. This fee is between 2% and 5% of the total sales price (including shipping), depending on your monthly sales volume and the country of residence of the buyer. In general, domestic purchases have lower fees than international ones, and higher monthly sales give you a discount on fees.
-          You can see the exact fees by logging in to your PayPal account and going %{link_to_paypal}. After each purchase you will get a receipt displaying the exact fee.
+          Stripe charges a processing fee from each payment. This fee is between 2% and 5% of the total sales price (including shipping), depending on your monthly sales volume and the country of residence of the buyer. In general, domestic purchases have lower fees than international ones, and higher monthly sales give you a discount on fees.
+          You can see the exact fees by logging in to your Stripe account and going %{link_to_paypal}. After each purchase you will get a receipt displaying the exact fee.
       link_to_paypal_text: here
   conversations:
     accept:
@@ -577,7 +577,7 @@ en:
       you_will_get_label: "You will get:"
       total_label: "Total:"
       total_value: "%{seller_gets}*"
-      paypal_fee_info: "* Excludes <a id='%{fee_info_link_id}' href='#'>PayPal's payment processing fee</a>"
+      paypal_fee_info: "* Excludes <a id='%{fee_info_link_id}' href='#'>Stripe's payment processing fee</a>"
       shipping_price_label: "Shipping:"
     confirm:
       confirm_description: "If your order has been fulfilled you should confirm it as done. Then you can give feedback to the other party."
@@ -670,9 +670,9 @@ en:
       paid: "Payment successful"
       pending_external:
         paypal:
-          multicurrency: "We couldn't process the PayPal payment because your PayPal account has not been set up to receive money in %{currency}. Go to %{paypal_url} and log in to your account to manually accept or reject the payment."
-          verify: "You cannot accept this transaction because you haven't verified your PayPal account. Go to %{paypal_url} to verify your account."
-          intl: "We couldn't process the PayPal payment because your PayPal account does not have a withdrawal mechanism. Go to %{paypal_url} and log in to your account to manually accept or reject the payment."
+          multicurrency: "We couldn't process the Stripe payment because your Stripe account has not been set up to receive money in %{currency}. Go to %{paypal_url} and log in to your account to manually accept or reject the payment."
+          verify: "You cannot accept this transaction because you haven't verified your Stripe account. Go to %{paypal_url} to verify your account."
+          intl: "We couldn't process the Stripe payment because your Stripe account does not have a withdrawal mechanism. Go to %{paypal_url} and log in to your account to manually accept or reject the payment."
       waiting_for_current_user_to_deliver_listing: "Waiting for you to fulfill the order for %{listing_title}"
       waiting_for_listing_author_to_deliver_listing: "Waiting for %{listing_author_name} to fulfill the order for %{listing_title}"
       request_accepted: Accepted
@@ -692,10 +692,10 @@ en:
       waiting_feedback_from_you: "Waiting for you to give feedback"
       pending_external_inbox:
         paypal:
-          multicurrency: "Waiting for you to accept the PayPal payment"
-          intl: "Waiting for you to accept the PayPal payment"
-          unknown_reason: "Payment is pending. Log in to your PayPal account to see more details."
-          verify: "Waiting for you to verify your PayPal account"
+          multicurrency: "Waiting for you to accept the Stripe payment"
+          intl: "Waiting for you to accept the Stripe payment"
+          unknown_reason: "Payment is pending. Log in to your Stripe account to see more details."
+          verify: "Waiting for you to verify your Stripe account"
     status_link:
       accept_offer: "Accept offer"
       accept_request: "Accept request"
@@ -825,7 +825,7 @@ en:
       quantity: "Quantity:"
       you_have_received_new_payment: "You have been paid <b>%{payment_sum}</b> for <b>%{listing_title}</b> by %{payer_full_name}. Here is your receipt."
     paypal_new_payment:
-      paypal_gateway_fee: "PayPal's fee:"
+      paypal_gateway_fee: "Stripe's fee:"
       shipping_total: "Shipping:"
     braintree_new_payment:
       product: "Product:"
@@ -932,10 +932,10 @@ en:
     transaction_agreement:
       required_error: "You need to accept the agreement"
     paypal:
-      buyer_cannot_pay_error: "The payment has been declined by PayPal. Please contact their Customer Service for more information: %{customer_service_link}"
-      pending_review_error: "The payment was submitted but was flagged by PayPal as 'requiring a review'. When PayPal completes the review, the payment will be automatically authorized."
-      seller_express_checkout_disabled: "PayPal Express Checkout has been disabled for the listing author's PayPal account. Please contact the author and let them know that there's an issue with their PayPal account, and advise them to contact PayPal Customer Service."
-      generic_error: "An error occurred during the payment process. Could not finalize your PayPal payment."
+      buyer_cannot_pay_error: "The payment has been declined by Stripe. Please contact their Customer Service for more information: %{customer_service_link}"
+      pending_review_error: "The payment was submitted but was flagged by Stripe as 'requiring a review'. When Stripe completes the review, the payment will be automatically authorized."
+      seller_express_checkout_disabled: "Stripe Express Checkout has been disabled for the listing author's Stripe account. Please contact the author and let them know that there's an issue with their Stripe account, and advise them to contact Stripe Customer Service."
+      generic_error: "An error occurred during the payment process. Could not finalize your Stripe payment."
       cancel_error: "An error occurred during cancellation. Could not finalize cancel."
       accept_authorization_error: "An error occurred while trying to accept preauthorized Stripe payment. Please, try again."
       reject_authorization_error: "An error occurred while trying to reject preauthorized Stripe payment. Please, try again."
@@ -1429,7 +1429,7 @@ en:
         after_service_fee_you_will_get: "After %{service_name} fee you will get %{sum_with_currency}"
         no_service_fee_you_will_get_paypal_text: "%{paypal_fee_info_link} will be deducted from the price."
         after_service_fee_you_will_get_paypal_text: "%{service_name} fee (%{sum_with_currency}) will be deducted from the price."
-        paypal_fee_info_link_text: "PayPal's payment processing fee"
+        paypal_fee_info_link_text: "Stripe's payment processing fee"
         delivery: "Delivery method"
         shipping: Shipping
         shipping_price: "Shipping fee"
@@ -1513,7 +1513,7 @@ en:
     listing_actions:
       booking_from: From
       booking_to: To
-      how_paypal_works: "How PayPal Works"
+      how_paypal_works: "How Stripe Works"
       payment_help: "Payment help"
     new:
       listing: listing
@@ -1630,74 +1630,74 @@ en:
     member_id_or_email: "Member id or email"
   paypal_accounts:
     payout_info_title: "Receiving funds"
-    paypal_account_email_connected: "<del>Connect PayPal account</del> Completed!"
-    payout_info_paypal: "%{service_name} uses PayPal as its payment provider. A %{create_paypal_account_link} is required in order to accept payments for your listings, and must be connected to %{service_name}."
+    paypal_account_email_connected: "<del>Connect Stripe account</del> Completed!"
+    payout_info_paypal: "%{service_name} uses Stripe as its payment provider. A %{create_paypal_account_link} is required in order to accept payments for your listings, and must be connected to %{service_name}."
     paypal_billing_agreement_made: "<del>Grant %{service_name} permission to charge a transaction fee</del> Completed!"
     commission_permission_needed: "You will also need to grant %{service_name} permission to charge a transaction fee."
-    create_paypal_account_link_text: "PayPal account"
-    connected_account: "PayPal account '%{email}' connected successfully."
-    paypal_receive_funds_info_label_australia_only: "Your PayPal account needs to be able to accept payments. This might require a Premier or Business account."
-    paypal_receive_funds_info_label: "Your PayPal account needs to be able to accept payments. This might require a Business account."
+    create_paypal_account_link_text: "Stripe account"
+    connected_account: "Stripe account '%{email}' connected successfully."
+    paypal_receive_funds_info_label_australia_only: "Your Stripe account needs to be able to accept payments. This might require a Premier or Business account."
+    paypal_receive_funds_info_label: "Your Stripe account needs to be able to accept payments. This might require a Business account."
     paypal_receive_funds_info_australia_only: "If you see an error when trying to connect your account to %{service_name}, either %{upgrade_paypal_account_link} and upgrade to a Business account, or (if you are an individual), create a new Premier account. Both account types are completely free."
-    paypal_receive_funds_info: "If you see an error when trying to connect your account to %{service_name}, upgrade your PayPal account by %{upgrade_paypal_account_link}. It's free and easy. If you're an individual, PayPal recommends using your name as the Business name."
+    paypal_receive_funds_info: "If you see an error when trying to connect your account to %{service_name}, upgrade your Stripe account by %{upgrade_paypal_account_link}. It's free and easy. If you're an individual, Stripe recommends using your name as the Business name."
     upgrade_paypal_account_link_text: "logging in and clicking the upgrade link"
     admin_account_not_connected: "Using %{service_name}'s payment system in order to receive payments is not possible since payments have not been set up. Please %{contact_admin_link} for details."
     contact_admin_link_text: "contact the marketplace administrator"
     you_are_ready_to_accept_payments: "You are ready to accept payments!"
     commission: "%{commission} %"
     new:
-      payout_info_you_need_to_connect: "In order to accept payments, you need to connect your PayPal account with %{service_name}."
+      payout_info_you_need_to_connect: "In order to accept payments, you need to connect your Stripe account with %{service_name}."
       payout_info_text: "To connect your account, please complete the following steps."
       contact_admin_link_text: "contact the administrator"
-      admin_account_not_connected: "Connecting your PayPal account is not possible since %{service_name} has not set up payments. Please %{contact_admin_link} for details."
-      paypal_account_email: "Connect your PayPal account"
-      paypal_account_email_placeholder: "Your PayPal email address"
-      paypal_account_email_info_text: "If you don't have a PayPal account, you can create one by %{create_paypal_account}. If you get an error message when connecting your PayPal account, upgrade your PayPal account to a business account. Upgrading is free and easy. If you are an individual, you can use your first and last name as your \"business name\". To upgrade your account, %{upgrade_paypal_account} and find the upgrade link."
+      admin_account_not_connected: "Connecting your Stripe account is not possible since %{service_name} has not set up payments. Please %{contact_admin_link} for details."
+      paypal_account_email: "Connect your Stripe account"
+      paypal_account_email_placeholder: "Your Stripe email address"
+      paypal_account_email_info_text: "If you don't have a Stripe account, you can create one by %{create_paypal_account}. If you get an error message when connecting your Stripe account, upgrade your Stripe account to a business account. Upgrading is free and easy. If you are an individual, you can use your first and last name as your \"business name\". To upgrade your account, %{upgrade_paypal_account} and find the upgrade link."
       create_paypal_account: "clicking here"
-      upgrade_paypal_account: "log in to your PayPal account"
+      upgrade_paypal_account: "log in to your Stripe account"
       paypal_account_billing_agreement: "Grant %{service_name} permission to charge a transaction fee"
       follow_steps: "Follow the steps below to start receiving funds:"
-      connect_paypal_account_title: "Connect your PayPal account"
-      connect_paypal_account_title_with_step: "Step %{current_step}/%{total_steps}: Connect your PayPal account"
-      connect_paypal_account_instructions: "Click on the button below to log in to PayPal and connect your PayPal account with %{service_name}."
-      connect_paypal_account: "Connect your PayPal account"
+      connect_paypal_account_title: "Connect your Stripe account"
+      connect_paypal_account_title_with_step: "Step %{current_step}/%{total_steps}: Connect your Stripe account"
+      connect_paypal_account_instructions: "Click on the button below to log in to Stripe and connect your Stripe account with %{service_name}."
+      connect_paypal_account: "Connect your Stripe account"
       paypal_account_billing_agreement_with_step: "Step %{current_step}/%{total_steps}: Grant permission to charge a transaction fee"
-      paypal_account_billing_agreement_info_both: "After you make a sale on %{service_name}, a service fee (%{commission_from_seller} of the total item price, excluding shipping, minimum fee %{minimum_commission}) will be charged from your PayPal account. Permission to do this is required in order to accept payments in %{service_name}. The fee does not include %{paypal_info_link}."
-      paypal_account_billing_agreement_info_fixed: "After you make a sale on %{service_name}, a service fee of %{minimum_commission} will be charged from your PayPal account. Permission to do this is required in order to accept payments in %{service_name}. The fee does not include %{paypal_info_link}."
-      paypal_account_billing_agreement_info_relative: "After you make a sale on %{service_name}, a service fee (%{commission_from_seller} of the total item price, excluding shipping) will be charged from your PayPal account. Permission to do this is required in order to accept payments in %{service_name}. The fee does not include %{paypal_info_link}."
+      paypal_account_billing_agreement_info_both: "After you make a sale on %{service_name}, a service fee (%{commission_from_seller} of the total item price, excluding shipping, minimum fee %{minimum_commission}) will be charged from your Stripe account. Permission to do this is required in order to accept payments in %{service_name}. The fee does not include %{paypal_info_link}."
+      paypal_account_billing_agreement_info_fixed: "After you make a sale on %{service_name}, a service fee of %{minimum_commission} will be charged from your Stripe account. Permission to do this is required in order to accept payments in %{service_name}. The fee does not include %{paypal_info_link}."
+      paypal_account_billing_agreement_info_relative: "After you make a sale on %{service_name}, a service fee (%{commission_from_seller} of the total item price, excluding shipping) will be charged from your Stripe account. Permission to do this is required in order to accept payments in %{service_name}. The fee does not include %{paypal_info_link}."
       paypal_account_billing_agreement_info_none: "%{service_name} does not currently charge a service fee. If service fees are enabled, you will need to grant %{service_name} permission to charge a service fee in order to accept payments. The fee does not include %{paypal_info_link}."
-      paypal_info_link_text: "PayPal's payment processing fee"
+      paypal_info_link_text: "Stripe's payment processing fee"
       billing_agreement_description: "Grant %{service_name} permission to charge a transaction fee."
       billing_agreement: "Grant permission"
-      permissions_not_granted: "Permissions to connect with your PayPal account were not granted."
-      could_not_fetch_redirect_url: "Could not fetch redirect URL to connect with PayPal."
-      paypal_not_enabled: "PayPal payments are not enabled."
+      permissions_not_granted: "Permissions to connect with your Stripe account were not granted."
+      could_not_fetch_redirect_url: "Could not fetch redirect URL to connect with Stripe."
+      paypal_not_enabled: "Stripe payments are not enabled."
       billing_agreement_canceled: "The billing agreement was canceled"
-      billing_agreement_not_accepted: "You did not accept the billing agreement in PayPal."
-      billing_agreement_wrong_account: "PayPal accounts did not match. Please use the same PayPal account that you connected in the first step."
+      billing_agreement_not_accepted: "You did not accept the billing agreement in Stripe."
+      billing_agreement_wrong_account: "Stripe accounts did not match. Please use the same Stripe account that you connected in the first step."
       something_went_wrong: "Something went wrong. Please try again. If the problem persists, please contact the site administrator."
-      account_not_verified: "You have not verified your PayPal account. You need to go to paypal.com and verify your account before you can continue."
-      account_restricted: "Your PayPal account is restricted and cannot be connected. Please log in to paypal.com to find out more or get in touch with PayPal customer support to resolve the issue."
-    paypal_account_connected_title: "PayPal account connected"
-    paypal_account_connected: "The PayPal account <%{email}> has been connected with %{service_name}."
-    change_account: "Change PayPal account"
+      account_not_verified: "You have not verified your Stripe account. You need to go to paypal.com and verify your account before you can continue."
+      account_restricted: "Your Stripe account is restricted and cannot be connected. Please log in to paypal.com to find out more or get in touch with Stripe customer support to resolve the issue."
+    paypal_account_connected_title: "Stripe account connected"
+    paypal_account_connected: "The Stripe account <%{email}> has been connected with %{service_name}."
+    change_account: "Change Stripe account"
     missing: "You have open listings but your Stripe account is not set up to receive payments. Connect your Stripe account and grant %{service_name} permission to charge a transaction fee from your %{settings_link}."
     from_your_payment_settings_link_text: "payment settings"
-    redirect_message: "Redirecting you to PayPal. If nothing happens, click %{redirect_link}."
+    redirect_message: "Redirecting you to Stripe. If nothing happens, click %{redirect_link}."
     redirect_link_text: here
     paypal_account_all_set_up: "Hooray, everything is set up!"
     can_receive_payments: "You can now receive payments for your listings."
-    paypal_account_connected_summary: "PayPal account <%{email}> connected successfully"
+    paypal_account_connected_summary: "Stripe account <%{email}> connected successfully"
     paypal_permission_granted_summary: "Permission for transaction fees granted"
   paypal:
     pay_with_paypal: "Proceed to payment"
-    checkout_with_paypal: "Checkout with PayPal"
-    cancel_succesful: "PayPal payment succesfully canceled"
+    checkout_with_paypal: "Checkout with Stripe"
+    cancel_succesful: "Stripe payment succesfully canceled"
     transaction:
       commission_payment_name: "Commission payment for %{listing_title}"
       commission_payment_description: "Marketplace %{service_name} took this commission from transaction regarding %{listing_title}"
     wait_while_loading: "Please wait."
-    chatting_with_paypal: "We are chatting with PayPal."
+    chatting_with_paypal: "We are chatting with Stripe."
   people:
     edit_links:
       activate: Activate
